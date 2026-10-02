@@ -38,6 +38,8 @@ label{display:block;font-size:.85rem;color:var(--mute);margin:10px 0 4px}
 dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}textarea{min-height:130px;resize:vertical}
 .dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.9rem}
+#main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
+.quote{margin-top:auto;padding-top:24px}.qc{border-top:1px solid var(--line);padding-top:14px}.qt{font:italic 1.05rem/1.4 "Iowan Old Style",Georgia,serif;margin-bottom:4px}.qt.tr{font-style:normal;color:var(--mute);margin-top:8px}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
 </style>
 </head>
@@ -87,7 +89,7 @@ const auth=getAuth(fapp);
 let fdb;
 try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
 
-let pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',target=null,saving=Promise.resolve();
+let qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',target=null,saving=Promise.resolve();
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
@@ -211,9 +213,9 @@ function homeV(){
   const A=act();
   return `<div class="top"><h1>Kitaplığım</h1><button class="btn sm" data-a="prof">Profil</button></div>
   <div class="srow">${searchBox()}<button class="btn pri" data-a="add" style="padding:11px 12px">Kitap ekle</button></div>
-  <div id="tiles">
+  <div id="tiles" class="fl" style="flex:1">
   ${A.length?'':'<div class="empty">Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
-  <div class="grid">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><b>${A.filter(F[f]).length}</b><span>${L[f]}</span></button>`).join('')}</div></div>
+  <div class="grid">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><b>${A.filter(F[f]).length}</b><span>${L[f]}</span></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
   <div id="res"></div>`;
 }
 function listV(){
@@ -262,6 +264,7 @@ function profV(){
 function render(){
   applyTheme();
   if(!$('main')||$('main').hidden)return;
+  $('view').className=nav.v==='home'?'fl':'';
   $('view').innerHTML={home:homeV,list:listV,detail:detV,profile:profV}[nav.v]();
   fill();
 }
@@ -275,6 +278,34 @@ function fill(){
   const cmp=(x,y)=>String(x||'').localeCompare(String(y||''),'tr');
   l.sort(sortBy==='son'?(x,y)=>(y.ad||0)-(x.ad||0):sortBy==='ya'?(x,y)=>cmp(x.a,y.a)||cmp(x.t,y.t):(x,y)=>cmp(x.t,y.t));
   res.innerHTML=l.length?l.map(card).join(''):'<div class="empty">Sonuç bulunamadı.</div>';
+}
+const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
+function quoteHTML(){
+  if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="btns"><button class="btn sm" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
+  return `<div class="qt">“${esc(qd.q)}”</div><div class="a">${esc(qd.a)}</div>${qd.tr?`<div class="qt tr">${esc(qd.tr)}</div>`:''}<div class="btns">${qd.tr?'':'<button class="btn sm" data-a="qtr">Türkçeye çevir</button>'}<button class="btn sm" data-a="qnew">Başka söz</button></div>`;
+}
+const paintQuote=()=>{const e=$('qbox');if(e)e.innerHTML=quoteHTML()};
+const saveQuote=()=>{try{if(qd&&!qd.r)localStorage.setItem('qd',JSON.stringify(qd))}catch(e){}};
+async function loadQuote(random){
+  if(!random){try{const c=JSON.parse(localStorage.getItem('qd')||'null');if(c&&c.day===dayNo()){qd=c;paintQuote();return}}catch(e){}}
+  try{
+    const r=await fetch(random?'https://dummyjson.com/quotes/random':'https://dummyjson.com/quotes?limit=1&skip='+(dayNo()%1400));
+    if(!r.ok)throw 0;
+    const j=await r.json(),it=random?j:(j.quotes||[])[0];
+    if(!it||!it.quote)throw 0;
+    qd={q:it.quote,a:it.author||'',day:dayNo()};if(random)qd.r=1;
+    qerr=false;saveQuote();
+  }catch(e){if(random)toast('Söz alınamadı. İnternet bağlantını kontrol et.');else qerr=true}
+  paintQuote();
+}
+async function trQuote(){
+  if(!qd||qd.tr)return;
+  try{
+    const r=await fetch('https://api.mymemory.translated.net/get?langpair=en|tr&q='+encodeURIComponent(qd.q));
+    const j=await r.json(),t=j.responseData&&j.responseData.translatedText;
+    if(!t||j.responseStatus!=200)throw 0;
+    qd.tr=t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&');saveQuote();paintQuote();
+  }catch(e){toast('Çeviri yapılamadı. Biraz sonra tekrar dene.')}
 }
 async function enrich(id,manual){
   const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
@@ -352,6 +383,8 @@ document.addEventListener('click',e=>{
     case 'csvin':$('csv').click();break;
     case 'csvout':{const q=x=>'"'+String(x||'').replace(/"/g,'""')+'"';
       dl('kitaplik.csv','\uFEFF'+['Kitap;Yazar;Okundu;Not'].concat(act().map(b=>[q(b.t),q(b.a),b.r?'okundu':'',q(b.n)].join(';'))).join('\r\n'),'text/csv');break}
+    case 'qnew':loadQuote(true);break;
+    case 'qtr':trQuote();break;
     case 'covers':scan();break;
     case 'out':signOut(auth);break;
   }
@@ -420,7 +453,7 @@ onAuthStateChanged(auth,user=>{
   if(unsub){unsub();unsub=null}
   if(!user){ref=null;books=[];set={};$('main').hidden=true;$('login').hidden=false;applyTheme();return}
   $('login').hidden=true;$('main').hidden=false;$('lgP').value='';
-  ref=doc(fdb,'library','main');
+  ref=doc(fdb,'library','main');if(!qd)loadQuote();
   unsub=onSnapshot(ref,snap=>{
     const d=snap.exists()?snap.data():null;
     books=d&&Array.isArray(d.books)?d.books:[];set=(d&&d.set)||{};
