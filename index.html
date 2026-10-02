@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Kitaplığım</title>
+<style>
+:root{--bg:#f2f4f6;--card:#fff;--ink:#16212b;--mute:#667483;--line:#dde3e8;--acc:#1f5f8b;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}}
+:root[data-theme="dark"]{--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 40px}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:14px 0 10px;z-index:5;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+h1{margin:0;font:700 26px/1.1 "Iowan Old Style",Georgia,"Times New Roman",serif}
+.sub{color:var(--mute);font-size:13px}
+.search{margin-top:10px;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.search:focus,button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.tabs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.bar{display:flex;gap:8px;margin:12px 0}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 13px;font:inherit;font-size:14px;cursor:pointer}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.btn.del{color:var(--danger)}
+.banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px}
+.seed{background:var(--card);border:1px dashed var(--acc);border-radius:12px;padding:18px;margin:16px 0;text-align:center}
+.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;display:grid;gap:8px}
+.t{font:600 17px/1.25 "Iowan Old Style",Georgia,serif}
+.a{color:var(--mute);font-size:14px}
+.acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-size:12px;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.loan{background:var(--loan-bg);color:var(--loan)}
+.sp{flex:1}
+.note{font-size:14px;white-space:pre-wrap;border-left:3px solid var(--acc);padding:2px 0 2px 10px;color:var(--ink)}
+textarea{width:100%;min-height:130px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.empty{text-align:center;color:var(--mute);padding:36px 10px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,420px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+dialog input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+.dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
+</style>
+</head>
+<body>
+<div class="wrap" id="login" hidden>
+ <div style="padding-top:60px"><h1>Kitaplığım</h1><p class="a">Devam etmek için giriş yap.</p>
+ <label for="lgE">E-posta</label><input class="search" style="margin-top:0" id="lgE" type="email" autocomplete="username">
+ <label for="lgP">Parola</label><input class="search" style="margin-top:0" id="lgP" type="password" autocomplete="current-password">
+ <div id="lgErr" class="banner" hidden></div>
+ <div class="dact" style="justify-content:flex-start"><button class="btn pri" id="lgGo">Giriş yap</button></div></div>
+</div>
+<div class="wrap" id="app" hidden>
+<header>
+ <div class="top"><h1>Kitaplığım</h1><span class="sub" id="count"></span></div>
+ <input class="search" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara">
+ <div class="tabs" id="tabs"></div>
+</header>
+<div class="bar">
+ <button class="btn pri" id="add">Kitap ekle</button>
+ <span style="flex:1"></span>
+ <button class="btn" id="restore">Yedekten yükle</button>
+ <button class="btn" id="backup">Yedekle</button>
+ <button class="btn" id="out">Çıkış</button>
+ <input type="file" id="file" accept=".json,application/json" hidden>
+</div>
+<div id="banner"></div>
+<div id="list"></div>
+</div>
+
+<dialog id="dAdd"><h2>Yeni kitap</h2>
+ <label for="addT">Kitap adı</label><input id="addT" autocomplete="off">
+ <label for="addA">Yazar</label><input id="addA" autocomplete="off">
+ <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="addOk">Ekle</button></div>
+</dialog>
+<dialog id="dLoan"><h2>Ödünç ver</h2><div class="a" id="loanBook"></div>
+ <label for="loanTo">Kime verdin?</label><input id="loanTo" autocomplete="off">
+ <label for="loanD">Hangi tarihte?</label><input id="loanD" type="date">
+ <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="loanOk">Kaydet</button></div>
+</dialog>
+<dialog id="dEdit"><h2>Kitabı düzenle</h2>
+ <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
+ <label for="edA">Yazar</label><input id="edA" autocomplete="off">
+ <label for="edN">Düşüncelerim ve notlarım</label><textarea id="edN" placeholder="Bu kitap hakkında ne düşünüyorsun?"></textarea>
+ <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="edOk">Kaydet</button></div>
+</dialog>
+<dialog id="dDel"><h2>Kitabı çıkar</h2><div class="a" id="delBook"></div>
+ <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn del" id="delOk">Çıkar</button></div>
+</dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",
+  authDomain: "kitapligim55.firebaseapp.com",
+  projectId: "kitapligim55",
+  storageBucket: "kitapligim55.firebasestorage.app",
+  messagingSenderId: "930194490379",
+  appId: "1:930194490379:web:b3c6a1c8d1f755a2db730e"
+};
+const fapp=initializeApp(firebaseConfig);
+const auth=getAuth(fapp);
+let fdb;
+try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
+const SEED=[{"t":"Türklerin Tarihi","a":"İlber Ortaylı"},{"t":"Eski Dünya Seyehatnamesi","a":"İlber Ortaylı"},{"t":"Tarihimizde Komplolar Pdaklar Olaylar Kayıtlar","a":"Süleyman Kocabaş"},{"t":"Binbaşı Erseverin İtiraları","a":"Soner Yalçın"},{"t":"Kayıp Yüzyılın Prensesi","a":"Kahraman Tazeoğlu"},{"t":"Türklerin altın çağı","a":"İlber Ortaylı"},{"t":"Huzursuzluk","a":"Zülü Livaneli"},{"t":"Fahrenheit 451","a":"Ray Bredbury"},{"t":"Gündüz Güzeli","a":"Belle Dejour"},{"t":"Sevmekten Korkuyorum","a":"Ahmet Gğnbay Yıldız"},{"t":"Şehit Kızı","a":"Burcu Ertürk"},{"t":"Fedailerin Kalesi Alamut","a":"Vilademir Bartol"},{"t":"Seyehatnameden Seçmeler","a":"Evliya Çelebi"},{"t":"Her Günümüze Bir Hadis","a":"Yeniasya Neşriyat Araştırma Merkezi"},{"t":"Gazi Mustafa Kemal Atatürk","a":"İlber Ortaylı"},{"t":"İnsan Ne İle Yaşar","a":"Lev Tolstoy"},{"t":"Bir Delinin Hatıra Defteri","a":"Gogol"},{"t":"Efendi İle Uşağı","a":"Tolstoy"},{"t":"İtiraflarım","a":"Tolstoy"},{"t":"Kendine Ait Bir Oda","a":"Virginia Wolf"},{"t":"Genç Wertherin Acıları","a":"Goethe"},{"t":"İvan İlyiçin Ölümü","a":"Tolstoy"},{"t":"Kafkas Esiri","a":"Tolstoy"},{"t":"Babaya Mekup","a":"Kafka"},{"t":"Hz Muhammedten Kutlu Mesajlar","a":"Seyda"},{"t":"Eyvallah","a":"Kahraman Tazeoğlu"},{"t":"Mesnevi Öyküleri","a":"Gsb"},{"t":"Kıyısızlar","a":"Kahraman Tazeoğlu"},{"t":"Kamu Maliyesine Giriş","a":"Koray Akman"},{"t":"Genel İletişim","a":"Koray Akman"},{"t":"İşletmelerde Kalite Önetimi","a":"Turgay Uçak"},{"t":"31 Mart Ayaklanması","a":"Teoman Alparslan"},{"t":"Osmanlı Tarihi Devleti Aliyye","a":"J. Von Hammer"},{"t":"Etkili Yönetim Ve Yöneticilik","a":"Aslan Akyar"},{"t":"Cin","a":"Ahmet Ş. Tamtekin"},{"t":"Horkut","a":"Abdullah Ayata"},{"t":"Sherlock Holmes","a":"Arthur Connan Doyle"},{"t":"İsteri Üzerine Araştırmalar","a":"Sigmund Freud"},{"t":"Günlük Hayatın Psikopatolojisi","a":"Sigmund Freud"},{"t":"Ket Vurm Belirti Ve Korku","a":"Sigmund Freud"},{"t":"Devrim Psikolojisi","a":"Gustave Le Bon"},{"t":"Ruhsal Çözümleme Ve Bilinçdışının Doğaçlaması","a":"D. H. Lawrance"},{"t":"Ne İçin Yaşıyoruz","a":"Alfred Adler"},{"t":"İnsan Doğasını Anlamak","a":"Alfred Adler"},{"t":"Yaşamla İlgili Sorunlar","a":"Alfred Adler"},{"t":"Deli","a":"Halil Cibran"},{"t":"Cennette Doksan Dakika","a":"Don Pipper - Cecil Murphey"},{"t":"Aşkın Müziği","a":"Roberta Guasparı - Larkın Barren"},{"t":"Sensiz Olmaz Çünkü - Seni Seviyorum Çünkü","a":"Mehmet Coşkundeniz"},{"t":"Deniz Fırtınalı Yıllar","a":"Hakan Tufan"},{"t":"Bazen Erkekler De Sever","a":"Nurgül Erdinç"},{"t":"Che Bir Yalnız Adamın Yolculuğu","a":"Migual Suarez"},{"t":"Ölümsüz Aşk","a":"Zweig"},{"t":"Mahir Çayanın Hayatı","a":"Tarkan Tufan"},{"t":"Bir Başka Dünyanın Aşkı","a":"Tomasso Pincio"},{"t":"Yitik Cennet","a":"Sezai Karakoç"},{"t":"İnsan Kaynakları Yönetimi","a":"Filiz Ayan"},{"t":"Araf","a":"Elif Şafak"},{"t":"Gölgelerin Efendisi -Fidye","a":"Jhon Planagan"},{"t":"Fi","a":"Azra Kohen"},{"t":"Çi","a":"Azra Kohen"},{"t":"Pi","a":"Azra Kohen"},{"t":"Araz","a":"Kahraman Tazeoğlu"},{"t":"Seni İçiden Terkediyorum","a":"Kahraman Tazeoğlu"},{"t":"Başka","a":"Kahraman Tazeoğlu"},{"t":"Pazarlama Yönetimi","a":"Güneş Seyhan"},{"t":"Finansal Muhasebe","a":"Ahu Güzel"},{"t":"Yönetim Ve Organizasyon","a":"Esra Mankan"},{"t":"E Ticaret","a":"Esra Mankan"},{"t":"Türk Vergi Sistemi","a":"Koray Akman"},{"t":"Yaşam Bilgisi","a":"Alfred Adler"},{"t":"Psikanalitik Hastalık Öğretisi Hakkında Yazılar","a":"Sigmund Freud"},{"t":"Sevgi Ve Cinsellik Üzerine","a":"Sigmund Freud"},{"t":"Totem Ve Tabu","a":"Sigmund Freud"},{"t":"Sömürgezi Batının Babarlık Tarihi","a":"Hayri Yıldırım"},{"t":"Orta Doğu Ve Türkie","a":"Nurullah Aydın"},{"t":"İşletmelerde Hizmet İçi Eğitim","a":"Turgay Bucak"},{"t":"İşgal Günlerindeki İşbirlikçiler","a":"A. Nedim Çakmak"},{"t":"Uyan Türkiye","a":"İsmail Şefik Aydın"},{"t":"Grinin Elli Tonu","a":"E L James"},{"t":"Karanlığın Elli Tonu","a":"E L James"},{"t":"Özgürlüğün Elli Tonu","a":"E L James"},{"t":"Söz","a":"Kahraman Tazeoğlu"},{"t":"Türk Vergi Hukuku","a":"Koray Akman"},{"t":"Tesisrsiz Parçalar","a":"Ali Lidar"},{"t":"Sarıkamış","a":"Teoman Alparslan"},{"t":"Ferdinan Macellan Seruven Dolu Bir Yaşam","a":"Frederik A. Ober"},{"t":"Kleopatra Ölümcül Güzellik","a":"Jacop Abbott"},{"t":"Yeni Dünyaya Yön Veren 4 Büyük Amerikalı Washington, Frenklin, Webster, Lincoln","a":"James Baldwin"},{"t":"Kutsal Bakira Jan Dark Yaşamı Ve Ölümü","a":"Margaret Oliphant"},{"t":"İnsan Doğası","a":"Wilhelm Keller"},{"t":"Putların Alacakaranlığı","a":"Nietzsche"},{"t":"Özgürlük Yolu","a":"Bertrand Russel"},{"t":"İktidar","a":"Bertrand Russel"},{"t":"Yaşam Öyküsü Karl Marks","a":"Franz Mehring"},{"t":"İsyanlar - Osmanlıdan Cumhuriyete","a":"Ferit Erden Boray"},{"t":"Teskilatı Mahsusa- Mit Ve İstihbarat Örgütleri","a":"İlhan Bahar"},{"t":"Bozkurt","a":"H.C. Armstrong"},{"t":"Sürgünün Ucundaki Hayatlar Çanakkale","a":"Halil İbrahim Yıldırım"},{"t":"Türklerin Mührü","a":"Nurullah Aydın"},{"t":"Kapitülasyonların Sebep Olduğu Balkan Bozgunu","a":"Teoman Alparslan"},{"t":"Elli Ünlü Kişi","a":"James Baldwin"},{"t":"Bilim Şehitleri Galileo-Tycho Brahe-Kepler","a":"David Brewster"},{"t":"Büyük Müzisyenlerin Yaşam Öyküleri","a":"Frances Jameson Rowbotham"},{"t":"Cengiz Han","a":"Jacop Abbott"},{"t":"Shakespeare","a":"Sydney Lee"},{"t":"İş Sağlığı Ve Güvenliği Yönetimi","a":"Güneş Seyhan"},{"t":"İşletme Finansmanı","a":"Ahu Güzel"},{"t":"Seyahat Acenteliği Ve Tur Operatörlüğü","a":"Koray Akman"},{"t":"Genel Muhasebe","a":"Muharrem Türkmen"},{"t":"İşletme","a":"Ahu Güzel"},{"t":"Rotasız seyyan","a":"Mehmet Genç"},{"t":"Malazgirt 1071 Kıyametin İlk Günü","a":"Mustafa Alican"},{"t":"Gülistan","a":"Sirazlı Sadi"},{"t":"Göğe Bakma Durağı","a":"Turgut Uyar"},{"t":"Ölü Canlar","a":"Gogol"},{"t":"Yaprak Dökümü","a":"Reşat Nuri Güntekin"},{"t":"Piyanist","a":"Wladyslaw Szpilman"},{"t":"Karun Ve Anarşist","a":"İskender Pala"},{"t":"Açlık Oyunları","a":"Suzanne Collins"},{"t":"Adam","a":"Yılmaz Özdil"},{"t":"Sıla","a":"Sıla Gençoğlu"},{"t":"Bambaşka","a":"Kahraman Tazeoğlu"},{"t":"Dünyaya 1-2(Z)","a":"Mustafa Kıran"},{"t":"Bukre","a":"Kahraman Tazeoğlu"},{"t":"Üç Silahşörler","a":"Aleksander Dumas"},{"t":"Hamlet","a":"Shakespear"},{"t":"Orhan Veli Bütün Şiirleri","a":"Orhan Veli"},{"t":"Simyancı","a":"Paulo Coelho"},{"t":"İnsanlar Başaklara Benzer Önek Olaylara Çözüm Stratejisiyle Stres Yönetimi","a":"Taşkın Kılıç-M. Serhat Semercioğlu-Gizem Özkunduracı"},{"t":"Körlük","a":"Jose Saramago"},{"t":"Lizbon Kuşatmasının Tarihi","a":"Jose Saramago"},{"t":"Ölüm Bir Varmış Bir Yokmuş","a":"Jose Saramago"},{"t":"Görmek","a":"Jose Saramago"},{"t":"Mızraklar, Mıraklar, Tüfekler, Tüfekler","a":"Jose Saramago"},{"t":"Kabil","a":"Jose Saramago"},{"t":"Filin Yolculuğu","a":"Jose Saramago"},{"t":"Bilinmeyen Adanın Öyküsü","a":"Jose Saramago"},{"t":"Haliçte Yaşayan Simonlar","a":"Hanefi Avcı"},{"t":"Kumarbaz","a":"Dostoyeski"},{"t":"Başlangıç","a":"Dan Brown"},{"t":"Kurt Gölü","a":"John Verdon"},{"t":"Körler Ülkesi","a":"H.G. Wells"},{"t":"Tüfek, Mikrop Ve Çelik","a":"Jaret Diamond"},{"t":"Kırmızı Saçlı Kadın","a":"Orhan Pamuk"},{"t":"Mai Ve Siyah","a":"Halit Ziya Uşaklıgil"},{"t":"Tutunamayanlar","a":"Oğuz Atay"},{"t":"Savaş Sanatı","a":"Sun Tzu"},{"t":"Dorian Gre'İn Portresi","a":"Oscar Wilde"},{"t":"Reklat Dayatır","a":"Kenan Demirci"},{"t":"Hayat Kaybettiğin Yerden Başlar","a":"Miraç Çağrı Aktaş"},{"t":"Böyle Söyledi Zerdüşt","a":"Nietzsche"},{"t":"Puslu Kıtalar Atlası","a":"İhsan Oktay Anar"},{"t":"Kelam-I Kalem","a":"Tuğba Gülyeşil"},{"t":"Lalei Tur","a":"Muhammed İkbal"},{"t":"İnci","a":"Jhon Steinbeck"},{"t":"Yolların Sonu","a":"Hüseyin Nihal Atsız"},{"t":"Hep Seninle Sennur İle Konuşmalar","a":"Adnan Özyalçıner"},{"t":"Aylak Adam","a":"Yusuf Atılgan"},{"t":"Kırmızı Pazartes","a":"Gabriel Garcia Marquez"},{"t":"Ay Işığı Sokagı","a":"Zweig"},{"t":"Amog Koşucusu","a":"Zweig"},{"t":"Değirmen","a":"Sabahattin Ali"},{"t":"Arachnoıd Mater","a":"Serkan Karaismailoğlu"},{"t":"Efsane","a":"İskender Pala"},{"t":"Portekize Yolculuk","a":"Jose Saramago"},{"t":"Kinyas Ve Kayra","a":"Hakan Günday"},{"t":"Azil","a":"Hakan Günday"},{"t":"Homo Deus","a":"Yuval Noah Harrari"},{"t":"Daha","a":"Hakan Günday"},{"t":"Kör Baykuş","a":"Sadık Hidayet"},{"t":"Seni Kabu Ediyorum","a":"Mert Can Çelebi"},{"t":"Yaşamak","a":"Yu Hua"},{"t":"Bozkurtların Ölümü","a":"Hüseyin Nihal Atsız"},{"t":"Cennetin Dibi","a":"Gündüz Vassaf"},{"t":"Metastaz","a":"Barış Pehlivan Terkoğlu"},{"t":"Protogaras","a":"Eflatun"},{"t":"Tutsak","a":"Kahraman Tazeoğlu"},{"t":"Kroyçer Sonat","a":"Tolstoy"},{"t":"Çocukluğum","a":"Gorki"},{"t":"Uzun Beyaz Bulut Gelibolu","a":"Buket Uzuner"},{"t":"Galat-I Meşhur","a":"Soner Yalçın"},{"t":"Reis Gladionun Türk Tetikçisi","a":"Soner Yalçın - Doğan Yurdakul"},{"t":"Saklı Seçilmişler","a":"Soner Yalçın"},{"t":"Samizdat","a":"Soner Yalçın"},{"t":"Efendi İle Uşağı","a":"Soner Yalçın"},{"t":"Bir Mit Görevlisinin Sıra Dışı Yaşamı Hiram Abas Bay Pipo","a":"Soner Yalçın - Doğan Yurdakul"},{"t":"Senenad","a":"Zülü Livaneli"},{"t":"Kiralık Konak","a":"Yakaup Kadri Karaosmanoğlu"},{"t":"Zaman Makinesi","a":"H.G. Wells"},{"t":"Kuşlar Yasına Gider","a":"Hasan Ali Toptaş"},{"t":"Pia Mater","a":"Serkan Karaismailoğlu"},{"t":"Sınırsız Güç","a":"Anthony Robbins"},{"t":"Yüzyıllık Yalnızlık","a":"Gabriel Garcia Marquez"},{"t":"Evreler","a":"Ozan Ünsal"},{"t":"Anayurt Oteli","a":"Yusuf Atılgan"},{"t":"Olağanüstü Bir Gece","a":"Zweig"},{"t":"Küresel Çağda Kaybolmak","a":"Atasoy Müftüoğlu"},{"t":"Şu Hortumu Dünyada Fil Yalnız Bir Hayvandır","a":"Ahmet Şerif İzgören"},{"t":"İçimizdeki Şeytan","a":"Sabahattin Ali"},{"t":"Mobbing","a":"Hasan Tutar"},{"t":"Çalışma Ekonomisi Ve Endüstri İlişkileri","a":"Taner Akçacı - Selahattin Erol"},{"t":"Örgütlerde Mobbing Ve Siber Zorbalık","a":"Zeliha Seçkin"},{"t":"Yönetim Psikolojisi Açısında İş Yerinde Psiko Şiddet Obbing","a":"Erkan Yaman"},{"t":"Endüstri İlişkileri Ve Yeni Gelişmeler","a":"Aysen Tokol"},{"t":"Mobbing Hukuku","a":"Hasan Tutar - Ferhat Uslu"},{"t":"Kobilerde Eğitim Ve Geliştirmenin Örgütsel Baplılıkla İlişkisi Çerkezköy Organize Sanayi Bölgesinde Bir Araştırma","a":"Yeliz Yeşil"},{"t":"Osmanlıdan Günümüze Türk Sendikacılık Tarihi","a":"Adnan Mahiroğulları"},{"t":"Mobbing İş Erinde Yıldırma Eğitim Örneği","a":"Asiye Toker Gökçe"},{"t":"Mobbing İş Yerinde Yıldırma Nedenleri Ve Başa Çıkma Yöntemleri","a":"Asiye Toker Gökçe"},{"t":"Mobbing İş Yerinde Psikolojik Taciz","a":"Davenport - G.E.Elliott-R.D.Schwartz"},{"t":"Çalışma Ekonomisi","a":"M. Kemal Biçerli"},{"t":"Mobbing'İn Cazibeleri","a":"Mahmut Özkoca"},{"t":"Bilisel Araştırma Ve Yazma El Kitabı","a":"Halil Seyidoplu"},{"t":"Çalışma Yasaları","a":"Tez-Koop-İş"},{"t":"İş Yerinde Psikolojik Taciz","a":"Pınar Tinaz"},{"t":"İş Hukukunda Mobbing","a":"Abbas Bilgili"},{"t":"Okul Zorbalığı Ve Siber Zorbalık","a":"Erkan Yaman - Yüksel Eroğlu - Adem Peker"},{"t":"a'dan Z2ye mobbing","a":"Nermin Gürhan"},{"t":"Siber Zorbalık","a":"İbrahim Tanrıkulu"},{"t":"Sosyal Politikanın Temelleri","a":"Sami Güven"},{"t":"Farklı Boyutlarıyla Kadın Çalışmaları","a":"Elif Yüksel Oktay - Reyhan Ayşen Woff"},{"t":"Yarınların Kadına İhtiyacı Var","a":"Melissa Pracht"},{"t":"Çalışma Ve Toplum","a":"Tim Strangleman Tracey Barren"},{"t":"Mobbing","a":"Şaban Çobanoğlu"},{"t":"Yönetsel Ve Örgütsel Açıdan Psikolojik Terör","a":"Derya Ergun Özler - Nuray Mercan"},{"t":"İş Hukuku Açısından İş Yeri Ve İşletmelerde Mobbing","a":"Ahmet Taşkın"},{"t":"Çalışma Ekonomisi Teori Ve Politikalar","a":"Berrin Ceylan Ataman"},{"t":"Çalışma Psikolojisi Ve Hukuki Boyutlarıyla İş Yerinde Psikolojik Taciz","a":"Pınar Tınaz - Fuat Bayram - Hediye Ergin"},{"t":"Mobbing Ve İspatı","a":"Av. B. Buğra Palabıyık"},{"t":"Mobbing Davaları","a":"Abdülvahap Dabakoğlu"},{"t":"Halkla İlişkiler Nedir","a":"Filiz Balta Peltekoğlu"},{"t":"Çalışma Ekonomisi","a":"Aöf"},{"t":"Madde 22","a":"Josseph Heller"},{"t":"Damgalı Kadın","a":"Nathaniel Hawthorne"},{"t":"Tehlikeli Oyunlar","a":"Oğuz Atay"},{"t":"İnsan Olmak","a":"Engin Geçtan"},{"t":"Aşk Ve İrade","a":"Rollo May"},{"t":"Sana Gül Bahçesi Vaademedim","a":"Joanne Greenberg"},{"t":"Kendini Arayan İnsan","a":"Rollo May"},{"t":"Çürümenin Kitabı","a":"E. M. Cioran"},{"t":"Başkaldıran İnsan","a":"Albert Camus"},{"t":"Ses Ve Öfke","a":"William Faulkner"},{"t":"Dalgalar","a":"Virginia Woolf"},{"t":"Vücudunuz Hayır Diyorsa","a":"Gabor Mate"},{"t":"Paliati Toplum Günümüzde Acı","a":"Buyung - Chulhan"},{"t":"Pürdikkat","a":"Cal Newport"},{"t":"Kızıl Elma","a":"Cengiz Aytmatov"},{"t":"Babaya Mektup Ve Aile Metinleri","a":"Kafka"},{"t":"Sineklerin Tanrısı","a":"Wıllıam Golding"},{"t":"Cinnamon","a":"W.C.Andres"},{"t":"İrina","a":"Ersin Sayar"},{"t":"Cengizhan'A Küsen Bulut","a":"Cengiz Aytmatov"},{"t":"Karabibik","a":"Nabizade Nazım"},{"t":"Cinayet İlanı","a":"Agatha Christıe"},{"t":"Doğu Ekspresinde Cinayet","a":"Agatha Christıe"},{"t":"Vatan Yahut Silistre","a":"Namık Kemal"},{"t":"Felatun Bey İle Rakım Efendi","a":"Ahmet Mithat Efendi"},{"t":"Robin Hood","a":"J. Walker Mcspadden"},{"t":"The Jungle Book","a":"Rudyard Kipling"},{"t":"Little Princess","a":"Frances Hodgeson Burnett"},{"t":"Der Rattanfanger Von Hameln","a":"Vereinfachte Lesetexte"},{"t":"Kanun Sultan Süleyman Süleyman The Magneficent","a":"Hilmi Meydan"},{"t":"The Girl With Red Hat","a":"Vision English Library"},{"t":"Bozkır Kurdu","a":"Herman Hesse"},{"t":"Hayata Yolculuk","a":"Hasan Söylemez"},{"t":"Düşünce Hayatımızda Cemil Meriç","a":"Mehmet Karasu"},{"t":"You Are Captivatining","a":"Stası Eldredge"},{"t":"Hayatın Kaynağı Manası Ve Haysiyeti Ego Anthem","a":"Aynrant"},{"t":"Cemil Meriç'İn Dünyası","a":"Mustafa Armağan"},{"t":"Hayatı Yeniden Keşfedin","a":"Jeffrey E. Young - Janet S Klosko"},{"t":"Jayat Dediğin Nedir Ki","a":"Nietzsche"},{"t":"Var Olmanın Dayanılmaz Ağırlığı","a":"Nicola Tesla"},{"t":"Her Şey Bitmek İçin Başlar","a":"Cicero"},{"t":"Hiçliğin Mutlu Sessizliği","a":"Arthur Schopenhauer"},{"t":"Zincirlerimizden Başka Kaybedecek Neyimiz Var","a":"Karl Marx"},{"t":"Karanlıktır İnsanın Ruhu","a":"Edgar Allan Poe"},{"t":"Öyküler","a":"Dostoyevski"},{"t":"Eğitim Felsefesi","a":"Veysel Sönmez"},{"t":"Ev Sahibesi","a":"Dostoyevski"},{"t":"Grup Psikolojisi Ve Ego Analizi","a":"Sigmund Freud"},{"t":"Kendileri İle Savaşanlar","a":"Zweig"},{"t":"Seyehat Sanatı","a":"Alain De Bottom"},{"t":"Felsefenin Tesellisi","a":"Alain De Bottom"},{"t":"İki Şehrin Hikayesi","a":"Charles Dickens"},{"t":"Din Nedir","a":"Tolstoy"},{"t":"Usta İle Margarita","a":"Mihail Bulgakov"},{"t":"Siddhartha","a":"Herman Hesse"},{"t":"Aforizmalar","a":"Kafka"},{"t":"Kendime Düşünceler","a":"Marcus Aurelius"},{"t":"Dedektif Augute Duphin Öyküleri","a":"Edgar Allan Poe"},{"t":"Açlık","a":"Knut Hamsun"},{"t":"Neyse","a":"Emrah Kabba"},{"t":"Gün Olur Asra Bedel","a":"Cengiz Aytmatov"},{"t":"İnce Memet","a":"Yaşar Kemal"},{"t":"Kürk Mantolu Madonna","a":"Sabahattin Ali"},{"t":"Bir Dinazorun Gezileri","a":"Mina Urgan"},{"t":"Yazma Sanatı","a":"Stephen King"},{"t":"Erbain","a":"İsmet Özel"},{"t":"Yaşadıklarımdan Öğrendiğim Bir Şey Var","a":"Ataol Behramoğlu"},{"t":"Suç Ve Ceza","a":"Dostoyevski"},{"t":"Deliliğe Övgü","a":"Erasmus"},{"t":"Zadul-Ahire Yolculuk Azığı","a":"Gazali"},{"t":"Çalışmanın Mutluluğu Ve Sıkıntısı","a":"Alain De Bottom"},{"t":"Karmaşık Duygular","a":"Zweig"},{"t":"Yaratma Cesareti","a":"Rollo May"},{"t":"Ezilenler","a":"Dostoyevski"},{"t":"Denemeler","a":"Montaigne"},{"t":"Sefiller","a":"Victor Hugo"},{"t":"Ceza Sömürgesi","a":"Kafka"},{"t":"Leyla İle Mecnun","a":"İskender Pala"},{"t":"Bir Kardeş Cinayeti","a":"Kafka"},{"t":"Gülün Adı","a":"Umbertho Eco"},{"t":"İstanbul Hatırası","a":"Ahmet Ümit"},{"t":"Aşk Üzerine","a":"Alain De Bottom"},{"t":"Dava","a":"Kafka"},{"t":"Böyle Buyurdu Zerdüst","a":"Nietzsche"},{"t":"Tez Nasıl Yazılır","a":"Umbertho Eco"},{"t":"Yaşam Bilgeliği Üzerine Aforizmalar","a":"Arthur Schopenhauer"},{"t":"Öyküler","a":"Kafka"},{"t":"Aforizmalar","a":"Nietzsche"},{"t":"1984","a":"George Orwell"},{"t":"Kule","a":"William Golding"},{"t":"Şato","a":"Kafka"},{"t":"How I Run Outof Countries 198","a":"Gunnar Garfors"},{"t":"Geleceğin Ülkesi","a":"Zweig"},{"t":"İn To The Wild Yabana Doğru","a":"Jon Krakauer"},{"t":"Toplum Sözleşmesi","a":"Jean Jacques Rousseau"},{"t":"Aşk Ve Gurur","a":"Jane Austen"},{"t":"Seçme Eserleri","a":"Zweig"},{"t":"Tersi Ve Yüzü","a":"Albert Camus"},{"t":"Küçük Prens","a":"Antoine De Saint-Exupery"},{"t":"Düşüş","a":"Albert Camus"},{"t":"Mutlu Ölüm","a":"Albert Camus"},{"t":"Ceza Kolonisinde Ve Diğer Öyküler","a":"Kafka"},{"t":"Gulyabani","a":"Hüseyin Rahmi Gürpınar"},{"t":"Araba Sevdası","a":"Recaizade Mahmud Ekrem"},{"t":"Fahrenheit 451","a":"Ray Bradbury"},{"t":"Sevgili Arsız Ölüm","a":"Latife Tekin"},{"t":"Feniçka","a":"Lou Andreas-Salome"},{"t":"Bilinmeyen Bir Kadının Mektubu","a":"Zweig"},{"t":"Bir Kadının Yaşamından 24 Saat","a":"Zweig"},{"t":"dr. Jekyll ile bay hyde tuhaf bir vaka","a":"Robert Louıs Stevenson"},{"t":"Gömülü Şamdan","a":"Zweig"},{"t":"Vahşetin Çağrısı","a":"Jack London"},{"t":"Katrei Matem","a":"İskender Pala"},{"t":"Sanayi Ve İmparatorluk","a":"E. J. Hobsbawm"},{"t":"Huzur","a":"Ahmet Hamdi Tanpınar"},{"t":"Başlatmak Sürdürmek Bitirmek İlişkiler","a":"H. Alp Karaosmanoğlu - Miraş Şaşıoğlu - Nihan Azizlerli"},{"t":"Güzel Yaşam Klavuzu","a":"William B. İrvine"},{"t":"Tarihsel Kültürel Antropoloji","a":"Christoph Wulf"},{"t":"Tanrıya İhtiyaç Duymak","a":"Soren Kıerkegaard"},{"t":"Kominist Manifesto","a":"Marks Engels"},{"t":"Kızıl Veba","a":"Jack London"},{"t":"Monadoloji Ya Da Felsefenin İlkeleri","a":"G.W. Leibnis"},{"t":"Kanun Önünde","a":"Kafka"},{"t":"Bir Açlık Sanatçısı","a":"Kafka"},{"t":"Kendime Ait Bir Oda","a":"Virginia Woolf"},{"t":"Sevme Sanatı","a":"Erich Fromm"},{"t":"Zamanımızın Bir Kahramanı","a":"Mihail Yuryevic Lermontov"},{"t":"İnsanın Anlam Arayışı","a":"Viktor E. Frankl"},{"t":"Sosyologca 2","a":"Doğu Kitabevi"},{"t":"On Emir","a":"Graham Phıllıps"},{"t":"Histeri","a":"Laura Lıppman"},{"t":"Azıncourt","a":"Bernart Cornwell"},{"t":"Özden Öyküler","a":"Charles Baudelaıre"},{"t":"Devlet","a":"Platon"},{"t":"Yaratıcı Tür","a":"David Eagleman Anthony Brandt"},{"t":"Zehra","a":"Nabizade Nazım"},{"t":"Bir Köy Hekimi","a":"Kafka"},{"t":"Beyaz Gemi","a":"Cengiz Aytmatov"},{"t":"Ben Öğrendim Siz De Öğrenebilirsiniz","a":"Eser Tözüm"},{"t":"Sırça Fanus","a":"Sylvia Plath"},{"t":"Statü Endişesi","a":"Alain De Bottom"},{"t":"Bülbülü Öldürme","a":"Harper Lee"},{"t":"Saatleri Ayarlama Enstitüsü","a":"Ahmet Hamdi Tanpınar"},{"t":"Bulantı","a":"Jean Paul Sartre"},{"t":"Milenaya Mektuplar","a":"Kafka"},{"t":"Kadersizlik","a":"Imre Kertesz"},{"t":"Sevgi Zekası","a":"Muhammed Bozdağ"},{"t":"Ruhsal Zeka","a":"Muhammed Bozdağ"},{"t":"Bilmek Ve İstemek","a":"Arthur Schopenhauer"},{"t":"Düşüncenin Çağrısı","a":"Kant - Schopenhauer - Heideger"},{"t":"Dönüşüm","a":"Kafka"},{"t":"Öteki Ben","a":"Dostoyevski"},{"t":"Mutlu Olma İhtimalimiz","a":"Sigmund Freud"},{"t":"Biz","a":"Yevgeni Zamyativ"},{"t":"Büyük Umutlar","a":"Charles Dickens"},{"t":"Kamelyalı Kadın","a":"Alexandre Dumas - Fils"},{"t":"Kırmızı Ve Siyah","a":"Stenthall"},{"t":"Kızıl Nehirler","a":"Jean Christophe Grange"},{"t":"Kaiken","a":"Jean Christophe Grange"},{"t":"Cehennem","a":"Dan Brown"},{"t":"13. Kabilenin Sırrı","a":"Monroe Kuttner"},{"t":"İlginç Bir Vaka","a":"Albert Camus"},{"t":"Beyaz Diş","a":"Jack London"},{"t":"Yer Altından Notlar","a":"Dostoyevski"},{"t":"Martin Eden","a":"Jack London"},{"t":"Alacakaranlık","a":"Stephenie Meyer"},{"t":"Yeni Ay","a":"Stephenie Meyer"},{"t":"Tutulma","a":"Stephenie Meyer"},{"t":"Şafak Vakti","a":"Stephenie Meyer"},{"t":"Seyahatnameden Seçmeler","a":"Evliya Çelebi"},{"t":"Kırmızı Pazartesi","a":"Gabriel Garcia Marquez"},{"t":"Eski Dünya Seyahatnamesi","a":"İlber Ortaylı"},{"t":"Teşkilatı Mahsusa- Mit Ve İstihbarat Örgütleri","a":"İlhan Bahar"},{"t":"Reklam Dayatır","a":"Kenan Demirci"},{"t":"Rotasız Seyyah","a":"Mehmet Genç"},{"t":"Seni Kabul Ediyorum","a":"Mert Can Çelebi"},{"t":"Lale-i Tur","a":"Muhammed İkbal"},{"t":"Orta Doğu Ve Türkiye","a":"Nurullah Aydın"},{"t":"Dorian Grey'in Portresi","a":"Oscar Wilde"},{"t":"Simyacı","a":"Paulo Coelho"},{"t":"Hz Muhammed’den Kutlu Mesajlar","a":"Seyda"},{"t":"Binbaşı Erseverin İtirafları","a":"Soner Yalçın"},{"t":"Reis Gladio’nun Türk Tetikçisi","a":"Soner Yalçın - Doğan Yurdakul"},{"t":"Tarihimizde Komplolar Odaklar Olaylar Kayıtlar","a":"Süleyman Kocabaş"},{"t":"İşletmelerde Kalite Yönetimi","a":"Turgay Uçak"},{"t":"Serenad","a":"Zülü Livaneli"}];
+let books=[], loaded=false, ref=null, unsub=null;
+let filter='all', query='', target=null, saving=Promise.resolve();
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
+const fmt=d=>{if(!d)return'';const [y,m,g]=d.split('-');return g+'.'+m+'.'+y};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const mkSeed=()=>SEED.map((b,i)=>({id:'s'+i,t:b.t,a:b.a,n:'',r:false,l:null}));
+
+function persist(){
+  if(!ref) return;
+  const snapshot=books.slice();
+  saving=saving.then(()=>setDoc(ref,{books:snapshot})).catch(e=>{$('banner').innerHTML='<div class="banner">Kayıt yapılamadı. Sayfayı yenileyip tekrar dene.</div>';console.error(e)});
+}
+function change(fn){fn();persist();render()}
+
+function render(){
+  const nq=fold(query).trim();
+  const counts={all:books.length,read:books.filter(b=>b.r).length,unread:books.filter(b=>!b.r).length,loan:books.filter(b=>b.l).length};
+  const tabs=[['all','Hepsi'],['unread','Okunmadı'],['read','Okundu'],['loan','Ödünçte']];
+  $('tabs').innerHTML=tabs.map(([k,n])=>`<button class="tab" data-f="${k}" aria-pressed="${filter===k}">${n} ${counts[k]}</button>`).join('');
+  $('count').textContent=books.length+' kitap';
+  let list=books.filter(b=>(filter==='all'||(filter==='read'&&b.r)||(filter==='unread'&&!b.r)||(filter==='loan'&&b.l))&&(!nq||fold(b.t).includes(nq)||fold(b.a).includes(nq)||fold(b.n).includes(nq)));
+  list.sort((x,y)=>x.t.localeCompare(y.t,'tr'));
+  if(loaded&&!books.length&&ref){
+    $('list').innerHTML=`<div class="seed"><p>Kitaplık henüz boş. Excel listendeki ${SEED.length} kitabı yükleyebilirsin.</p><button class="btn pri" id="seedBtn">Listemi yükle</button></div>`;
+    return;
+  }
+  $('list').innerHTML=list.length?list.map(b=>`<div class="row" data-id="${esc(b.id)}">
+   <div><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div></div>
+   ${b.n?`<div class="note">${esc(b.n)}</div>`:''}
+   <div class="acts">
+    ${b.r?'<span class="chip ok">Okundu</span>':'<span class="chip">Okunmadı</span>'}
+    ${b.l?`<span class="chip loan">${esc(b.l.to)}'e verildi, ${fmt(b.l.d)}</span>`:''}
+    <span class="sp"></span>
+    <button class="btn" data-act="edit">${b.n?'Düzenle / not':'Düzenle / not ekle'}</button>
+    <button class="btn" data-act="read">${b.r?'Okunmadı yap':'Okundu yap'}</button>
+    <button class="btn" data-act="loan">${b.l?'Geri aldım':'Ödünç ver'}</button>
+    <button class="btn del" data-act="del" aria-label="Çıkar">Çıkar</button>
+   </div></div>`).join(''):'<div class="empty">Sonuç bulunamadı.</div>';
+}
+
+$('q').addEventListener('input',e=>{query=e.target.value;render()});
+$('tabs').addEventListener('click',e=>{const f=e.target.closest('[data-f]');if(f){filter=f.dataset.f;render()}});
+$('list').addEventListener('click',e=>{
+  if(e.target.id==='seedBtn'){change(()=>{books=mkSeed()});return}
+  const btn=e.target.closest('[data-act]');if(!btn)return;
+  const b=books.find(x=>x.id===btn.closest('.row').dataset.id);if(!b)return;target=b;
+  if(btn.dataset.act==='edit'){$('edT').value=b.t;$('edA').value=b.a||'';$('edN').value=b.n||'';$('dEdit').showModal()}
+  else if(btn.dataset.act==='read')change(()=>{b.r=!b.r});
+  else if(btn.dataset.act==='loan'){
+    if(b.l)change(()=>{b.l=null});
+    else{$('loanBook').textContent=b.t;$('loanTo').value='';$('loanD').value=today();$('dLoan').showModal()}
+  }else{$('delBook').textContent=b.t+(b.a?' - '+b.a:'');$('dDel').showModal()}
+});
+document.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',e=>e.target.closest('dialog').close()));
+$('add').onclick=()=>{$('addT').value='';$('addA').value='';$('dAdd').showModal();$('addT').focus()};
+$('addOk').onclick=()=>{
+  const t=$('addT').value.trim();if(!t){$('addT').focus();return}
+  change(()=>{books.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t,a:$('addA').value.trim(),n:'',r:false,l:null})});
+  $('dAdd').close();
+};
+$('loanOk').onclick=()=>{
+  const to=$('loanTo').value.trim();if(!to){$('loanTo').focus();return}
+  change(()=>{target.l={to,d:$('loanD').value||today()}});$('dLoan').close();
+};
+$('edOk').onclick=()=>{
+  const t=$('edT').value.trim();if(!t){$('edT').focus();return}
+  change(()=>{target.t=t;target.a=$('edA').value.trim();target.n=$('edN').value.trim()});$('dEdit').close();
+};
+$('delOk').onclick=()=>{change(()=>{books=books.filter(x=>x!==target)});$('dDel').close()};
+$('backup').onclick=()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(books,null,1)],{type:'application/json'}));
+  a.download='kitaplik-yedek.json';document.body.appendChild(a);a.click();a.remove();
+};
+$('restore').onclick=()=>$('file').click();
+$('file').onchange=async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{
+    const arr=JSON.parse(await f.text());
+    if(!Array.isArray(arr)||!arr.every(b=>b&&typeof b.t==='string'))throw 0;
+    if(confirm('Kitaplığındaki '+books.length+' kitabın yerine yedekteki '+arr.length+' kitap yüklensin mi?'))change(()=>{books=arr});
+  }catch(err){alert('Bu dosya bir kitaplık yedeği gibi görünmüyor.')}
+};
+$('out').onclick=()=>signOut(auth);
+
+const errTxt={'auth/invalid-credential':'E-posta veya parola hatalı.','auth/invalid-email':'E-posta adresi geçersiz.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.','auth/network-request-failed':'İnternet bağlantısı yok.'};
+async function login(){
+  $('lgErr').hidden=true;
+  try{await signInWithEmailAndPassword(auth,$('lgE').value.trim(),$('lgP').value)}
+  catch(e){$('lgErr').textContent=errTxt[e.code]||'Giriş yapılamadı ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
+}
+$('lgGo').onclick=login;
+$('lgP').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+
+onAuthStateChanged(auth,user=>{
+  if(unsub){unsub();unsub=null}
+  if(!user){ref=null;books=[];loaded=false;$('app').hidden=true;$('login').hidden=false;return}
+  $('login').hidden=true;$('app').hidden=false;$('lgP').value='';
+  ref=doc(fdb,'library','main');
+  unsub=onSnapshot(ref,snap=>{
+    const d=snap.exists()?snap.data():null;
+    books=d&&Array.isArray(d.books)?d.books:[];
+    loaded=true;$('banner').innerHTML='';render();
+  },()=>{$('banner').innerHTML='<div class="banner">Kitaplığa erişilemedi. İnternetini ve güvenlik kuralını kontrol et.</div>'});
+});
+render();
+</script>
+</body>
+</html>
