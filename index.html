@@ -79,6 +79,7 @@ h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
 </div>
 <div id="banner"></div>
 <div id="info"></div>
+<div class="sub" id="vsum" style="margin:0 0 6px"></div>
 <div id="list"></div>
 </div>
 
@@ -146,33 +147,65 @@ function vchip(b){
   return '';
 }
 const GB_KEY='AIzaSyBLHvfYoMF5-2i9y5x_vRdxeO56BKZiM4c';
-async function gbLookup(b){
-  const q='intitle:'+b.t+(b.a?' inauthor:'+b.a:'');
-  const url='https://www.googleapis.com/books/v1/volumes?maxResults=8&q='+encodeURIComponent(q)+(GB_KEY?'&key='+GB_KEY:'');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const norm=x=>fold(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+const tokEq=(x,y)=>x===y||(x.length>=5&&y.length>=5&&lev(x,y)<=2);
+function authorMatch(ours,theirs){
+  const ot=norm(ours).split(' ').filter(x=>x.length>=2);
+  if(!ot.length)return true;
+  const tt=norm((theirs||[]).join(' ')).split(' ').filter(Boolean);
+  const last=ot[ot.length-1];
+  const hits=ot.filter(x=>tt.some(y=>tokEq(x,y))).length;
+  return tt.some(y=>tokEq(last,y))||hits>=2;
+}
+function titleScore(ours,theirs){
+  const A=norm(ours),B=norm(theirs);if(!A||!B)return 0;
+  if(A===B)return 3;
+  const a=A.split(' '),b=B.split(' ');
+  const [sh,lo]=a.length<=b.length?[a,b]:[b,a];
+  if(sh.every(x=>lo.includes(x))&&(sh.length>=2||lo.length<=3))return 2;
+  const inter=sh.filter(x=>lo.includes(x)).length,uni=new Set([...a,...b]).size;
+  return inter/uni>=0.6?1:0;
+}
+function pick(items,b){
+  let best=null,bs=-1;
+  for(const it of items){
+    const v=it.volumeInfo||{};
+    const ts=titleScore(b.t,v.title||'');if(!ts)continue;
+    const am=authorMatch(b.a,v.authors);
+    const sc=ts*2+(am?4:0)+(v.imageLinks?1:0);
+    if(sc>bs){bs=sc;best={v,ts,am}}
+  }
+  if(!best)return null;
+  const il=best.v.imageLinks||{};
+  const img=(il.thumbnail||il.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
+  return {c:img,v:(best.am&&best.ts>=2)?'ok':'check',g:(best.v.title||'')+((best.v.authors||[]).length?' - '+best.v.authors.join(', '):'')};
+}
+async function gbFetch(q){
+  const url='https://www.googleapis.com/books/v1/volumes?maxResults=10&q='+encodeURIComponent(q)+(GB_KEY?'&key='+GB_KEY:'');
   let r;
   for(let k=0;k<3;k++){
     r=await fetch(url);
     if(r.status!==429&&r.status!==403)break;
-    await new Promise(res=>setTimeout(res,1500*(k+1)));
+    await sleep(1500*(k+1));
   }
   if(r.status===429||r.status===403)throw GB_KEY&&r.status===403?'key':'rate';
   if(!r.ok)throw 'err';
   const j=await r.json();
-  const ft=fold(b.t).trim(), last=fold(b.a).trim().split(/\s+/).filter(Boolean).pop()||'';
-  let best=null,bs=-1;
-  for(const it of (j.items||[])){
-    const v=it.volumeInfo||{};const vt=fold(v.title||'').trim();
-    let sc;
-    if(vt===ft)sc=3;else if(vt&&(vt.includes(ft)||ft.includes(vt)))sc=1;else continue;
-    const am=!last||fold((v.authors||[]).join(' ')).includes(last);
-    if(am)sc+=4;
-    if(v.imageLinks)sc+=1;
-    if(sc>bs){bs=sc;best={v,am}}
+  return j.items||[];
+}
+async function gbLookup(b){
+  const qs=['intitle:'+b.t+(b.a?' inauthor:'+b.a:''),(b.t+' '+(b.a||'')).trim(),b.t];
+  let all=[],res=null;
+  for(let i=0;i<qs.length;i++){
+    if(i)await sleep(300);
+    try{all=all.concat(await gbFetch(qs[i]))}
+    catch(e){if(e==='err'&&i>0)break;throw e}
+    res=pick(all,b);
+    if(res&&res.v==='ok'&&res.c)break;
   }
-  if(!best)return {c:'',v:'none',g:''};
-  const il=best.v.imageLinks||{};
-  const img=(il.thumbnail||il.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
-  return {c:img,v:best.am?'ok':'check',g:(best.v.title||'')+((best.v.authors||[]).length?' - '+best.v.authors.join(', '):'')};
+  return res||{c:'',v:'none',g:''};
 }
 async function enrich(id,manual){
   const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
@@ -181,7 +214,7 @@ async function enrich(id,manual){
     const res=await gbLookup(b0);
     change(()=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)});
   }catch(e){
-    if(manual)$('info').innerHTML='<div class="banner">'+(e==='rate'?'Google Books arama sınırına ulaşıldı. Anahtarsız kullanım çok kısıtlı, bir Google Books anahtarı eklenmeli.':e==='key'?'Google Books anahtarı kabul edilmedi. Anahtarın site kısıtlamalarını kontrol et.':'Kapak aranamadı. İnternet bağlantını kontrol et.')+'</div>';
+    if(manual)$('info').innerHTML='<div class="banner">'+(e==='rate'?'Google Books arama sınırına ulaşıldı. Biraz bekleyip veya yarın tekrar bas, kaldığı yerden devam eder.':e==='key'?'Google Books anahtarı kabul edilmedi. Anahtarın site kısıtlamalarını kontrol et.':'Kapak aranamadı. İnternet bağlantını kontrol et.')+'</div>';
   }finally{busy.delete(id);render()}
 }
 function render(){
@@ -190,6 +223,8 @@ function render(){
   const tabs=[['all','Hepsi'],['unread','Okunmadı'],['read','Okundu'],['loan','Ödünçte']];
   $('tabs').innerHTML=tabs.map(([k,n])=>`<button class="tab" data-f="${k}" aria-pressed="${filter===k}">${n} ${counts[k]}</button>`).join('');
   $('count').textContent=books.length+' kitap';
+  const vc={ok:0,check:0,none:0,x:0};books.forEach(b=>{vc[b.v==='ok'||b.v==='check'||b.v==='none'?b.v:'x']++});
+  $('vsum').textContent=(vc.ok+vc.check+vc.none)?'Doğrulandı '+vc.ok+', Kontrol et '+vc.check+', Doğrulanamadı '+vc.none+', Aranmadı '+vc.x:'';
   let list=books.filter(b=>(filter==='all'||(filter==='read'&&b.r)||(filter==='unread'&&!b.r)||(filter==='loan'&&b.l))&&(!nq||fold(b.t).includes(nq)||fold(b.a).includes(nq)||fold(b.n).includes(nq)));
   list.sort((x,y)=>x.t.localeCompare(y.t,'tr'));
   if(loaded&&!books.length&&ref){
@@ -272,9 +307,9 @@ function parseCSV(text){
   return rows.map(r=>r.map(x=>x.trim())).filter(r=>r.some(x=>x));
 }
 $('covers').onclick=async()=>{
-  const todo=books.filter(b=>!b.v).map(b=>b.id);
+  const todo=books.filter(b=>b.v!=='ok').map(b=>b.id);
   if(!todo.length){alert('Aranacak kitap kalmadı.');return}
-  if(!confirm(todo.length+' kitap için kapak ve doğrulama aranacak. Bu birkaç dakika sürebilir, sayfayı kapatma. Başlayalım mı?'))return;
+  if(!confirm('Doğrulanmamış '+todo.length+' kitap yeniden aranacak. Bu birkaç dakika sürebilir, sayfayı kapatma. Başlayalım mı?'))return;
   const out=new Map();let stop='';
   for(let i=0;i<todo.length&&!stop;i++){
     const b=books.find(x=>x.id===todo[i]);if(!b)continue;
@@ -283,7 +318,7 @@ $('covers').onclick=async()=>{
     await new Promise(r=>setTimeout(r,350));
   }
   if(out.size)change(()=>{out.forEach((res,id)=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)})});
-  $('info').innerHTML='<div class="banner">'+out.size+' kitap tarandı.'+(stop==='rate'?' Google Books arama sınırına ulaşıldı. Anahtarsız kullanım çok kısıtlı, bir Google Books anahtarı eklenmeli.':stop==='key'?' Google Books anahtarı kabul edilmedi, kısıtlamalarını kontrol et.':'')+'</div>';
+  $('info').innerHTML='<div class="banner">'+out.size+' kitap tarandı.'+(stop==='rate'?' Google Books arama sınırına ulaşıldı. Biraz bekleyip veya yarın tekrar bas, kaldığı yerden devam eder.':stop==='key'?' Google Books anahtarı kabul edilmedi, kısıtlamalarını kontrol et.':'')+'</div>';
 };
 $('csvBtn').onclick=()=>$('csv').click();
 $('csv').onchange=async e=>{
