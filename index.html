@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Önsoy Malikânesi Kitaplığı</title>
+<title>Kitaplığım</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1f5f8b">
+<meta name="apple-mobile-web-app-title" content="Kitaplığım">
 <style>
 :root{--bg:#f2f4f6;--card:#fff;--ink:#16212b;--mute:#667483;--line:#dde3e8;--acc:#1f5f8b;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 :root[data-theme=dark]{--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
@@ -45,7 +50,7 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 </head>
 <body>
 <div class="wrap" id="login" hidden>
- <div style="padding-top:60px"><h1>Önsoy Malikânesi Kitaplığı</h1><p class="a">Devam etmek için giriş yap.</p>
+ <div style="padding-top:60px"><h1>Kitaplığım</h1><p class="a">Devam etmek için giriş yap.</p>
  <label for="lgE">E-posta</label><input class="inp" id="lgE" type="email" autocomplete="username">
  <label for="lgP">Parola</label><input class="inp" id="lgP" type="password" autocomplete="current-password">
  <div id="lgErr" class="banner" hidden></div>
@@ -211,7 +216,7 @@ const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap 
 
 function homeV(){
   const A=act();
-  return `<div class="top"><h1>Önsoy Malikânesi Kitaplığı</h1><button class="btn sm" data-a="prof">Profil</button></div>
+  return `<div class="top"><h1>Kitaplığım</h1><button class="btn sm" data-a="prof">Profil</button></div>
   <div class="srow">${searchBox()}<button class="btn pri" data-a="add" style="padding:11px 12px">Kitap ekle</button></div>
   <div id="tiles" class="fl" style="flex:1">
   ${A.length?'':'<div class="empty">Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
@@ -462,6 +467,7 @@ onAuthStateChanged(auth,user=>{
   },()=>{toast('Kitaplığa erişilemedi. İnternetini ve güvenlik kuralını kontrol et.')});
 });
 applyTheme();
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
 </html>
