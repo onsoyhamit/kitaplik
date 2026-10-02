@@ -1,113 +1,291 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme-color="default" data-font-size="md">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Kitaplığım</title>
 <style>
-:root{--bg:#f2f4f6;--card:#fff;--ink:#16212b;--mute:#667483;--line:#dde3e8;--acc:#1f5f8b;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}}
-:root[data-theme="dark"]{--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
+:root{
+  --bg:#f2f4f6;--card:#fff;--ink:#16212b;--mute:#667483;--line:#dde3e8;
+  --acc:#1f5f8b;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;
+  --font-base:16px;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+:root[data-theme-color="emerald"]{--acc:#1b7a5a;--acc-ink:#fff}
+:root[data-theme-color="burgundy"]{--acc:#802334;--acc-ink:#fff}
+
+:root[data-font-size="sm"]{--font-base:14px}
+:root[data-font-size="md"]{--font-base:16px}
+:root[data-font-size="lg"]{--font-base:18px}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;
+    --acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73
+  }
+  :root[data-theme-color="emerald"]:not([data-theme="light"]){--acc:#42b883;--acc-ink:#081c14}
+  :root[data-theme-color="burgundy"]:not([data-theme="light"]){--acc:#e86b81;--acc-ink:#1c070a}
+}
+:root[data-theme="dark"]{
+  --bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;
+  --acc:#5aa6d6;--acc-ink:#0b1217;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73
+}
+
 *{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--font-base)/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .wrap{max-width:760px;margin:0 auto;padding:0 14px 40px}
 header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:14px 0 10px;z-index:5;border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 h1{margin:0;font:700 26px/1.1 "Iowan Old Style",Georgia,"Times New Roman",serif}
-.sub{color:var(--mute);font-size:13px}
-.search{margin-top:10px;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
-.search:focus,button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.tabs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
-.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
-.tab[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.bar{display:flex;gap:8px;margin:12px 0}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 13px;font:inherit;font-size:14px;cursor:pointer}
+.sub{color:var(--mute);font-size:0.85em}
+.search-wrap{display:flex;gap:8px;margin-top:10px}
+.search{flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.search:focus,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 13px;font:inherit;font-size:0.9em;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
 .btn.pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.btn.del{color:var(--danger)}
-.banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px}
-.seed{background:var(--card);border:1px dashed var(--acc);border-radius:12px;padding:18px;margin:16px 0;text-align:center}
-.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;display:grid;gap:8px}
-.t{font:600 17px/1.25 "Iowan Old Style",Georgia,serif}
-.a{color:var(--mute);font-size:14px}
-.acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.chip{font-size:12px;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}
+.btn.del{color:var(--danger);border-color:var(--danger)}
+.btn.sm{padding:5px 9px;font-size:0.8em}
+
+.nav-bar{display:flex;gap:8px;margin-top:12px}
+.nav-btn{flex:1;padding:10px;text-align:center;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+.nav-btn[aria-selected="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+
+.grid-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.menu-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:border-color .2s}
+.menu-card:hover{border-color:var(--acc)}
+.menu-card .count{font-size:1.8em;font-weight:700;color:var(--acc);font-family:"Iowan Old Style",Georgia,serif}
+.menu-card .label{font-size:0.9em;color:var(--mute);font-weight:600}
+
+.banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:0.9em}
+.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0;display:grid;gap:8px;cursor:pointer;transition:border-color .2s}
+.row:hover{border-color:var(--acc)}
+.t{font:600 1.1em/1.25 "Iowan Old Style",Georgia,serif}
+.a{color:var(--mute);font-size:0.9em}
+.chip{font-size:0.75em;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}
 .chip.ok{background:var(--ok-bg);color:var(--ok)}
 .chip.loan{background:var(--loan-bg);color:var(--loan)}
-.sp{flex:1}
-.note{font-size:14px;white-space:pre-wrap;border-left:3px solid var(--acc);padding:2px 0 2px 10px;color:var(--ink)}
-textarea{width:100%;min-height:130px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
-textarea:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.chip.reading{background:var(--acc);color:var(--acc-ink)}
+.note{font-size:0.9em;white-space:pre-wrap;border-left:3px solid var(--acc);padding:2px 0 2px 10px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+textarea{width:100%;min-height:100px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
 .main{display:flex;gap:12px;align-items:flex-start}
 .cov{width:56px;height:84px;object-fit:cover;border-radius:4px;background:var(--bg);flex:0 0 auto}
-a.btn{text-decoration:none;display:inline-block}
+.cov-lg{width:110px;height:165px;object-fit:cover;border-radius:8px;background:var(--bg);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
 .empty{text-align:center;color:var(--mute);padding:36px 10px}
-dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,420px)}
+
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,460px)}
 dialog::backdrop{background:rgba(0,0,0,.45)}
-label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
-dialog input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
-.dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
+label{display:block;font-size:0.85em;color:var(--mute);margin:10px 0 4px}
+dialog input, dialog select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+.dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+h2{margin:0 0 4px;font:700 1.2em/1.2 "Iowan Old Style",Georgia,serif}
+
+.section-title{font:700 1.1em "Iowan Old Style",Georgia,serif;margin:20px 0 10px;border-bottom:1px solid var(--line);padding-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.settings-group{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.settings-row:last-child{margin-bottom:0}
+
+.toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px;z-index:1000}
+.stars{color:#e3a550;font-size:1.1em}
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
-<div class="wrap" id="login" hidden>
+
+<div class="wrap" id="login">
  <div style="padding-top:60px"><h1>Kitaplığım</h1><p class="a">Devam etmek için giriş yap.</p>
  <label for="lgE">E-posta</label><input class="search" style="margin-top:0" id="lgE" type="email" autocomplete="username">
  <label for="lgP">Parola</label><input class="search" style="margin-top:0" id="lgP" type="password" autocomplete="current-password">
  <div id="lgErr" class="banner" hidden></div>
  <div class="dact" style="justify-content:flex-start"><button class="btn pri" id="lgGo">Giriş yap</button></div></div>
 </div>
+
 <div class="wrap" id="app" hidden>
 <header>
- <div class="top"><h1>Kitaplığım</h1><span class="sub" id="count"></span></div>
- <input class="search" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara">
- <div class="tabs" id="tabs"></div>
+ <div class="top">
+   <h1>Kitaplığım</h1>
+   <span class="sub" id="count"></span>
+ </div>
+ <div class="search-wrap">
+   <input class="search" id="q" type="search" placeholder="Kitap, yazar veya not ara…" autocomplete="off" aria-label="Kitap veya yazar ara">
+   <button class="btn pri" id="add">+ Kitap</button>
+ </div>
+ <div class="nav-bar">
+   <button class="nav-btn" id="navHome" aria-selected="true">Ana Sayfa</button>
+   <button class="nav-btn" id="navProfile">Profil & Ayarlar</button>
+ </div>
 </header>
-<div class="bar">
- <button class="btn pri" id="add">Kitap ekle</button>
- <span style="flex:1"></span>
- <button class="btn" id="covers">Kapakları bul</button>
- <button class="btn" id="csvBtn">CSV yükle</button>
- <button class="btn" id="restore">Yedekten yükle</button>
- <button class="btn" id="backup">Yedekle</button>
- <button class="btn" id="out">Çıkış</button>
- <input type="file" id="csv" accept=".csv,text/csv,text/plain" hidden>
- <input type="file" id="file" accept=".json,application/json" hidden>
-</div>
+
 <div id="banner"></div>
 <div id="info"></div>
-<div class="sub" id="vsum" style="margin:0 0 6px"></div>
-<div id="list"></div>
+
+<!-- HOME VIEW -->
+<div id="viewHome">
+  <div id="homeGrid" class="grid-menu">
+    <div class="menu-card" data-filter="all">
+      <span class="count" id="cAll">0</span>
+      <span class="label">Tüm Kitaplar</span>
+    </div>
+    <div class="menu-card" data-filter="unread">
+      <span class="count" id="cUnread">0</span>
+      <span class="label">Okunmayanlar</span>
+    </div>
+    <div class="menu-card" data-filter="reading">
+      <span class="count" id="cReading">0</span>
+      <span class="label">Şu An Okunanlar</span>
+    </div>
+    <div class="menu-card" data-filter="read">
+      <span class="count" id="cRead">0</span>
+      <span class="label">Okunanlar</span>
+    </div>
+    <div class="menu-card" data-filter="loan">
+      <span class="count" id="cLoan">0</span>
+      <span class="label">Ödünçtekiler</span>
+    </div>
+    <div class="menu-card" data-filter="noted">
+      <span class="count" id="cNoted">0</span>
+      <span class="label">Notlu Kitaplar</span>
+    </div>
+  </div>
+
+  <div id="listHeader" style="margin-top:16px;display:none;" class="top">
+    <button class="btn sm" id="backToGrid">← Kategorilere Dön</button>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span class="sub">Sırala:</span>
+      <select id="sortSelect" style="padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:0.85em;">
+        <option value="title">Ada Göre</option>
+        <option value="author">Yazara Göre</option>
+        <option value="newest">Son Eklenen</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="list" style="margin-top:10px"></div>
 </div>
 
-<dialog id="dAdd"><h2>Yeni kitap</h2>
+<!-- PROFILE VIEW -->
+<div id="viewProfile" hidden>
+  <div class="section-title">Okuma İstatistikleri</div>
+  <div class="grid-menu" style="margin-top:8px">
+    <div class="menu-card">
+      <span class="count" id="stYear">0</span>
+      <span class="label">Bu Yıl Okunan</span>
+    </div>
+    <div class="menu-card">
+      <span class="count" id="stRating">0.0</span>
+      <span class="label">Ortalama Puan</span>
+    </div>
+    <div class="menu-card">
+      <span class="count" id="stLoaned">0</span>
+      <span class="label">Ödünç Verilen</span>
+    </div>
+  </div>
+
+  <div class="section-title">Görünüm ve Tema Ayarları</div>
+  <div class="settings-group">
+    <div class="settings-row">
+      <span>Tema Rengi</span>
+      <select id="setThemeColor" style="width:auto;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);">
+        <option value="default">Mürekkep Mavisi</option>
+        <option value="emerald">Zümrüt Yeşili</option>
+        <option value="burgundy">Bordo</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <span>Yazı Boyutu</span>
+      <select id="setFontSize" style="width:auto;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);">
+        <option value="sm">Küçük</option>
+        <option value="md">Orta (Varsayılan)</option>
+        <option value="lg">Büyük</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-title">Veri Yönetimi & Araçlar</div>
+  <div class="settings-group" style="display:flex;flex-direction:column;gap:8px">
+    <button class="btn" id="covers">Kapakları Otomatik Bul (Google Books)</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn" id="backup">JSON Yedekle</button>
+      <button class="btn" id="restore">JSON Yükle</button>
+      <button class="btn" id="csvExport">CSV Dışa Aktar</button>
+      <button class="btn" id="csvBtn">CSV İçe Aktar</button>
+    </div>
+    <input type="file" id="csv" accept=".csv,text/csv,text/plain" hidden>
+    <input type="file" id="file" accept=".json,application/json" hidden>
+  </div>
+
+  <div class="section-title">Hesap</div>
+  <button class="btn del" id="out" style="width:100%">Oturumu Kapat</button>
+</div>
+
+</div>
+
+<!-- DIALOGS -->
+<dialog id="dAdd"><h2>Yeni kitap ekle</h2>
  <label for="addT">Kitap adı</label><input id="addT" autocomplete="off">
  <label for="addA">Yazar</label><input id="addA" autocomplete="off">
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="addOk">Ekle</button></div>
 </dialog>
+
+<dialog id="dDetail">
+ <div id="detailContent"></div>
+ <div class="dact" style="margin-top:20px;justify-content:space-between">
+   <button class="btn del sm" id="dtDel">Çıkar</button>
+   <div>
+     <button class="btn sm" id="dtEdit">Düzenle</button>
+     <button class="btn pri sm" data-close>Kapat</button>
+   </div>
+ </div>
+</dialog>
+
 <dialog id="dLoan"><h2>Ödünç ver</h2><div class="a" id="loanBook"></div>
  <label for="loanTo">Kime verdin?</label><input id="loanTo" autocomplete="off">
  <label for="loanD">Hangi tarihte?</label><input id="loanD" type="date">
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="loanOk">Kaydet</button></div>
 </dialog>
+
 <dialog id="dEdit"><h2>Kitabı düzenle</h2>
  <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
  <label for="edA">Yazar</label><input id="edA" autocomplete="off">
+ <label for="edStatus">Okuma Durumu</label>
+ <select id="edStatus">
+   <option value="unread">Okunmadı</option>
+   <option value="reading">Şu An Okunuyor</option>
+   <option value="read">Okundu</option>
+ </select>
+ <div id="readMeta" hidden>
+   <label for="edRating">Puanım (1-5 Yıldız)</label>
+   <select id="edRating">
+     <option value="0">Puan Verilmedi</option>
+     <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+     <option value="4">⭐⭐⭐⭐ (4/5)</option>
+     <option value="3">⭐⭐⭐ (3/5)</option>
+     <option value="2">⭐⭐ (2/5)</option>
+     <option value="1">⭐ (1/5)</option>
+   </select>
+   <label for="edReadDate">Okuma Tarihi</label><input id="edReadDate" type="date">
+ </div>
  <label for="edU">1000kitap bağlantısı (isteğe bağlı)</label><input id="edU" type="url" placeholder="https://1000kitap.com/kitap/...">
  <label for="edN">Düşüncelerim ve notlarım</label><textarea id="edN" placeholder="Bu kitap hakkında ne düşünüyorsun?"></textarea>
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="edOk">Kaydet</button></div>
 </dialog>
+
 <dialog id="dDel"><h2>Kitabı çıkar</h2><div class="a" id="delBook"></div>
+ <p class="sub">Silinen kitabı kısa bir süre içinde geri alabilirsiniz.</p>
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn del" id="delOk">Çıkar</button></div>
 </dialog>
+
+<div id="toast" class="toast" style="display:none;">
+  <span id="toastMsg">Kitap çıkarıldı.</span>
+  <button class="btn sm pri" id="toastUndo">Geri Al</button>
+</div>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",
   authDomain: "kitapligim55.firebaseapp.com",
@@ -116,17 +294,51 @@ const firebaseConfig = {
   messagingSenderId: "930194490379",
   appId: "1:930194490379:web:b3c6a1c8d1f755a2db730e"
 };
+
 const fapp=initializeApp(firebaseConfig);
 const auth=getAuth(fapp);
 let fdb;
 try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
+
 let books=[], loaded=false, ref=null, unsub=null;
-let filter='all', query='', target=null, saving=Promise.resolve();
+let activeTab='home', activeFilter=null, query='', target=null, lastDeleted=null, undoTimer=null;
+let sortBy='title', saving=Promise.resolve();
+
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
 const fmt=d=>{if(!d)return'';const [y,m,g]=d.split('-');return g+'.'+m+'.'+y};
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+
+function daysAgo(dStr){
+  if(!dStr)return 0;
+  const diff=new Date()-new Date(dStr);
+  return Math.floor(diff/(1000*60*60*24));
+}
+
+// Preferences
+const themeColor=localStorage.getItem('themeColor')||'default';
+const fontSize=localStorage.getItem('fontSize')||'md';
+document.documentElement.setAttribute('data-theme-color',themeColor);
+document.documentElement.setAttribute('data-font-size',fontSize);
+$('setThemeColor').value=themeColor;
+$('setFontSize').value=fontSize;
+
+$('setThemeColor').onchange=e=>{
+  const v=e.target.value;
+  document.documentElement.setAttribute('data-theme-color',v);
+  localStorage.setItem('themeColor',v);
+};
+$('setFontSize').onchange=e=>{
+  const v=e.target.value;
+  document.documentElement.setAttribute('data-font-size',v);
+  localStorage.setItem('fontSize',v);
+};
+
+function toggleReadMeta(){
+  $('readMeta').hidden=$('edStatus').value!=='read';
+}
+$('edStatus').onchange=toggleReadMeta;
 
 function persist(){
   if(!ref) return;
@@ -138,14 +350,8 @@ function change(fn){fn();persist();render()}
 const okUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'&&/(^|\.)1000kitap\.com$/.test(x.hostname)}catch(e){return false}};
 const hasU=b=>!!(b.u&&okUrl(b.u));
 const kLink=b=>hasU(b)?b.u:'https://1000kitap.com/ara?q='+encodeURIComponent((b.t+' '+(b.a||'')).trim())+'&bolum=kitaplar';
-const busy=new Set();
-function vchip(b){
-  if(busy.has(b.id))return '<span class="chip">Aranıyor…</span>';
-  if(b.v==='ok')return '<span class="chip ok" title="'+esc(b.g)+'">Doğrulandı</span>';
-  if(b.v==='check')return '<span class="chip loan">Kontrol et</span>';
-  if(b.v==='none')return '<span class="chip">Doğrulanamadı</span>';
-  return '';
-}
+
+// Google Books lookup logic
 const GB_KEY='AIzaSyBLHvfYoMF5-2i9y5x_vRdxeO56BKZiM4c';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const norm=x=>fold(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
@@ -207,89 +413,301 @@ async function gbLookup(b){
   }
   return res?Object.assign({s:2},res):{c:'',v:'none',g:'',s:2};
 }
-async function enrich(id,manual){
-  const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
-  busy.add(id);render();
+
+async function enrich(id){
+  const b0=books.find(x=>x.id===id);if(!b0)return;
   try{
     const res=await gbLookup(b0);
     change(()=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)});
-  }catch(e){
-    if(manual)$('info').innerHTML='<div class="banner">'+(e==='rate'?'Google Books arama sınırına ulaşıldı. Biraz bekleyip veya yarın tekrar bas, kaldığı yerden devam eder.':e==='key'?'Google Books anahtarı kabul edilmedi. Anahtarın site kısıtlamalarını kontrol et.':'Kapak aranamadı. İnternet bağlantını kontrol et.')+'</div>';
-  }finally{busy.delete(id);render()}
-}
-function render(){
-  const nq=fold(query).trim();
-  const counts={all:books.length,read:books.filter(b=>b.r).length,unread:books.filter(b=>!b.r).length,loan:books.filter(b=>b.l).length};
-  const tabs=[['all','Hepsi'],['unread','Okunmadı'],['read','Okundu'],['loan','Ödünçte']];
-  $('tabs').innerHTML=tabs.map(([k,n])=>`<button class="tab" data-f="${k}" aria-pressed="${filter===k}">${n} ${counts[k]}</button>`).join('');
-  $('count').textContent=books.length+' kitap';
-  const vc={ok:0,check:0,none:0,x:0};books.forEach(b=>{vc[b.v==='ok'||b.v==='check'||b.v==='none'?b.v:'x']++});
-  $('vsum').textContent=(vc.ok+vc.check+vc.none)?'Doğrulandı '+vc.ok+', Kontrol et '+vc.check+', Doğrulanamadı '+vc.none+', Aranmadı '+vc.x:'';
-  let list=books.filter(b=>(filter==='all'||(filter==='read'&&b.r)||(filter==='unread'&&!b.r)||(filter==='loan'&&b.l))&&(!nq||fold(b.t).includes(nq)||fold(b.a).includes(nq)||fold(b.n).includes(nq)));
-  list.sort((x,y)=>x.t.localeCompare(y.t,'tr'));
-  if(loaded&&!books.length&&ref){
-    $('list').innerHTML=`<div class="seed"><p>Kitaplık henüz boş. CSV dosyandan kitapları yükleyebilir veya "Kitap ekle" ile tek tek ekleyebilirsin.</p><button class="btn pri" id="seedBtn">CSV yükle</button></div>`;
-    return;
-  }
-  $('list').innerHTML=list.length?list.map(b=>`<div class="row" data-id="${esc(b.id)}">
-   <div class="main">${b.c?`<img class="cov" src="${esc(b.c)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<div><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div>${b.v==='check'&&b.g?`<div class="a">Bulunan: ${esc(b.g)}</div>`:''}</div></div>
-   ${b.n?`<div class="note">${esc(b.n)}</div>`:''}
-   <div class="acts">
-    ${b.r?'<span class="chip ok">Okundu</span>':'<span class="chip">Okunmadı</span>'}
-    ${b.l?`<span class="chip loan">${esc(b.l.to)}'e verildi, ${fmt(b.l.d)}</span>`:''}
-    ${vchip(b)}
-    <span class="sp"></span>
-    <a class="btn" href="${esc(kLink(b))}" target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a>
-    ${b.v==='ok'?'':'<button class="btn" data-act="cover">Kapak bul</button>'}
-    <button class="btn" data-act="edit">${b.n?'Düzenle / not':'Düzenle / not ekle'}</button>
-    <button class="btn" data-act="read">${b.r?'Okunmadı yap':'Okundu yap'}</button>
-    <button class="btn" data-act="loan">${b.l?'Geri aldım':'Ödünç ver'}</button>
-    <button class="btn del" data-act="del" aria-label="Çıkar">Çıkar</button>
-   </div></div>`).join(''):'<div class="empty">Sonuç bulunamadı.</div>';
+  }catch(e){}
 }
 
-$('q').addEventListener('input',e=>{query=e.target.value;render()});
-$('tabs').addEventListener('click',e=>{const f=e.target.closest('[data-f]');if(f){filter=f.dataset.f;render()}});
-$('list').addEventListener('click',e=>{
-  if(e.target.id==='seedBtn'){$('csv').click();return}
-  const btn=e.target.closest('[data-act]');if(!btn)return;
-  const b=books.find(x=>x.id===btn.closest('.row').dataset.id);if(!b)return;target=b;
-  if(btn.dataset.act==='edit'){$('edT').value=b.t;$('edA').value=b.a||'';$('edU').value=b.u||'';$('edN').value=b.n||'';$('dEdit').showModal()}
-  else if(btn.dataset.act==='cover')enrich(b.id,true);
-  else if(btn.dataset.act==='read')change(()=>{b.r=!b.r});
-  else if(btn.dataset.act==='loan'){
-    if(b.l)change(()=>{b.l=null});
-    else{$('loanBook').textContent=b.t;$('loanTo').value='';$('loanD').value=today();$('dLoan').showModal()}
-  }else{$('delBook').textContent=b.t+(b.a?' - '+b.a:'');$('dDel').showModal()}
-});
+function render(){
+  const nq=fold(query).trim();
+  $('count').textContent=books.length+' kitap';
+
+  // Counts
+  const cAll=books.length;
+  const cUnread=books.filter(b=>!b.r&&b.status!=='reading').length;
+  const cReading=books.filter(b=>b.status==='reading').length;
+  const cRead=books.filter(b=>b.r||b.status==='read').length;
+  const cLoan=books.filter(b=>b.l).length;
+  const cNoted=books.filter(b=>b.n&&b.n.trim()).length;
+
+  $('cAll').textContent=cAll;
+  $('cUnread').textContent=cUnread;
+  $('cReading').textContent=cReading;
+  $('cRead').textContent=cRead;
+  $('cLoan').textContent=cLoan;
+  $('cNoted').textContent=cNoted;
+
+  // Profile Stats
+  const currentYear=new Date().getFullYear();
+  const readThisYear=books.filter(b=>(b.r||b.status==='read')&&b.readDate&&b.readDate.startsWith(currentYear)).length;
+  const ratedBooks=books.filter(b=>b.rating>0);
+  const avgRating=ratedBooks.length?(ratedBooks.reduce((s,b)=>s+Number(b.rating),0)/ratedBooks.length).toFixed(1):'0.0';
+  $('stYear').textContent=readThisYear;
+  $('stRating').textContent=avgRating;
+  $('stLoaned').textContent=cLoan;
+
+  // Render List view condition
+  if(nq || activeFilter){
+    $('homeGrid').style.display='none';
+    $('listHeader').style.display='flex';
+
+    let list=books.filter(b=>{
+      if(nq){
+        return fold(b.t).includes(nq)||fold(b.a).includes(nq)||fold(b.n).includes(nq);
+      }
+      if(activeFilter==='all') return true;
+      if(activeFilter==='unread') return !b.r && b.status!=='reading';
+      if(activeFilter==='reading') return b.status==='reading';
+      if(activeFilter==='read') return b.r || b.status==='read';
+      if(activeFilter==='loan') return !!b.l;
+      if(activeFilter==='noted') return !!(b.n && b.n.trim());
+      return true;
+    });
+
+    // Sorting
+    list.sort((x,y)=>{
+      if(sortBy==='title') return x.t.localeCompare(y.t,'tr');
+      if(sortBy==='author') return (x.a||'').localeCompare(y.a||'','tr');
+      if(sortBy==='newest') return (y.createdAt||0)-(x.createdAt||0);
+      return 0;
+    });
+
+    $('list').innerHTML=list.length?list.map(b=>{
+      let statusChip='<span class="chip">Okunmadı</span>';
+      if(b.status==='reading') statusChip='<span class="chip reading">Okunuyor</span>';
+      else if(b.r||b.status==='read') statusChip='<span class="chip ok">Okundu</span>';
+
+      let loanChip='';
+      if(b.l){
+        const days=daysAgo(b.l.d);
+        loanChip=`<span class="chip loan">${esc(b.l.to)}'de (${days} gündür)</span>`;
+      }
+
+      let stars=b.rating>0?'<span class="stars">'+'★'.repeat(b.rating)+'</span>':'';
+
+      return `<div class="row" data-id="${esc(b.id)}">
+        <div class="main">
+          ${b.c?`<img class="cov" src="${esc(b.c)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}
+          <div style="flex:1">
+            <div class="t">${esc(b.t)} ${stars}</div>
+            <div class="a">${esc(b.a)||'Yazar yok'}</div>
+            <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+              ${statusChip} ${loanChip}
+            </div>
+          </div>
+        </div>
+        ${b.n?`<div class="note">${esc(b.n)}</div>`:''}
+      </div>`;
+    }).join(''):'<div class="empty">Bu kriterlere uygun kitap bulunamadı.</div>';
+  } else {
+    $('homeGrid').style.display='grid';
+    $('listHeader').style.display='none';$('list').innerHTML='';
+  }
+}
+
+// Navigation & Filters
+$('navHome').onclick=()=>{
+  activeTab='home';
+  $('navHome').setAttribute('aria-selected','true');
+  $('navProfile').setAttribute('aria-selected','false');$('viewHome').hidden=false;
+  $('viewProfile').hidden=true;
+};
+$('navProfile').onclick=()=>{
+  activeTab='profile';
+  $('navHome').setAttribute('aria-selected','false');
+  $('navProfile').setAttribute('aria-selected','true');$('viewHome').hidden=true;
+  $('viewProfile').hidden=false;
+};
+
+$('homeGrid').onclick=e=>{
+  const card=e.target.closest('.menu-card');
+  if(!card) return;
+  activeFilter=card.dataset.filter;
+  render();
+};
+$('backToGrid').onclick=()=>{
+  activeFilter=null;
+  $('q').value='';
+  query='';
+  render();
+};
+$('q').oninput=e=>{
+  query=e.target.value;
+  render();
+};
+$('sortSelect').onchange=e=>{
+  sortBy=e.target.value;
+  render();
+};
+
+// Book Click -> Detail Sheet
+$('list').onclick=e=>{
+  const row=e.target.closest('.row');
+  if(!row) return;
+  const b=books.find(x=>x.id===row.dataset.id);
+  if(!b) return;
+  target=b;
+  showDetail(b);
+};
+
+function showDetail(b){
+  let statusTxt='Okunmadı';
+  if(b.status==='reading') statusTxt='Şu An Okunuyor';
+  else if(b.r||b.status==='read') statusTxt='Okundu ' + (b.readDate?`(${fmt(b.readDate)})`:'');
+
+  let stars=b.rating>0?'<div class="stars" style="font-size:1.3em;margin:4px 0">'+'★'.repeat(b.rating)+'</div>':'';
+
+  let loanInfo='';
+  if(b.l){
+    const days=daysAgo(b.l.d);
+    loanInfo=`<div class="banner">📍 <b>Ödünç Verildi:</b> ${esc(b.l.to)} (${fmt(b.l.d)} - ${days} gündür)</div>`;
+  }
+
+  $('detailContent').innerHTML=`
+    <div style="display:flex;gap:16px;align-items:flex-start">
+      ${b.c?`<img class="cov-lg" src="${esc(b.c)}" alt="">`:''}
+      <div style="flex:1">
+        <h2>${esc(b.t)}</h2>
+        <div class="a" style="font-size:1.05em">${esc(b.a)||'Yazar yok'}</div>
+        ${stars}
+        <div style="margin-top:8px"><span class="chip ok">${statusTxt}</span></div>
+      </div>
+    </div>
+    ${loanInfo}
+    ${b.n?`<div style="margin-top:14px"><label>Düşüncelerim / Notlar</label><div class="note" style="display:block;-webkit-line-clamp:unset">${esc(b.n)}</div></div>`:''}
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn sm" href="${esc(kLink(b))}" target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a>
+      <button class="btn sm" id="dtLoanBtn">${b.l?'Geri Aldım':'Ödünç Ver'}</button>
+    </div>
+  `;
+
+  $('dtLoanBtn').onclick=()=>{
+    if(b.l){
+      change(()=>{b.l=null});
+      showDetail(b);
+    } else {
+      $('dDetail').close();
+      $('loanBook').textContent=b.t;$('loanTo').value='';$('loanD').value=today();$('dLoan').showModal();
+    }
+  };
+
+  $('dDetail').showModal();
+}
+
+$('dtEdit').onclick=()=>{$('dDetail').close();
+  const b=target;
+  $('edT').value=b.t;
+  $('edA').value=b.a\vert{}\vert{}'';$('edStatus').value=b.status||(b.r?'read':'unread');
+  $('edRating').value=b.rating||0;
+  $('edReadDate').value=b.readDate||'';
+  $('edU').value=b.u\vert{}\vert{}'';$('edN').value=b.n||'';
+  
+  toggleReadMeta();
+  $('dEdit').showModal();
+};
+
+$('dtDel').onclick=()=>{
+  $('dDetail').close();$('delBook').textContent=target.t+(target.a?' - '+target.a:'');
+  $('dDel').showModal();
+};
+
+// Modals
 document.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',e=>e.target.closest('dialog').close()));
-$('add').onclick=()=>{$('addT').value='';$('addA').value='';$('dAdd').showModal();$('addT').focus()};
-$('addOk').onclick=()=>{
+
+$('add').onclick=()=>{$('addT').value='';$('addA').value='';$('dAdd').showModal();$('addT').focus()};$('addOk').onclick=()=>{
   const t=$('addT').value.trim();if(!t){$('addT').focus();return}
-  const nb={id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t,a:$('addA').value.trim(),n:'',r:false,l:null};
+  const nb={
+    id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+    t,
+    a:$('addA').value.trim(),
+    n:'',
+    r:false,
+    status:'unread',
+    rating:0,
+    readDate:'',
+    l:null,
+    createdAt:Date.now()
+  };
   change(()=>{books.push(nb)});
   enrich(nb.id);
   $('dAdd').close();
 };
+
 $('loanOk').onclick=()=>{
   const to=$('loanTo').value.trim();if(!to){$('loanTo').focus();return}
-  change(()=>{target.l={to,d:$('loanD').value||today()}});$('dLoan').close();
+  change(()=>{target.l={to,d:$('loanD').value\vert{}\vert{}today()}});$('dLoan').close();
 };
+
 $('edOk').onclick=()=>{
   const t=$('edT').value.trim();if(!t){$('edT').focus();return}
   const a2=$('edA').value.trim(),u2=$('edU').value.trim();
   if(u2&&!okUrl(u2)){alert('Bağlantı https://1000kitap.com ile başlayan bir adres olmalı.');return}
   const changed=t!==target.t||a2!==(target.a||'');
-  change(()=>{target.t=t;target.a=a2;target.n=$('edN').value.trim();target.u=u2;if(changed){target.c='';target.v='';target.g='';target.s=0}});
+  const st=$('edStatus').value;
+
+  change(()=>{
+    target.t=t;
+    target.a=a2;
+    target.n=$('edN').value.trim();
+    target.u=u2;
+    target.status=st;
+    target.r=st==='read';
+    if(st==='read'){
+      target.rating=Number($('edRating').value);
+      target.readDate=$('edReadDate').value;
+    } else {
+      target.rating=0;
+      target.readDate='';
+    }
+    if(changed){target.c='';target.v='';target.g='';target.s=0}
+  });
   $('dEdit').close();
   if(changed)enrich(target.id);
 };
-$('delOk').onclick=()=>{change(()=>{books=books.filter(x=>x!==target)});$('dDel').close()};
+
+// Delete & Undo
+$('delOk').onclick=()=>{
+  lastDeleted={book:target, index:books.indexOf(target)};
+  change(()=>{books=books.filter(x=>x!==target)});
+  $('dDel').close();
+
+  $('toastMsg').textContent=`"${lastDeleted.book.t}" çıkarıldı.`;
+  $('toast').style.display='flex';
+  clearTimeout(undoTimer);
+  undoTimer=setTimeout(()=>{$('toast').style.display='none';lastDeleted=null},6000);
+};
+
+$('toastUndo').onclick=()=>{
+  if(lastDeleted){
+    change(()=>{books.splice(lastDeleted.index,0,lastDeleted.book)});
+    $('toast').style.display='none';
+    lastDeleted=null;
+  }
+};
+
+// Tools & Backup
 $('backup').onclick=()=>{
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([JSON.stringify(books,null,1)],{type:'application/json'}));
   a.download='kitaplik-yedek.json';document.body.appendChild(a);a.click();a.remove();
 };
+
+$('csvExport').onclick=()=>{
+  let csv="Kitap Adı;Yazar;Durumu;Notlar;Puan;Okuma Tarihi\n";
+  books.forEach(b=>{
+    const st=b.status==='read'||b.r?'Okundu':(b.status==='reading'?'Okunuyor':'Okunmadı');
+    csv+=`"${(b.t||'').replace(/"/g,'""')}";"${(b.a||'').replace(/"/g,'""')}";"${st}";"${(b.n||'').replace(/"/g,'""')}";"${b.rating||''}";"${b.readDate||''}"\n`;
+  });
+  const blob=new Blob(["\ufeff"+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='kitaplik-listesi.csv';document.body.appendChild(a);a.click();a.remove();
+};
+
 function parseCSV(text){
   text=text.replace(/^\uFEFF/,'');
   const first=text.split(/\r?\n/)[0]||'';
@@ -306,34 +724,23 @@ function parseCSV(text){
   if(cur!==''||row.length){row.push(cur);rows.push(row)}
   return rows.map(r=>r.map(x=>x.trim())).filter(r=>r.some(x=>x));
 }
+
 $('covers').onclick=async()=>{
   const todo=books.filter(b=>b.v!=='ok'&&b.s!==2).map(b=>b.id);
   if(!todo.length){alert('Aranacak kitap kalmadı.');return}
-  if(!confirm('Doğrulanmamış '+todo.length+' kitap yeniden aranacak. Bu birkaç dakika sürebilir, sayfayı kapatma. Başlayalım mı?'))return;
+  if(!confirm('Doğrulanmamış '+todo.length+' kitap yeniden aranacak. Başlayalım mı?'))return;
   const out=new Map();let stop='';
   for(let i=0;i<todo.length&&!stop;i++){
     const b=books.find(x=>x.id===todo[i]);if(!b)continue;
     $('info').innerHTML='<div class="banner">Aranıyor: '+(i+1)+' / '+todo.length+'</div>';
-    let tries=0;
-    while(true){
-      try{out.set(b.id,await gbLookup(b));break}
-      catch(e){
-        if(e==='rate'&&tries<2){
-          tries++;
-          for(let sec=65;sec>0;sec--){$('info').innerHTML='<div class="banner">Google sınırına takıldı, '+sec+' sn bekleniyor ('+(i+1)+' / '+todo.length+')</div>';await sleep(1000)}
-          continue;
-        }
-        if(e==='rate'||e==='key')stop=e;
-        break;
-      }
-    }
-    await sleep(900);
+    try{out.set(b.id,await gbLookup(b))}catch(e){if(e==='rate'||e==='key')stop=e;break}
+    await sleep(800);
   }
   if(out.size)change(()=>{out.forEach((res,id)=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)})});
-  $('info').innerHTML='<div class="banner">'+out.size+' kitap tarandı.'+(stop==='rate'?' Google Books arama sınırına ulaşıldı. Biraz bekleyip veya yarın tekrar bas, kaldığı yerden devam eder.':stop==='key'?' Google Books anahtarı kabul edilmedi, kısıtlamalarını kontrol et.':'')+'</div>';
+  $('info').innerHTML='<div class="banner">'+out.size+' kitap tarandı.</div>';
 };
-$('csvBtn').onclick=()=>$('csv').click();
-$('csv').onchange=async e=>{
+
+$('csvBtn').onclick=()=>$('csv').click();$('csv').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   const rows=parseCSV(await f.text());
   if(rows.length&&fold(rows[0][0]).startsWith('kitap'))rows.shift();
@@ -344,43 +751,60 @@ $('csv').onchange=async e=>{
     const t=r[0]||'',a=r[1]||'';if(!t)return;
     const k=key(t,a);if(have.has(k)){skipped++;return}
     have.add(k);
-    add.push({id:'c'+Date.now().toString(36)+i,t,a,n:r[3]||'',r:['okundu','evet','1','true'].includes(fold(r[2]||'')),l:null});
+    const isRead=['okundu','evet','1','true'].includes(fold(r[2]||''));
+    add.push({
+      id:'c'+Date.now().toString(36)+i,
+      t,a,
+      n:r[3]||'',
+      r:isRead,
+      status:isRead?'read':'unread',
+      rating:0,readDate:'',l:null,
+      createdAt:Date.now()
+    });
   });
-  if(!add.length&&!skipped){alert('Dosyada kitap bulunamadı. İlk sütun kitap adı, ikinci sütun yazar olmalı.');return}
   if(add.length)change(()=>{books=books.concat(add)});
-  alert(add.length+' kitap eklendi'+(skipped?', '+skipped+' kitap zaten kayıtlıydı.':'.'));
+  alert(add.length+' kitap eklendi.');
 };
-$('restore').onclick=()=>$('file').click();
-$('file').onchange=async e=>{
+
+$('restore').onclick=()=>$('file').click();$('file').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   try{
     const arr=JSON.parse(await f.text());
     if(!Array.isArray(arr)||!arr.every(b=>b&&typeof b.t==='string'))throw 0;
-    if(confirm('Kitaplığındaki '+books.length+' kitabın yerine yedekteki '+arr.length+' kitap yüklensin mi?'))change(()=>{books=arr});
-  }catch(err){alert('Bu dosya bir kitaplık yedeği gibi görünmüyor.')}
+    if(confirm('Yedekteki '+arr.length+' kitap yüklensin mi?'))change(()=>{books=arr});
+  }catch(err){alert('Geçersiz yedek dosyası.')}
 };
-$('out').onclick=()=>signOut(auth);
 
-const errTxt={'auth/invalid-credential':'E-posta veya parola hatalı.','auth/invalid-email':'E-posta adresi geçersiz.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.','auth/network-request-failed':'İnternet bağlantısı yok.'};
+// Auth
+$('out').onclick=()=>signOut(auth);
+const errTxt={'auth/invalid-credential':'E-posta veya parola hatalı.','auth/invalid-email':'E-posta adresi geçersiz.'};
 async function login(){
   $('lgErr').hidden=true;
   try{await signInWithEmailAndPassword(auth,$('lgE').value.trim(),$('lgP').value)}
-  catch(e){$('lgErr').textContent=errTxt[e.code]||'Giriş yapılamadı ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
+  catch(e){$('lgErr').textContent=errTxt[e.code]\vert{}\vert{}'Giriş yapılamadı.';$('lgErr').hidden=false}
 }
 $('lgGo').onclick=login;
 $('lgP').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 
 onAuthStateChanged(auth,user=>{
   if(unsub){unsub();unsub=null}
-  if(!user){ref=null;books=[];loaded=false;$('app').hidden=true;$('login').hidden=false;return}
-  $('login').hidden=true;$('app').hidden=false;$('lgP').value='';
+  if(!user){
+    ref=null;books=[];loaded=false;
+    $('app').hidden=true;
+    $('login').hidden=false;
+    return;
+  }
+  $('login').hidden=true;
+  $('app').hidden=false;
+  $('lgP').value='';
   ref=doc(fdb,'library','main');
   unsub=onSnapshot(ref,snap=>{
     const d=snap.exists()?snap.data():null;
     books=d&&Array.isArray(d.books)?d.books:[];
     loaded=true;$('banner').innerHTML='';render();
-  },()=>{$('banner').innerHTML='<div class="banner">Kitaplığa erişilemedi. İnternetini ve güvenlik kuralını kontrol et.</div>'});
+  },()=>{$('banner').innerHTML='<div class="banner">Kitaplığa erişilemedi.</div>'});
 });
+
 render();
 </script>
 </body>
