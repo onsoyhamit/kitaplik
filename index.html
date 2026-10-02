@@ -40,6 +40,9 @@ h1{margin:0;font:700 26px/1.1 "Iowan Old Style",Georgia,"Times New Roman",serif}
 .note{font-size:14px;white-space:pre-wrap;border-left:3px solid var(--acc);padding:2px 0 2px 10px;color:var(--ink)}
 textarea{width:100%;min-height:130px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
 textarea:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.main{display:flex;gap:12px;align-items:flex-start}
+.cov{width:56px;height:84px;object-fit:cover;border-radius:4px;background:var(--bg);flex:0 0 auto}
+a.btn{text-decoration:none;display:inline-block}
 .empty{text-align:center;color:var(--mute);padding:36px 10px}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,420px)}
 dialog::backdrop{background:rgba(0,0,0,.45)}
@@ -66,6 +69,7 @@ h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
 <div class="bar">
  <button class="btn pri" id="add">Kitap ekle</button>
  <span style="flex:1"></span>
+ <button class="btn" id="covers">Kapakları bul</button>
  <button class="btn" id="csvBtn">CSV yükle</button>
  <button class="btn" id="restore">Yedekten yükle</button>
  <button class="btn" id="backup">Yedekle</button>
@@ -74,6 +78,7 @@ h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
  <input type="file" id="file" accept=".json,application/json" hidden>
 </div>
 <div id="banner"></div>
+<div id="info"></div>
 <div id="list"></div>
 </div>
 
@@ -90,6 +95,7 @@ h2{margin:0 0 4px;font:700 19px/1.2 "Iowan Old Style",Georgia,serif}
 <dialog id="dEdit"><h2>Kitabı düzenle</h2>
  <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
  <label for="edA">Yazar</label><input id="edA" autocomplete="off">
+ <label for="edU">1000kitap bağlantısı (isteğe bağlı)</label><input id="edU" type="url" placeholder="https://1000kitap.com/kitap/...">
  <label for="edN">Düşüncelerim ve notlarım</label><textarea id="edN" placeholder="Bu kitap hakkında ne düşünüyorsun?"></textarea>
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="edOk">Kaydet</button></div>
 </dialog>
@@ -128,6 +134,49 @@ function persist(){
 }
 function change(fn){fn();persist();render()}
 
+const okUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'&&/(^|\.)1000kitap\.com$/.test(x.hostname)}catch(e){return false}};
+const hasU=b=>!!(b.u&&okUrl(b.u));
+const kLink=b=>hasU(b)?b.u:'https://1000kitap.com/ara?q='+encodeURIComponent((b.t+' '+(b.a||'')).trim())+'&bolum=kitaplar';
+const busy=new Set();
+function vchip(b){
+  if(busy.has(b.id))return '<span class="chip">Aranıyor…</span>';
+  if(b.v==='ok')return '<span class="chip ok" title="'+esc(b.g)+'">Doğrulandı</span>';
+  if(b.v==='check')return '<span class="chip loan">Kontrol et</span>';
+  if(b.v==='none')return '<span class="chip">Doğrulanamadı</span>';
+  return '';
+}
+async function gbLookup(b){
+  const q='intitle:'+b.t+(b.a?' inauthor:'+b.a:'');
+  const r=await fetch('https://www.googleapis.com/books/v1/volumes?maxResults=8&q='+encodeURIComponent(q));
+  if(r.status===429)throw 'rate';
+  if(!r.ok)throw 'err';
+  const j=await r.json();
+  const ft=fold(b.t).trim(), last=fold(b.a).trim().split(/\s+/).filter(Boolean).pop()||'';
+  let best=null,bs=-1;
+  for(const it of (j.items||[])){
+    const v=it.volumeInfo||{};const vt=fold(v.title||'').trim();
+    let sc;
+    if(vt===ft)sc=3;else if(vt&&(vt.includes(ft)||ft.includes(vt)))sc=1;else continue;
+    const am=!last||fold((v.authors||[]).join(' ')).includes(last);
+    if(am)sc+=4;
+    if(v.imageLinks)sc+=1;
+    if(sc>bs){bs=sc;best={v,am}}
+  }
+  if(!best)return {c:'',v:'none',g:''};
+  const il=best.v.imageLinks||{};
+  const img=(il.thumbnail||il.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
+  return {c:img,v:best.am?'ok':'check',g:(best.v.title||'')+((best.v.authors||[]).length?' - '+best.v.authors.join(', '):'')};
+}
+async function enrich(id,manual){
+  const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
+  busy.add(id);render();
+  try{
+    const res=await gbLookup(b0);
+    change(()=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)});
+  }catch(e){
+    if(manual)$('info').innerHTML='<div class="banner">'+(e==='rate'?'Google Books şu an yoğun, biraz sonra tekrar dene.':'Kapak aranamadı. İnternet bağlantını kontrol et.')+'</div>';
+  }finally{busy.delete(id);render()}
+}
 function render(){
   const nq=fold(query).trim();
   const counts={all:books.length,read:books.filter(b=>b.r).length,unread:books.filter(b=>!b.r).length,loan:books.filter(b=>b.l).length};
@@ -141,12 +190,15 @@ function render(){
     return;
   }
   $('list').innerHTML=list.length?list.map(b=>`<div class="row" data-id="${esc(b.id)}">
-   <div><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div></div>
+   <div class="main">${b.c?`<img class="cov" src="${esc(b.c)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}<div><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div>${b.v==='check'&&b.g?`<div class="a">Bulunan: ${esc(b.g)}</div>`:''}</div></div>
    ${b.n?`<div class="note">${esc(b.n)}</div>`:''}
    <div class="acts">
     ${b.r?'<span class="chip ok">Okundu</span>':'<span class="chip">Okunmadı</span>'}
     ${b.l?`<span class="chip loan">${esc(b.l.to)}'e verildi, ${fmt(b.l.d)}</span>`:''}
+    ${vchip(b)}
     <span class="sp"></span>
+    <a class="btn" href="${esc(kLink(b))}" target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a>
+    ${b.v==='ok'?'':'<button class="btn" data-act="cover">Kapak bul</button>'}
     <button class="btn" data-act="edit">${b.n?'Düzenle / not':'Düzenle / not ekle'}</button>
     <button class="btn" data-act="read">${b.r?'Okunmadı yap':'Okundu yap'}</button>
     <button class="btn" data-act="loan">${b.l?'Geri aldım':'Ödünç ver'}</button>
@@ -160,7 +212,8 @@ $('list').addEventListener('click',e=>{
   if(e.target.id==='seedBtn'){$('csv').click();return}
   const btn=e.target.closest('[data-act]');if(!btn)return;
   const b=books.find(x=>x.id===btn.closest('.row').dataset.id);if(!b)return;target=b;
-  if(btn.dataset.act==='edit'){$('edT').value=b.t;$('edA').value=b.a||'';$('edN').value=b.n||'';$('dEdit').showModal()}
+  if(btn.dataset.act==='edit'){$('edT').value=b.t;$('edA').value=b.a||'';$('edU').value=b.u||'';$('edN').value=b.n||'';$('dEdit').showModal()}
+  else if(btn.dataset.act==='cover')enrich(b.id,true);
   else if(btn.dataset.act==='read')change(()=>{b.r=!b.r});
   else if(btn.dataset.act==='loan'){
     if(b.l)change(()=>{b.l=null});
@@ -171,7 +224,9 @@ document.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',
 $('add').onclick=()=>{$('addT').value='';$('addA').value='';$('dAdd').showModal();$('addT').focus()};
 $('addOk').onclick=()=>{
   const t=$('addT').value.trim();if(!t){$('addT').focus();return}
-  change(()=>{books.push({id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t,a:$('addA').value.trim(),n:'',r:false,l:null})});
+  const nb={id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t,a:$('addA').value.trim(),n:'',r:false,l:null};
+  change(()=>{books.push(nb)});
+  enrich(nb.id);
   $('dAdd').close();
 };
 $('loanOk').onclick=()=>{
@@ -180,7 +235,12 @@ $('loanOk').onclick=()=>{
 };
 $('edOk').onclick=()=>{
   const t=$('edT').value.trim();if(!t){$('edT').focus();return}
-  change(()=>{target.t=t;target.a=$('edA').value.trim();target.n=$('edN').value.trim()});$('dEdit').close();
+  const a2=$('edA').value.trim(),u2=$('edU').value.trim();
+  if(u2&&!okUrl(u2)){alert('Bağlantı https://1000kitap.com ile başlayan bir adres olmalı.');return}
+  const changed=t!==target.t||a2!==(target.a||'');
+  change(()=>{target.t=t;target.a=a2;target.n=$('edN').value.trim();target.u=u2;if(changed){target.c='';target.v='';target.g=''}});
+  $('dEdit').close();
+  if(changed)enrich(target.id);
 };
 $('delOk').onclick=()=>{change(()=>{books=books.filter(x=>x!==target)});$('dDel').close()};
 $('backup').onclick=()=>{
@@ -204,6 +264,20 @@ function parseCSV(text){
   if(cur!==''||row.length){row.push(cur);rows.push(row)}
   return rows.map(r=>r.map(x=>x.trim())).filter(r=>r.some(x=>x));
 }
+$('covers').onclick=async()=>{
+  const todo=books.filter(b=>!b.v).map(b=>b.id);
+  if(!todo.length){alert('Aranacak kitap kalmadı.');return}
+  if(!confirm(todo.length+' kitap için kapak ve doğrulama aranacak. Bu birkaç dakika sürebilir, sayfayı kapatma. Başlayalım mı?'))return;
+  const out=new Map();let stop=false;
+  for(let i=0;i<todo.length&&!stop;i++){
+    const b=books.find(x=>x.id===todo[i]);if(!b)continue;
+    $('info').innerHTML='<div class="banner">Aranıyor: '+(i+1)+' / '+todo.length+'</div>';
+    try{out.set(b.id,await gbLookup(b))}catch(e){if(e==='rate')stop=true}
+    await new Promise(r=>setTimeout(r,350));
+  }
+  if(out.size)change(()=>{out.forEach((res,id)=>{const cur=books.find(x=>x.id===id);if(cur)Object.assign(cur,res)})});
+  $('info').innerHTML='<div class="banner">'+out.size+' kitap tarandı.'+(stop?' Google Books sınırına ulaşıldı, kalanlar için biraz sonra tekrar bas.':'')+'</div>';
+};
 $('csvBtn').onclick=()=>$('csv').click();
 $('csv').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
