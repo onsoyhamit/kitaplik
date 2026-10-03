@@ -45,6 +45,8 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.9rem}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
 .quote{margin-top:auto;padding-top:24px}.qc{border-top:1px solid var(--line);padding-top:14px}.qt{font:italic 1.05rem/1.4 "Iowan Old Style",Georgia,serif;margin-bottom:4px}.qt.tr{font-style:normal;color:var(--mute);margin-top:8px}
+.cvw{position:relative;width:110px;height:165px;flex:0 0 auto}.cvb{position:absolute;left:6px;right:6px;bottom:6px;padding:6px 4px;font:inherit;font-size:.72rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.95}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;background:var(--bg)}.pgrid:empty{display:none}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
 </style>
 </head>
@@ -70,6 +72,17 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
  <label for="loanD">Hangi tarihte?</label><input id="loanD" type="date">
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="loanOk">Kaydet</button></div>
 </dialog>
+<input type="file" id="npFile" accept="image/*" multiple hidden>
+<dialog id="dPhoto" style="width:min(96vw,720px)"><img id="ppImg" alt="" style="width:100%;border-radius:8px">
+ <div class="dact"><button class="btn del" id="ppDel">Fotoğrafı sil</button><button class="btn" data-close>Kapat</button></div>
+</dialog>
+<dialog id="dCover"><h2>Kapak resmi</h2>
+ <label for="mcUrl">Resim adresi</label><input id="mcUrl" type="url" placeholder="https://...">
+ <div style="margin-top:8px"><button class="btn pri" id="mcSave">Adresi kaydet</button></div>
+ <label>veya cihazından</label><button class="btn" id="mcPhoto">Fotoğraf seç</button>
+ <input type="file" id="mcFile" accept="image/*" hidden>
+ <div class="dact"><button class="btn del" id="mcRm" hidden>Kapağı kaldır</button><button class="btn" data-close>Kapat</button></div>
+</dialog>
 <dialog id="dEdit"><h2>Kitabı düzenle</h2>
  <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
  <label for="edA">Yazar</label><input id="edA" autocomplete="off">
@@ -80,7 +93,7 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,onSnapshot,collection,deleteDoc,query,where} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",
   authDomain: "kitapligim55.firebaseapp.com",
@@ -94,13 +107,13 @@ const auth=getAuth(fapp);
 let fdb;
 try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
 
-let qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',target=null,saving=Promise.resolve();
+let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',target=null,saving=Promise.resolve();
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
 const fmt=d=>d?d.split('-').reverse().join('.'):'';
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const F={all:()=>true,read:b=>b.r,unread:b=>!b.r,reading:b=>b.k&&!b.r,loan:b=>b.l,notes:b=>b.n};
+const F={all:()=>true,read:b=>b.r,unread:b=>!b.r,reading:b=>b.k&&!b.r,loan:b=>b.l,notes:b=>b.n||b.np};
 const L={all:'Tüm kitaplar',read:'Okunan',unread:'Okunmayan',reading:'Şu an okuyorum',loan:'Ödünçte',notes:'Notlu kitaplar'};
 const act=()=>books.filter(b=>!b.x);
 const busy=new Set();
@@ -208,8 +221,8 @@ function applyTheme(){
 }
 function go(v,x){nav=Object.assign({v},x||{});qtext='';history.pushState(nav,'');render();scrollTo(0,0)}
 addEventListener('popstate',e=>{nav=e.state||{v:'home',f:'all'};qtext='';render()});
-const cov=(b,sz)=>b.c?`<img class="cov ${sz||''}" src="${esc(b.c)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;cov ${sz||''} ph&quot;></div>'">`:`<div class="cov ${sz||''} ph"></div>`;
-const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.p?`<span class="chip">★ ${b.p}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
+const cov=(b,sz)=>{const src=covers[b.id]||b.mc||b.c;return src?`<img class="cov ${sz||''}" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;cov ${sz||''} ph&quot;></div>'">`:`<div class="cov ${sz||''} ph"></div>`};
+const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.p?`<span class="chip">★ ${b.p}</span>`:''}${b.np?`<span class="chip">Foto ${b.np}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
 const card=b=>`<div class="row" data-a="det" data-id="${esc(b.id)}">${cov(b)}<div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div></div></div>`;
 const topbar=t=>`<div class="top"><button class="btn sm" data-a="back">Geri</button><h2>${t}</h2><span style="width:56px"></span></div>`;
 const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara" value="${esc(qtext)}">`;
@@ -238,12 +251,12 @@ function detV(){
   if(!b)return topbar('Kitap')+'<div class="empty">Kitap bulunamadı.</div>';
   const days=b.l?Math.max(0,Math.floor((Date.now()-new Date(b.l.d))/864e5)):0;
   return `${topbar('Kitap')}
-  <div class="main">${cov(b,'lg')}<div class="grow"><div class="t big">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div>${b.v==='check'&&b.g?`<div class="a">Bulunan: ${esc(b.g)}</div>`:''}</div></div>
+  <div class="main"><div class="cvw">${cov(b,'lg')}<button class="cvb" data-a="mcover">${covers[b.id]||b.mc||b.c?'Kapağı değiştir':'+ Kapak ekle'}</button></div><div class="grow"><div class="t big">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div>${b.v==='check'&&b.g?`<div class="a">Bulunan: ${esc(b.g)}</div>`:''}</div></div>
   ${pend===b.id&&!hasU(b)?'<div class="banner">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<div class="btns"><button class="btn pri" data-a="paste">Panodan ekle</button></div></div>':''}
   <div class="btns"><button class="btn pri" data-a="rd">${b.r?'Okunmadı yap':'Okundu yap'}</button>${b.r?'':`<button class="btn" data-a="rg">${b.k?'Okumayı bıraktım':'Şu an okuyorum'}</button>`}<button class="btn" data-a="loan">${b.l?'Geri aldım':'Ödünç ver'}</button></div>
   ${b.l?`<div class="card2">Ödünç: ${esc(b.l.to)}, ${fmt(b.l.d)}, ${days} gündür dışarıda</div>`:''}
   ${b.r?`<div class="card2"><label for="rdate">Okuma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"><div class="stars">${[1,2,3,4,5].map(n=>`<button class="star ${b.p>=n?'on':''}" data-a="star" data-n="${n}" aria-label="${n} yıldız">★</button>`).join('')}</div></div>`:''}
-  <div class="card2"><h3>Düşüncelerim ve notlarım</h3><div class="note">${b.n?esc(b.n):'Henüz not yok.'}</div></div>
+  <div class="card2"><h3>Düşüncelerim ve notlarım</h3><div class="note">${b.n?esc(b.n):'Henüz not yok.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></div>
   <div class="btns"><button class="btn" data-a="edit">Düzenle</button><a class="btn" href="${esc(kLink(b))}" ${hasU(b)?'':'data-k="1" '}target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a>${b.v==='ok'?'':'<button class="btn" data-a="cover">Kapak bul</button>'}<button class="btn del" data-a="del">Çıkar</button></div>`;
 }
 function profV(){
@@ -271,6 +284,7 @@ function render(){
   if(!$('main')||$('main').hidden)return;
   $('view').className=nav.v==='home'?'fl':'';
   $('view').innerHTML={home:homeV,list:listV,detail:detV,profile:profV}[nav.v]();
+  if(nav.v==='detail'&&ref)watchPhotos(nav.id);else if(nphFor){if(unsub3)unsub3();unsub3=null;nphFor='';nph=[]}
   fill();
 }
 function fill(){
@@ -284,6 +298,17 @@ function fill(){
   l.sort(sortBy==='son'?(x,y)=>(y.ad||0)-(x.ad||0):sortBy==='ya'?(x,y)=>cmp(x.a,y.a)||cmp(x.t,y.t):(x,y)=>cmp(x.t,y.t));
   res.innerHTML=l.length?l.map(card).join(''):'<div class="empty">Sonuç bulunamadı.</div>';
 }
+const photosHTML=()=>nph.map(x=>`<img src="${x.d}" data-a="pho" data-pid="${esc(x.id)}" alt="Not fotoğrafı" loading="lazy">`).join('');
+const paintPhotos=()=>{const e=$('nph');if(e)e.innerHTML=photosHTML()};
+function watchPhotos(id){
+  if(nphFor===id)return;
+  if(unsub3)unsub3();
+  nphFor=id;nph=[];
+  unsub3=onSnapshot(query(collection(fdb,'notePhotos'),where('b','==',id)),snap=>{
+    nph=snap.docs.map(x=>({id:x.id,d:x.data().d,t:x.data().t||0})).sort((a,b)=>a.t-b.t);paintPhotos();
+  },()=>{});
+}
+function shrinkMax(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{let M=1000,q=0.7,out='';for(let k=0;k<4;k++){const r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;M=Math.round(M*0.75);q=Math.max(0.45,q-0.1)}URL.revokeObjectURL(u);out.length<900000?res(out):rej(new Error('big'))};im.onerror=()=>rej(new Error('img'));im.src=u})}
 const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
 function quoteHTML(){
   if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="btns"><button class="btn sm" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
@@ -376,6 +401,9 @@ document.addEventListener('click',e=>{
     case 'rg':if(b)change(()=>{b.k=!b.k});break;
     case 'loan':if(!b)break;target=b;if(b.l)change(()=>{b.l=null});else{$('loanBook').textContent=b.t;$('loanTo').value='';$('loanD').value=today();$('dLoan').showModal()}break;
     case 'edit':if(!b)break;target=b;$('edT').value=b.t;$('edA').value=b.a||'';$('edU').value=b.u||'';$('edN').value=b.n||'';$('dEdit').showModal();break;
+    case 'npadd':$('npFile').click();break;
+    case 'pho':curP=nph.find(x=>x.id===el.dataset.pid)||null;if(curP){$('ppImg').src=curP.d;$('dPhoto').showModal()}break;
+    case 'mcover':if(!b)break;target=b;$('mcUrl').value=b.mc||'';$('mcRm').hidden=!(b.mc||covers[b.id]);$('dCover').showModal();break;
     case 'cover':enrich(id,true);break;
     case 'paste':(async()=>{try{const tx=await navigator.clipboard.readText();const m=(tx||'').match(/https?:\/\/[^\s]+/);const u=m?m[0].replace(/^http:/,'https:'):'';if(b&&okUrl(u)){change(()=>{b.u=u});pend='';toast('Bağlantı kaydedildi.')}else toast('Panoda 1000kitap bağlantısı bulamadım.')}catch(err){toast('Panoya erişilemedi. Düzenle penceresine yapıştırabilirsin.')}})();break;
     case 'star':if(b){const n=+el.dataset.n;change(()=>{b.p=b.p===n?0:n})}break;
@@ -419,6 +447,27 @@ $('edOk').onclick=()=>{
   change(()=>{target.t=t;target.a=a2;target.n=$('edN').value.trim();target.u=u2;if(ch){target.c='';target.v='';target.g='';target.s=0}});
   $('dEdit').close();if(ch)enrich(target.id);
 };
+$('npFile').onchange=async e=>{
+  const fs=[...e.target.files];e.target.value='';const b=bk(nav.id);if(!b||!fs.length)return;
+  let n=0;
+  for(const f of fs){
+    try{const d=await shrinkMax(f);await setDoc(doc(fdb,'notePhotos',b.id+'_'+Date.now().toString(36)+n),{b:b.id,d,t:Date.now()+n});n++}
+    catch(err){alert('Bir fotoğraf işlenemedi. Başka bir resim dene.')}
+  }
+  if(n)change(()=>{b.np=(b.np||0)+n});
+};
+$('ppDel').onclick=()=>{
+  const b=bk(nav.id);if(!curP||!b)return;
+  if(!confirm('Bu fotoğraf silinsin mi?'))return;
+  deleteDoc(doc(fdb,'notePhotos',curP.id)).catch(()=>{});
+  change(()=>{b.np=Math.max(0,(b.np||1)-1)});$('dPhoto').close();curP=null;
+};
+const rmPhoto=id=>{deleteDoc(doc(fdb,'covers',id)).catch(()=>{});delete covers[id]};
+function shrink(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const W=200,H=300,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r;x.drawImage(im,(W-w)/2,(H-h)/2,w,h);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',0.8))};im.onerror=()=>rej(new Error('img'));im.src=u})}
+$('mcSave').onclick=()=>{const u=$('mcUrl').value.trim();if(!/^https:\/\/\S+$/.test(u)){alert('Geçerli bir https:// ile başlayan resim adresi gir.');return}rmPhoto(target.id);change(()=>{target.mc=u});$('dCover').close()};
+$('mcPhoto').onclick=()=>$('mcFile').click();
+$('mcFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const d=await shrink(f);covers[target.id]=d;await setDoc(doc(fdb,'covers',target.id),{d});change(()=>{target.mc=''});$('dCover').close()}catch(err){alert('Fotoğraf işlenemedi. Başka bir resim dene.')}};
+$('mcRm').onclick=()=>{rmPhoto(target.id);change(()=>{target.mc=''});$('dCover').close()};
 $('csv').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   const rows=parseCSV(await f.text());
@@ -456,7 +505,9 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>applyTh
 history.replaceState(nav,'');
 onAuthStateChanged(auth,user=>{
   if(unsub){unsub();unsub=null}
-  if(!user){ref=null;books=[];set={};$('main').hidden=true;$('login').hidden=false;applyTheme();return}
+  if(unsub2){unsub2();unsub2=null}
+  if(unsub3){unsub3();unsub3=null;nphFor='';nph=[]}
+  if(!user){ref=null;books=[];set={};covers={};$('main').hidden=true;$('login').hidden=false;applyTheme();return}
   $('login').hidden=true;$('main').hidden=false;$('lgP').value='';
   ref=doc(fdb,'library','main');if(!qd)loadQuote();
   unsub=onSnapshot(ref,snap=>{
@@ -465,6 +516,7 @@ onAuthStateChanged(auth,user=>{
     if(!purged){purged=true;const old=books.filter(b=>b.x&&Date.now()-b.x>6048e5);if(old.length){books=books.filter(b=>!old.includes(b));persist()}}
     render();
   },()=>{toast('Kitaplığa erişilemedi. İnternetini ve güvenlik kuralını kontrol et.')});
+  unsub2=onSnapshot(collection(fdb,'covers'),snap=>{const m={};snap.forEach(x=>{m[x.id]=x.data().d});covers=m;render()},()=>{});
 });
 applyTheme();
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
