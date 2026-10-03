@@ -5,32 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Kitaplığım</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#1f5f8b">
+<meta name="theme-color" content="#7C5CF0">
 <meta name="apple-mobile-web-app-title" content="Kitaplığım">
 <style>
-:root{--bg:#f2f4f6;--card:#fff;--ink:#16212b;--mute:#667483;--line:#dde3e8;--acc:#1f5f8b;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-:root[data-theme=dark]{--bg:#10171d;--card:#18222b;--ink:#e8eef3;--mute:#93a1ae;--line:#2a3743;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
+:root{--bg:#F2EDFF;--card:#fff;--ink:#241A47;--mute:#7F76A8;--line:#E3DCF7;--acc:#7C5CF0;--sh:0 10px 28px rgba(60,40,120,.10);--serif:Lora,"Iowan Old Style",Georgia,serif;--sans:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme=dark]{--bg:#14102A;--card:#1E1840;--ink:#EEEAFB;--mute:#A59DCB;--line:#2E2759;--sh:none;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.4 var(--sans)}
 .wrap{max-width:760px;margin:0 auto;padding:14px 14px 70px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-h1,h2,h3{margin:0;font-family:"Iowan Old Style",Georgia,serif}h1{font-size:1.4rem}h2{font-size:1.25rem}h3{font-size:1rem;margin:18px 0 8px}
+h1,h2,h3{margin:0;font-family:var(--sans)}h1{font-size:1.65rem;font-weight:700}h2{font-size:1.25rem}h3{font-size:1rem;margin:18px 0 8px}
 .inp{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;margin:0 0 10px}
 :focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:10px 13px;font:inherit;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
 .pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}.del{color:var(--danger)}.wide{width:100%;margin:6px 0}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}@media(max-width:360px){.grid{grid-template-columns:1fr 1fr}}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;border-left:3px solid var(--acc)}
-.tile b{display:block;font:700 1.25rem/1.1 "Iowan Old Style",Georgia,serif}.tile span{color:var(--mute);font-size:.75rem}
-.sm{padding:6px 10px;font-size:.8rem}.srow{display:flex;gap:8px;align-items:flex-start}.srow .inp{flex:1;margin:0 0 10px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(118px,auto);gap:10px;margin-top:4px}
+.tile{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:var(--card);border:0;border-radius:26px;padding:14px 16px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;box-shadow:var(--sh);grid-column:span 2}
+.tile span{color:var(--mute);font-size:.78rem}.tile b{font:700 2.3rem/1 var(--sans)}
+.tile:nth-child(1){grid-column:1/4;grid-row:1/3;background:var(--acc);color:var(--acc-ink)}.tile:nth-child(1) span{color:var(--acc-ink);opacity:.85;font-size:.95rem}.tile:nth-child(1) b{font-size:4rem}
+.tile:nth-child(2),.tile:nth-child(3){grid-column:4/7}
+.sm{padding:6px 10px;font-size:.8rem}.srow{display:flex;gap:10px;align-items:center;margin-bottom:14px}.srow .inp{flex:1;margin:0;height:52px}
+.inp[type=search]{border:0;border-radius:999px;box-shadow:var(--sh);padding-left:48px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237F76A8' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:18px center;background-size:20px}
+.rbtn{width:52px;height:52px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px rgba(124,92,240,.35);flex:0 0 auto;padding:0}.rbtn svg{width:26px;height:26px}.rbtn.g{width:46px;height:46px}.rbtn.g svg{width:24px;height:24px}
 .thb{padding:7px 11px;font-size:.8rem}.thb[aria-pressed=true]{outline:2px solid var(--acc);outline-offset:1px}
 .row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;display:flex;gap:12px;cursor:pointer}
 .main{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}.grow{flex:1;min-width:0}
 .cov{width:48px;height:72px;object-fit:cover;border-radius:4px;background:var(--bg);flex:0 0 auto}.cov.lg{width:110px;height:165px}.ph{border:1px dashed var(--line)}
-.t{font:600 1.05rem/1.25 "Iowan Old Style",Georgia,serif}.t.big{font-size:1.35rem}.a{color:var(--mute);font-size:.9rem}
+.t{font:600 1.05rem/1.25 var(--serif)}.t.big{font-size:1.35rem}.a{color:var(--mute);font-size:.9rem}
 .acts,.btns{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}.btns{margin:12px 0}
 .chip{font-size:.75rem;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}.chip.ok{background:var(--ok-bg);color:var(--ok)}.chip.loan{background:var(--loan-bg);color:var(--loan)}
 .card2{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}.card2 h3{margin:0 0 6px}
@@ -44,7 +50,11 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.9rem}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
-.quote{margin-top:auto;padding-top:24px}.qc{border-top:1px solid var(--line);padding-top:14px}.qt{font:italic 1.05rem/1.4 "Iowan Old Style",Georgia,serif;margin-bottom:4px}.qt.tr{font-style:normal;color:var(--mute);margin-top:8px}
+.quote{margin-top:auto;padding-top:22px}.qc{background:var(--card);border-radius:28px;padding:16px 20px 18px;box-shadow:var(--sh)}
+.qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
+.qt{font:italic 1.2rem/1.45 var(--serif);margin:0 0 8px}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.95rem;color:var(--mute)}
+.qrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}.qrow .a{flex:1;min-width:70px}
+.ol{background:transparent;border:2px solid var(--acc);color:var(--acc);border-radius:999px;padding:7px 13px;font:inherit;font-size:.82rem;font-weight:500;cursor:pointer}
 .cvw{position:relative;width:110px;height:165px;flex:0 0 auto}.cvb{position:absolute;left:6px;right:6px;bottom:6px;padding:6px 4px;font:inherit;font-size:.72rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.95}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;background:var(--bg)}.pgrid:empty{display:none}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
@@ -210,8 +220,9 @@ const TH={
  krem:{n:'Krem',bg:'#f7f1e4',card:'#fffdf7',ink:'#2d2a22',mute:'#7a725f',line:'#e8dfca',acc:'#a68a4a'}
 };
 function applyTheme(){
-  const r=document.documentElement,t=TH[set.th],acc=set.acc||(t&&t.acc)||'#1f5f8b';
+  const r=document.documentElement,t=TH[set.th];
   const dk=!t&&(set.th==='dark'||(set.th!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches));
+  const acc=set.acc||(t&&t.acc)||(dk?'#9B85FF':'#7C5CF0');
   r.dataset.theme=dk?'dark':'light';
   ['bg','card','ink','mute','line'].forEach(k=>t?r.style.setProperty('--'+k,t[k]):r.style.removeProperty('--'+k));
   r.style.setProperty('--acc',acc);
@@ -229,11 +240,11 @@ const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap 
 
 function homeV(){
   const A=act();
-  return `<div class="top"><h1>Kitaplığım</h1><button class="btn sm" data-a="prof">Profil</button></div>
-  <div class="srow">${searchBox()}<button class="btn pri" data-a="add" style="padding:11px 12px">Kitap ekle</button></div>
+  return `<div class="top"><h1>Kitaplığım</h1><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
+  <div class="srow">${searchBox()}<button class="rbtn" data-a="add" aria-label="Kitap ekle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
   <div id="tiles" class="fl" style="flex:1">
   ${A.length?'':'<div class="empty">Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
-  <div class="grid">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><b>${A.filter(F[f]).length}</b><span>${L[f]}</span></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
+  <div class="bento">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><span>${L[f]}</span><b>${A.filter(F[f]).length}</b></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
   <div id="res"></div>`;
 }
 function listV(){
@@ -262,8 +273,8 @@ function detV(){
 function profV(){
   const A=act(),rd=A.filter(b=>b.r),yr=String(new Date().getFullYear()),yc=rd.filter(b=>(b.rd||'').startsWith(yr)).length;
   const vc={ok:0,check:0,none:0,x:0};A.forEach(b=>{vc[['ok','check','none'].includes(b.v)?b.v:'x']++});
-  const del=books.filter(b=>b.x),acc=set.acc||(TH[set.th]&&TH[set.th].acc)||'#1f5f8b';
-  const sw=['#1f5f8b','#2c7a4b','#8a3b8f','#b3322b','#a9650f','#444b52'];
+  const del=books.filter(b=>b.x),acc=set.acc||(TH[set.th]&&TH[set.th].acc)||'#7C5CF0';
+  const sw=['#7C5CF0','#1f5f8b','#2c7a4b','#d9708f','#e08a3c','#444b52'];
   return `${topbar('Profil')}
   <div class="card2"><b>${A.length}</b> kitap, <b>${rd.length}</b> okunan, bu yıl <b>${yc}</b> okunan</div>
   <h3>Veriler</h3>
@@ -311,8 +322,8 @@ function watchPhotos(id){
 function shrinkMax(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{let M=1000,q=0.7,out='';for(let k=0;k<4;k++){const r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;M=Math.round(M*0.75);q=Math.max(0.45,q-0.1)}URL.revokeObjectURL(u);out.length<900000?res(out):rej(new Error('big'))};im.onerror=()=>rej(new Error('img'));im.src=u})}
 const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
 function quoteHTML(){
-  if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="btns"><button class="btn sm" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
-  return `<div class="qt">“${esc(qd.q)}”</div><div class="a">${esc(qd.a)}</div>${qd.tr?`<div class="qt tr">${esc(qd.tr)}</div>`:''}<div class="btns">${qd.tr?'':'<button class="btn sm" data-a="qtr">Türkçeye çevir</button>'}<button class="btn sm" data-a="qnew">Başka söz</button></div>`;
+  if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="qrow"><button class="ol" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
+  return `<div class="qm">“</div><div class="qt">${esc(qd.q)}</div>${qd.tr?`<div class="qt tr">${esc(qd.tr)}</div>`:''}<div class="qrow"><span class="a">${esc(qd.a)}</span>${qd.tr?'':'<button class="ol" data-a="qtr">Türkçeye çevir</button>'}<button class="ol" data-a="qnew">Başka söz</button></div>`;
 }
 const paintQuote=()=>{const e=$('qbox');if(e)e.innerHTML=quoteHTML()};
 const saveQuote=()=>{try{if(qd&&!qd.r)localStorage.setItem('qd',JSON.stringify(qd))}catch(e){}};
