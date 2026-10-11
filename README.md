@@ -4,8 +4,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 
 ## Özellikler
 
-- E-posta/parola ile giriş, e-posta doğrulaması ve parola sıfırlama
-- Kayıtta zorunlu, hesap ayarlarından değiştirilebilir benzersiz kullanıcı adı (küçük/büyük harf duyarsız)
+- E-posta ve parola ile hesap oluşturma/giriş, e-posta doğrulaması ve parola sıfırlama
 - Şifre oluşturma/değiştirmede en az 6 karakter, harf, rakam ve noktalama işareti zorunluluğu
 - Kullanıcıya özel kitaplık, kapak ve not fotoğrafları
 - ISBN-13 alanı, kontrol basamağı doğrulaması ve CSV içe/dışa aktarımı
@@ -31,8 +30,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 
 Veri yolları:
 
-- `users/{uid}`: kullanıcı profili (parola burada tutulmaz)
-- `usernames/{usernameKey}`: kullanıcı adı benzersizlik kaydı
+- `users/{uid}`: hesap oluşturulma zamanı (parola burada tutulmaz)
 - `users/{uid}/library/main`: kitaplar ve arayüz tercihleri
 - `users/{uid}/covers/{bookId}`: kullanıcıya ait kapak resmi
 - `users/{uid}/notePhotos/{photoId}`: not fotoğrafı
@@ -92,8 +90,6 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
 
 - `firestore.rules`, kullanıcıların yalnızca kendi UID altındaki verilere erişmesini sağlar.
 - Kütüphane, kapak ve fotoğraf okuma/yazma işlemleri doğrulanmış e-posta gerektirir.
-- Kullanıcı adı kayıtları transaction ile benzersiz tutulur; ad değiştirme işlemi yeni adı ve eski kaydı aynı transaction içinde günceller. Giriş e-posta adresiyle yapılır; kullanıcı adıyla giriş etkin değildir.
-- Kullanıcı adı değişikliğinde Firestore kuralları, yalnızca hesabın sahibinin yeni adı kaydetmesine ve eski adını bırakmasına izin verir.
 - Fotoğraf alanları ve kitap listesi için Firestore kurallarında boyut sınırları uygulanır. Büyük ölçekli kullanımda görselleri Firestore belge alanları yerine Firebase Storage'a taşımak daha uygundur.
 - Eski sürümdeki `library/main`, `covers` ve `notePhotos` ortak yollarındaki veriler otomatik olarak hesaplara kopyalanmaz. Bu verinin sahibini güvenle belirlemek mümkün değildir; otomatik kopyalama yeni kullanıcıların birbirinin verisini almasına yol açardı. Eski veriyi gerekiyorsa sahibini doğrulayıp doğru hesaba manuel yedek/geri yükleme yoluyla aktarın.
 - Hesap silme, kullanıcıya ait tüm Firestore belgelerini/Storage dosyalarını temizleyen backend işlemi gerektirir; henüz uygulama içi hesap silme akışı yoktur.
