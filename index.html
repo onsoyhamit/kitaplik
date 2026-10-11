@@ -6,11 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Kitaplığım</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#7C5CF0">
+<meta name="theme-color" content="#0E1024">
 <meta name="apple-mobile-web-app-title" content="Kitaplığım">
 <style>
 :root{--bg:#F2EDFF;--card:#fff;--ink:#241A47;--mute:#7F76A8;--line:#E3DCF7;--acc:#7C5CF0;--sh:0 10px 28px rgba(60,40,120,.10);--serif:Lora,"Iowan Old Style",Georgia,serif;--sans:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -145,11 +145,119 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .cvw{position:relative;width:110px;height:165px;flex:0 0 auto}.cvb{position:absolute;left:6px;right:6px;bottom:6px;padding:6px 4px;font:inherit;font-size:.72rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.95}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;background:var(--bg)}.pgrid:empty{display:none}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
+
+/* ===== GECE KÜTÜPHANESİ — yeni tasarım katmanı ===== */
+:root{--serif:Fraunces,"Iowan Old Style",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--b2:#FF9A62;--b3:#7A5AF8;--sh:0 16px 34px -18px color-mix(in srgb,var(--acc) 55%,transparent);--ease:cubic-bezier(.2,.9,.3,1.25)}
+:root[data-theme=dark]{--sh:0 18px 36px -18px rgba(0,0,0,.75)}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-9px) rotate(5deg)}}
+@keyframes shine{0%{background-position:0 0}100%{background-position:200% 0}}
+body{font-family:var(--sans);background:var(--bg);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(60vmax 46vmax at 92% -8%,color-mix(in srgb,var(--acc) 30%,transparent),transparent 62%),radial-gradient(52vmax 42vmax at -12% 108%,color-mix(in srgb,var(--b2) 26%,transparent),transparent 62%),radial-gradient(36vmax 30vmax at 48% 46%,color-mix(in srgb,var(--b3) 11%,transparent),transparent 70%)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;background-image:radial-gradient(color-mix(in srgb,var(--ink) 9%,transparent) 1px,transparent 1.3px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 80%);mask-image:linear-gradient(180deg,#000,transparent 80%)}
+h1,h2,h3{letter-spacing:-.01em}h2{font:700 1.3rem/1.1 var(--serif)}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}.logo{width:46px;height:46px;flex:0 0 auto;filter:drop-shadow(0 8px 14px color-mix(in srgb,var(--acc) 45%,transparent));transform:rotate(-6deg);transition:transform .4s var(--ease)}.brand:hover .logo{transform:rotate(4deg) scale(1.08)}
+.brand h1{font:800 1.75rem/1 var(--serif);letter-spacing:-.03em}.brand h1 em{font-style:italic;font-weight:600;color:var(--acc)}
+.brand.big{flex-direction:column;gap:14px;text-align:center}.brand.big .logo{width:92px;height:92px}.brand.big h1{font-size:2.6rem}
+.top.sticky-top{background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-radius:0 0 22px 22px;padding:8px 4px}
+.btn{border:1.5px solid var(--line);background:color-mix(in srgb,var(--card) 88%,transparent);border-radius:14px;font-weight:600;transition:transform .25s var(--ease),box-shadow .25s,border-color .2s}.btn:hover{transform:translateY(-2px);border-color:var(--acc)}.btn:active{transform:scale(.94)}
+.pri{background:linear-gradient(120deg,var(--acc),var(--b2),var(--acc));background-size:200% 100%;color:var(--acc-ink);border-color:transparent;box-shadow:0 10px 22px -8px color-mix(in srgb,var(--acc) 70%,transparent)}.pri:hover{border-color:transparent;animation:shine 1.6s linear infinite}
+.back-icon{width:44px;height:44px;border-radius:16px;background:var(--card);box-shadow:var(--sh)}
+.inp,dialog input,textarea{border:1.5px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--card) 92%,var(--bg));transition:border-color .2s,box-shadow .2s}
+.inp:focus,dialog input:focus,textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent)}
+.inp[type=search]{height:56px;border:1.5px solid var(--line);border-radius:999px;background-color:var(--card);padding-left:52px;box-shadow:var(--sh);font-weight:500}
+.rbtn{background:linear-gradient(135deg,var(--acc),var(--b2));color:var(--acc-ink);box-shadow:0 12px 26px -8px color-mix(in srgb,var(--acc) 75%,transparent);transition:transform .35s var(--ease)}.rbtn:hover{transform:rotate(90deg) scale(1.08)}.rbtn:active{transform:scale(.9)}
+.rbtn.g{background:var(--card);color:var(--acc);border:1.5px solid var(--line);box-shadow:var(--sh)}.rbtn.g:hover{transform:rotate(60deg)}
+/* ana ekran */
+.tile{position:relative;border:1.5px solid var(--line);border-radius:clamp(16px,3vw,28px);background:var(--card);box-shadow:var(--sh);justify-content:flex-start;animation:rise .6s var(--ease) both;transition:transform .3s var(--ease)}
+.tile:hover{transform:translateY(-3px) rotate(-.6deg)}.tile:active{transform:scale(.96)}
+.tile:nth-child(2){animation-delay:.07s}.tile:nth-child(3){animation-delay:.14s}.tile:nth-child(4){animation-delay:.21s}.tile:nth-child(5){animation-delay:.28s}.tile:nth-child(6){animation-delay:.35s}
+.tile .te{font-style:normal;font-size:clamp(1.2rem,4.4vh,2.1rem);line-height:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
+.tile span{margin-top:auto;font-weight:600;letter-spacing:.01em}.tile b{font-family:var(--serif);font-weight:800;letter-spacing:-.03em}
+.tile[data-f=read]{--t:var(--b3)}.tile[data-f=unread]{--t:var(--b2)}.tile[data-f=reading]{--t:var(--acc)}.tile[data-f=loan]{--t:var(--b2)}.tile[data-f=notes]{--t:var(--b3)}
+.tile:not([data-f=all]){background:linear-gradient(160deg,color-mix(in srgb,var(--t) 24%,var(--card)),var(--card) 72%)}
+.tile:not([data-f=all]) b{color:color-mix(in srgb,var(--t) 72%,var(--ink))}
+.tile[data-f=all]{background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--b2) 80%,#fff),transparent 60%),linear-gradient(150deg,var(--acc),color-mix(in srgb,var(--acc) 55%,var(--b3)));color:var(--acc-ink);border-color:transparent;overflow:hidden}
+.tile[data-f=all] .te{font-size:clamp(2.2rem,8vh,3.8rem);animation:bob 4.5s ease-in-out infinite;transform-origin:50% 90%}
+.tile[data-f=all]::after{content:"✦";position:absolute;right:11%;bottom:14%;font-size:clamp(1.4rem,5vh,2.6rem);opacity:.35}
+.tile[data-f=all] b{color:inherit;font-size:clamp(2.2rem,9vh,4.4rem)}
+.qc{position:relative;border:1.5px solid var(--line);border-radius:clamp(16px,3vw,26px);background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 12%,var(--card)),var(--card));box-shadow:var(--sh);overflow:hidden}
+.qc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--acc),var(--b2),var(--b3))}
+.qm{color:var(--acc);font-family:var(--serif)}.qt{font-family:var(--serif);font-weight:500}
+.ol{border:1.5px solid color-mix(in srgb,var(--acc) 60%,var(--line));border-radius:999px;color:color-mix(in srgb,var(--acc) 75%,var(--ink));font-weight:600;background:transparent;transition:transform .25s var(--ease),background .2s}.ol:hover{background:color-mix(in srgb,var(--acc) 16%,transparent);transform:translateY(-1px)}
+/* kitap satırları */
+.row{position:relative;gap:14px;padding:13px;border:1.5px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh);transition:transform .3s var(--ease),border-color .2s;overflow:hidden}
+.row:hover{transform:translateY(-3px);border-color:var(--acc)}.row:active{transform:scale(.985)}
+.row:has(.chip.ok){box-shadow:inset 5px 0 0 var(--ok),var(--sh)}.row:has(.chip.loan){box-shadow:inset 5px 0 0 var(--b2),var(--sh)}
+.row .grow{padding-left:2px}
+.cov{width:54px;height:80px;border-radius:5px 10px 10px 5px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.28));transform:rotate(-3deg);transition:transform .35s var(--ease)}.row:hover .cov{transform:rotate(0) scale(1.06)}
+.cov.ph{display:grid;place-items:center;border:0;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 38%,var(--card)),color-mix(in srgb,var(--b3) 34%,var(--card)));filter:none;box-shadow:inset 4px 0 0 rgba(255,255,255,.35),0 10px 14px -8px rgba(0,0,0,.4)}.cov.ph::after{content:"📖";font-size:1.4rem}.cov.lg.ph::after{font-size:2.6rem}
+.t{font-family:var(--serif);font-weight:650;letter-spacing:-.01em}.a{color:var(--mute)}
+.chip{font-weight:600;font-size:.72rem;padding:4px 10px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,var(--card))}.chip.ok{border-color:transparent}.chip.loan{border-color:transparent}
+.empty{margin:18px 0;border:2px dashed var(--line);border-radius:24px;padding:28px 16px;background:color-mix(in srgb,var(--card) 60%,transparent)}.empty .eb{display:block;font-style:normal;font-size:2.4rem;margin-bottom:6px;animation:bob 4s ease-in-out infinite}
+.card2{border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--sh)}
+.banner{border-radius:16px;font-weight:500}
+/* detay */
+.book-spread{border:1.5px solid var(--line);border-radius:30px;box-shadow:var(--sh);animation:rise .55s var(--ease) both}
+.book-left-page{background:radial-gradient(90% 60% at 50% 0,color-mix(in srgb,var(--acc) 22%,transparent),transparent 70%),color-mix(in srgb,var(--bg) 70%,var(--card))}
+.book-spread .detail-cover .cov{border-radius:6px 14px 14px 6px;transform:rotate(-4deg);filter:drop-shadow(0 20px 18px rgba(0,0,0,.38))}
+.book-heading .t.big{font-family:var(--serif);font-weight:800;letter-spacing:-.02em}
+.detail-isbn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;border:1px dashed var(--line)}
+.book-detail-block,.section-card{border:1.5px solid var(--line);border-radius:20px}
+.section-mark{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),color-mix(in srgb,var(--b2) 22%,var(--card)));font-size:1.15rem;border-radius:14px}
+.reading-action{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));background:color-mix(in srgb,var(--acc) 12%,var(--card));color:color-mix(in srgb,var(--acc) 70%,var(--ink));transition:transform .25s var(--ease)}.reading-action:hover{transform:translateY(-2px)}
+.reading-action.primary{background:linear-gradient(120deg,var(--acc),var(--b2));border-color:transparent;color:var(--acc-ink)}
+.reading-state-dot{box-shadow:0 0 0 4px color-mix(in srgb,currentColor 0%,transparent)}.reading-state-dot.is-read,.reading-state-dot.is-reading{background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.pgrid img{border-radius:14px;transition:transform .3s var(--ease)}.pgrid img:hover{transform:scale(1.05) rotate(1deg)}
+/* ayarlar */
+.settings-accordion{border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--sh);transition:border-color .2s}.settings-accordion[open]{border-color:color-mix(in srgb,var(--acc) 55%,var(--line))}
+.settings-accordion summary::after{content:"＋";display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--acc) 16%,transparent);font-size:1rem;transition:transform .3s var(--ease)}.settings-accordion[open] summary::after{content:"＋";transform:rotate(135deg)}
+.theme-choice{border:1.5px solid var(--line);border-radius:16px;font-weight:600;transition:transform .25s var(--ease)}.theme-choice:hover{transform:translateY(-2px)}
+.theme-swatch{width:28px;height:28px;background:linear-gradient(135deg,var(--swatch-inner) 50%,var(--swatch) 50%);box-shadow:none}
+.howto-list li::marker{color:var(--acc);font-weight:800}
+/* diyaloglar */
+dialog{border:1.5px solid var(--line);border-radius:28px;padding:22px;background:var(--card);box-shadow:0 40px 80px -20px rgba(0,0,0,.55)}dialog[open]{animation:rise .4s var(--ease)}
+dialog::backdrop{background:color-mix(in srgb,var(--bg) 40%,rgba(5,5,20,.62));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+dialog h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:6px}
+label{font-weight:600;letter-spacing:.01em}
+#toast{border-radius:999px;padding:12px 18px;box-shadow:0 18px 40px -12px rgba(0,0,0,.5);font-weight:600;animation:rise .4s var(--ease)}#toast .btn{border-radius:999px;padding:6px 12px;color:var(--ink)}
+/* giriş */
+#login,#verify{position:relative;overflow:hidden;min-height:100dvh}
+.auth{position:relative;z-index:1;padding-top:7vh;max-width:430px;margin:0 auto}.auth .tag{text-align:center;margin:12px 0 22px;font-weight:500}
+#login .card2{padding:18px;border-radius:28px;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#login .btns{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 0 8px;padding:5px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line)}
+#login .btns .btn{border:0;border-radius:999px;background:transparent;box-shadow:none;padding:11px}#login .btns .btn.pri{background:linear-gradient(120deg,var(--acc),var(--b2));color:var(--acc-ink)}
+.floaties span{position:absolute;font-size:2rem;opacity:.5;animation:bob 6s ease-in-out infinite;pointer-events:none}
+.floaties span:nth-child(1){left:8%;top:12%}.floaties span:nth-child(2){right:12%;top:8%;animation-delay:-1s;color:var(--acc)}.floaties span:nth-child(3){left:14%;bottom:16%;animation-delay:-2s}.floaties span:nth-child(4){right:9%;bottom:20%;animation-delay:-3s}.floaties span:nth-child(5){left:48%;bottom:6%;animation-delay:-4s}
+#verify h1{font:800 2rem/1.1 var(--serif)}
+@media(max-width:420px){.brand h1{font-size:1.5rem}.logo{width:40px;height:40px}.brand.big h1{font-size:2.2rem}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== v3: yumuşak ikonlar, ortalı başlık, yeni geri tuşu ===== */
+.ic{width:1.35em;height:1.35em;display:block;flex:0 0 auto}.ic.xs{display:inline-block;width:13px;height:13px;vertical-align:-2px;margin-right:5px}.ic.s{width:28px;height:28px}.ic.xl{width:60px;height:60px;margin:0 auto 10px;filter:drop-shadow(0 8px 10px color-mix(in srgb,var(--acc) 22%,transparent))}
+.brand h1{font:650 1.6rem/1 var(--serif);letter-spacing:-.01em;color:var(--ink)}.brand.big h1{font-size:2.3rem}
+.home-top{display:grid;grid-template-columns:46px 1fr 46px;align-items:center;gap:8px}.home-top .tsp{width:46px;height:46px}.home-top .brand{justify-self:center;gap:9px}.home-top .logo{width:38px;height:38px}
+.back-icon{display:grid;place-items:center;padding:0;width:46px;height:46px;border-radius:50%;border:1.5px solid transparent;color:var(--acc);background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,color-mix(in srgb,var(--acc) 70%,#fff),color-mix(in srgb,var(--b2) 60%,#fff),color-mix(in srgb,var(--b3) 60%,#fff)) border-box;box-shadow:0 10px 22px -12px color-mix(in srgb,var(--acc) 65%,transparent),inset 0 1px 0 rgba(255,255,255,.5)}
+.back-icon:hover{border-color:transparent;transform:translateX(-2px);box-shadow:0 12px 26px -10px color-mix(in srgb,var(--acc) 75%,transparent)}.back-icon:active{transform:scale(.92)}
+.back-icon svg{display:block;width:22px;height:22px;stroke-width:2.4}
+.tile .te{display:grid;place-items:center;width:clamp(30px,6.4vh,46px);height:clamp(30px,6.4vh,46px);border-radius:34%;background:color-mix(in srgb,var(--t,var(--acc)) 18%,var(--card));font-size:0;filter:none}.tile .te .ic{width:68%;height:68%}
+.tile[data-f=all] .te{width:clamp(48px,11vh,76px);height:clamp(48px,11vh,76px);background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4);font-size:0}
+.tile[data-f=all]{background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--b2) 62%,#fff),transparent 62%),linear-gradient(150deg,color-mix(in srgb,var(--acc) 84%,#fff),color-mix(in srgb,var(--acc) 52%,var(--b3)))}
+.section-mark{font-size:0}.section-mark .ic{width:24px;height:24px}
+.chip{display:inline-flex;align-items:center}.cd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:linear-gradient(135deg,var(--line),var(--mute));opacity:.85}
+.cd.ok{background:linear-gradient(135deg,color-mix(in srgb,var(--ok) 55%,#fff),var(--ok));opacity:1}.cd.rd{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 60%,#fff),var(--b2));opacity:1}.cd.ln{background:linear-gradient(135deg,color-mix(in srgb,var(--b2) 60%,#fff),var(--b3));opacity:1}
+.cov.ph::after{content:"";width:46%;aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 6.2C10 4.7 7 4.2 3.5 4.7v13.6c3.5-.5 6.5 0 8.5 1.5V6.2Z' fill='%23fff' fill-opacity='.8'/%3E%3Cpath d='M12 6.2c2-1.5 5-2 8.5-1.5v13.6c-3.5-.5-6.5 0-8.5 1.5V6.2Z' fill='%23fff' fill-opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat;font-size:0}
+.empty .eb{display:block;animation:none}
+dialog h2{display:flex;align-items:center;gap:10px}
+.floaties span{font-size:0;opacity:.7}.floaties .ic{width:46px;height:46px;filter:blur(.3px)}
+.tile[data-f=all]::after{opacity:.25}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--acc) 62%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--b2) 62%,#fff)"/></linearGradient><linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--b3) 58%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--acc) 66%,#fff)"/></linearGradient><linearGradient id="gC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--b2) 60%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--b3) 56%,#fff)"/></linearGradient><symbol id="i-all" viewBox="0 0 24 24"><rect x="3" y="6" width="5" height="14" rx="1.6" fill="url(#gA)"/><rect x="9.5" y="3" width="5.5" height="17" rx="1.6" fill="url(#gB)"/><rect x="16.2" y="7" width="5" height="13" rx="1.6" fill="url(#gC)" transform="rotate(10 18.7 20)"/><path d="M5.5 9v8M12.2 6.5v11" stroke="#fff" stroke-opacity=".6" stroke-width="1.2" stroke-linecap="round"/></symbol><symbol id="i-read" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gB)"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-unread" viewBox="0 0 24 24"><path d="M7 3.5h10a1.5 1.5 0 0 1 1.5 1.5v15.2a.6.6 0 0 1-1 .45L12 16.8l-5.5 3.85a.6.6 0 0 1-1-.45V5A1.5 1.5 0 0 1 7 3.5Z" fill="url(#gC)"/><path d="M9 8h6" stroke="#fff" stroke-opacity=".7" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="i-reading" viewBox="0 0 24 24"><path d="M12 6.2C10 4.7 7 4.2 3.5 4.7v13.6c3.5-.5 6.5 0 8.5 1.5V6.2Z" fill="url(#gA)"/><path d="M12 6.2c2-1.5 5-2 8.5-1.5v13.6c-3.5-.5-6.5 0-8.5 1.5V6.2Z" fill="url(#gB)"/><path d="M6 8.5c1.5-.1 3 .1 4.3.7M6 12c1.5-.1 3 .1 4.3.7" stroke="#fff" stroke-opacity=".65" stroke-width="1.3" stroke-linecap="round" fill="none"/></symbol><symbol id="i-loan" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gC)"/><path d="M7 9.5h9.5l-2.7-2.7M17 14.5H7.5l2.7 2.7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-notes" viewBox="0 0 24 24"><path d="M4 20l1.1-4.3L16.4 4.4a2 2 0 0 1 2.8 0l1.4 1.4a2 2 0 0 1 0 2.8L9.3 19.9Z" fill="url(#gA)"/><path d="m14.5 6.3 3.2 3.2" stroke="#fff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="url(#gB)"/><circle cx="17" cy="6" r="1.3" fill="url(#gA)"/><circle cx="20" cy="9.5" r=".8" fill="url(#gC)"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="url(#gA)"/><circle cx="10.5" cy="10.5" r="3.6" fill="#fff" fill-opacity=".45"/><path d="m15.5 15.5 5 5" stroke="url(#gC)" stroke-width="3" stroke-linecap="round"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.5l2.2 6.3 6.3 2.2-6.3 2.2L12 19.5l-2.2-6.3L3.5 11l6.3-2.2Z" fill="url(#gA)"/></symbol><symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3.2" fill="url(#gB)"/><circle cx="9" cy="10" r="1.8" fill="#fff" fill-opacity=".8"/><path d="m4.5 17 4.5-4.5 3 3 3-3.5 4.5 5" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol><symbol id="i-guide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gB)"/><path d="m15.8 8.2-2 5.6-5.6 2 2-5.6Z" fill="#fff" fill-opacity=".85"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="url(#gC)"/><path d="M12 8v6.5m0 0-2.6-2.6M12 14.5l2.6-2.6M8 17h8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.6-1.9-.3-1.2.4-2.1 1.6-2.1H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3Z" fill="url(#gA)"/><circle cx="7.8" cy="11.5" r="1.4" fill="#fff" fill-opacity=".85"/><circle cx="10.6" cy="7.6" r="1.4" fill="#fff" fill-opacity=".7"/><circle cx="15.2" cy="8" r="1.4" fill="#fff" fill-opacity=".55"/></symbol><symbol id="i-isbn" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3.5" fill="url(#gB)"/><path d="M7.5 8v8M10.5 8v8M13 8v8M16.5 8v8" stroke="#fff" stroke-opacity=".8" stroke-width="1.5" stroke-linecap="round"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M6 7.5h12l-.9 11a2 2 0 0 1-2 1.8H8.9a2 2 0 0 1-2-1.8Z" fill="url(#gC)"/><rect x="4.5" y="5" width="15" height="2.4" rx="1.2" fill="url(#gA)"/><path d="M9.5 3.8h5" stroke="url(#gA)" stroke-width="1.8" stroke-linecap="round"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="4" fill="url(#gA)"/><path d="M4 20c.5-4 3.6-6 8-6s7.5 2 8 6Z" fill="url(#gB)"/></symbol></defs></svg>
 <div class="wrap" id="login" hidden>
- <div style="padding-top:26px"><h1>Kitaplığım</h1><p class="a">Devam etmek için giriş yap ya da yeni bir hesap oluştur.</p>
+ <div class="floaties" aria-hidden="true"><span><svg class="ic"><use href="#i-all"/></svg></span><span><svg class="ic"><use href="#i-spark"/></svg></span><span><svg class="ic"><use href="#i-moon"/></svg></span><span><svg class="ic"><use href="#i-reading"/></svg></span><span><svg class="ic"><use href="#i-notes"/></svg></span></div>
+ <div class="auth"><div class="brand big"><svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc)"/><stop offset="1" style="stop-color:var(--b2)"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="14" fill="url(#lgG)"/><rect x="10" y="15" width="7" height="22" rx="2" fill="#fff" fill-opacity=".95"/><rect x="19" y="10" width="7" height="27" rx="2" fill="#fff" fill-opacity=".78"/><rect x="29" y="14" width="7" height="23" rx="2" fill="#fff" fill-opacity=".6" transform="rotate(14 32 37)"/><path d="M8 39.5h32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M37 5l1.4 3.6L42 10l-3.6 1.4L37 15l-1.4-3.6L32 10l3.6-1.4z" fill="#fff"/></svg><h1>Kitaplığım</h1></div><p class="a tag">Raflarını cebine koy. Giriş yap ya da yeni bir hesap oluştur</p>
  <div class="card2">
   <div class="btns">
    <button class="btn pri" data-auth="login" aria-pressed="true">Giriş</button>
@@ -184,15 +292,15 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 <div id="toast" hidden></div>
 <input type="file" id="csv" accept=".csv,text/csv,text/plain" hidden>
 <input type="file" id="file" accept=".json,application/json" hidden>
-<dialog id="dAdd"><h2>Yeni kitap</h2>
+<dialog id="dAdd"><h2><svg class="ic s"><use href="#i-spark"/></svg>Yeni kitap</h2>
  <label for="addT">Kitap adı</label><input id="addT" autocomplete="off">
  <label for="addA">Yazar</label><input id="addA" autocomplete="off">
  <label for="addIsbn">ISBN-13 (isteğe bağlı)</label><div class="scanrow"><input id="addIsbn" inputmode="numeric" autocomplete="off" placeholder="978..."><button class="btn" id="scanBarcode" type="button" aria-label="ISBN barkodunu kamerayla tara" title="ISBN barkodunu tara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M7 8v8m3-8v8m3-8v8m2-8v8"/></svg></button></div>
  <div id="scanResult" class="a" role="status" aria-live="polite"></div>
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="addOk">Ekle</button></div>
 </dialog>
-<dialog id="dScan" style="width:min(94vw,480px)"><h2>ISBN barkodunu tara</h2><p class="a">Kitabın arka kapağındaki ISBN yazısının hemen üzerindeki uzun barkodu çerçeveye al. Daha net okumak için telefonu sabit tutup kameranın odaklanmasını bekle. Görüntü cihazında işlenir; yalnızca okunan ISBN kataloglara gönderilir.</p><div class="scan-view"><video class="scanvideo" id="scanVideo" autoplay muted playsinline></video><div class="scan-guide" aria-hidden="true"></div></div><div class="banner" id="scanStatus" role="status" aria-live="polite">Kamera hazırlanıyor…</div><div class="dact"><button class="btn" id="scanClose">Kapat</button></div></dialog>
-<dialog id="dLoan"><h2>Ödünç ver</h2><div class="a" id="loanBook"></div>
+<dialog id="dScan" style="width:min(94vw,480px)"><h2><svg class="ic s"><use href="#i-isbn"/></svg>ISBN barkodunu tara</h2><p class="a">Kitabın arka kapağındaki ISBN yazısının hemen üzerindeki uzun barkodu çerçeveye al. Daha net okumak için telefonu sabit tutup kameranın odaklanmasını bekle. Görüntü cihazında işlenir; yalnızca okunan ISBN kataloglara gönderilir.</p><div class="scan-view"><video class="scanvideo" id="scanVideo" autoplay muted playsinline></video><div class="scan-guide" aria-hidden="true"></div></div><div class="banner" id="scanStatus" role="status" aria-live="polite">Kamera hazırlanıyor…</div><div class="dact"><button class="btn" id="scanClose">Kapat</button></div></dialog>
+<dialog id="dLoan"><h2><svg class="ic s"><use href="#i-loan"/></svg>Ödünç ver</h2><div class="a" id="loanBook"></div>
  <label for="loanTo">Kime verdin?</label><input id="loanTo" autocomplete="off">
  <label for="loanD">Hangi tarihte?</label><input id="loanD" type="date">
  <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="loanOk">Kaydet</button></div>
@@ -201,7 +309,7 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 <dialog id="dPhoto" style="width:min(96vw,720px)"><img id="ppImg" alt="" style="width:100%;border-radius:8px">
  <div class="dact"><button class="btn del" id="ppDel">Fotoğrafı sil</button><button class="btn" data-close>Kapat</button></div>
 </dialog>
-<dialog id="dCover"><h2>Kapak resmi</h2>
+<dialog id="dCover"><h2><svg class="ic s"><use href="#i-photo"/></svg>Kapak resmi</h2>
  <div class="card2">
   <b>1000kitap'tan kapak seç</b>
   <div class="a">Kitap arama sayfasını aç. Kapak görseline tıklayınca bağlantıyı panoya kopyalamak için kopyalama aracını bir kez tarayıcına ekle.</div>
@@ -217,7 +325,7 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
  <input type="file" id="mcFile" accept="image/*" hidden>
  <div class="dact"><button class="btn del" id="mcRm" hidden>Kapağı kaldır</button><button class="btn" data-close>Kapat</button></div>
 </dialog>
-<dialog id="dEdit"><h2>Kitabı düzenle</h2>
+<dialog id="dEdit"><h2><svg class="ic s"><use href="#i-notes"/></svg>Kitabı düzenle</h2>
  <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
  <label for="edA">Yazar</label><input id="edA" autocomplete="off">
  <label for="edIsbn">ISBN-13 (isteğe bağlı)</label><input id="edIsbn" inputmode="numeric" autocomplete="off" placeholder="978...">
@@ -694,7 +802,7 @@ async function startBookBarcodeScanner(){
 function vchip(b){
   if(busy.has(b.id))return '<span class="chip">Aranıyor…</span>';
   if((covers[b.id]||b.mc||b.c)&&validIsbn13(b.isbn))return '';
-  return '<span class="chip">Doğrulanmadı</span>';
+  return '<span class="chip"><i class="cd"></i>Doğrulanmadı</span>';
 }
 function persist(){
   if(!ref)return;const r=ref,b=books.slice(),st=Object.assign({},set);
@@ -708,19 +816,19 @@ function toast(msg,undo){
   clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},8000);
 }
 const TH={
- 'acik-lavanta':{n:'Lavanta',group:'light',bg:'#F2EDFF',card:'#FFFFFF',ink:'#241A47',mute:'#7F76A8',line:'#E3DCF7',acc:'#7C5CF0'},
- 'acik-yesil':{n:'Adaçayı',group:'light',bg:'#EDF5EF',card:'#FCFEFC',ink:'#20372B',mute:'#64806B',line:'#D7E6D9',acc:'#4D8B61'},
- 'acik-krem':{n:'Krem',group:'light',bg:'#F7F1E4',card:'#FFFCF5',ink:'#372F21',mute:'#80735B',line:'#E9DEC8',acc:'#AD7F39'},
- 'gece-lavanta':{n:'Gece moru',group:'dark',bg:'#14102A',card:'#1E1840',ink:'#EEEAFB',mute:'#A59DCB',line:'#2E2759',acc:'#A38CFF'},
- 'gece-okyanus':{n:'Okyanus',group:'dark',bg:'#101C2B',card:'#18283B',ink:'#E7F1FC',mute:'#A1B4CA',line:'#2C4058',acc:'#78AFE8'},
- 'gece-orman':{n:'Orman',group:'dark',bg:'#101E1A',card:'#192B25',ink:'#E6F4E9',mute:'#A0B9A9',line:'#2C483A',acc:'#78C390'}
+ 'acik-lavanta':{n:'Gül Kurusu',group:'light',bg:'#FFF3EE',card:'#FFFFFF',ink:'#3B1D2A',mute:'#94707C',line:'#F3D9D2',acc:'#D6336C',b2:'#FF9A62',b3:'#7A5AF8'},
+ 'acik-yesil':{n:'Nane & Zeytin',group:'light',bg:'#F1F7EA',card:'#FFFFFF',ink:'#1F3320',mute:'#6F8B6A',line:'#D8E8CC',acc:'#2F9E62',b2:'#F2B134',b3:'#E8590C'},
+ 'acik-krem':{n:'Bal Kâğıdı',group:'light',bg:'#FFF6DC',card:'#FFFDF4',ink:'#3A2808',mute:'#8C7440',line:'#F0DFAE',acc:'#E08A00',b2:'#C2410C',b3:'#0F8B8D'},
+ 'gece-lavanta':{n:'Gece Lambası',group:'dark',bg:'#0E1024',card:'#191C3A',ink:'#FBF0DC',mute:'#A7A5C8',line:'#2A2E58',acc:'#FFB84D',b2:'#FF6B9A',b3:'#6EE7D0'},
+ 'gece-okyanus':{n:'Deniz Feneri',group:'dark',bg:'#071720',card:'#0F2833',ink:'#E4FAF6',mute:'#84B4B4',line:'#1C4250',acc:'#2DD4BF',b2:'#60A5FA',b3:'#FDBA74'},
+ 'gece-orman':{n:'Gül Gecesi',group:'dark',bg:'#1B0E1C',card:'#2A1629',ink:'#FFEAF2',mute:'#C99BB5',line:'#452645',acc:'#FF6F9F',b2:'#C084FC',b3:'#FCD34D'}
 };
 const THEME_ALIASES={auto:'acik-lavanta',light:'acik-lavanta',dark:'gece-lavanta',lavanta:'acik-lavanta',yesil:'acik-yesil',krem:'acik-krem',turuncu:'acik-krem',pembe:'acik-lavanta',mavi:'gece-okyanus'};
 const themeKey=()=>TH[set.th]?set.th:(set.th==='auto'||!set.th?(matchMedia('(prefers-color-scheme: dark)').matches?'gece-lavanta':'acik-lavanta'):(THEME_ALIASES[set.th]||'acik-lavanta'));
 function applyTheme(){
   const r=document.documentElement,t=TH[themeKey()],acc=t.acc;
   r.dataset.theme=t.group;
-  ['bg','card','ink','mute','line','acc'].forEach(k=>r.style.setProperty('--'+k,t[k]));
+  ['bg','card','ink','mute','line','acc','b2','b3'].forEach(k=>r.style.setProperty('--'+k,t[k]));
   const n=parseInt(acc.slice(1),16),lum=(0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255;
   r.style.setProperty('--acc-ink',lum>0.6?'#111':'#fff');
   r.style.fontSize={k:'14px',o:'16px',b:'19px'}[set.fs||'o'];
@@ -740,18 +848,20 @@ const bookMetadataHTML=meta=>{
   if(!rows.length)return '';
   return '<section class="section-card"><div class="section-head"><div><h3>Kitap bilgileri</h3><p>Katalogdan bulunan baskı bilgileri.</p></div><span class="section-mark" aria-hidden="true">i</span></div>'+rows.join('')+'<div class="a">Bilgi kaynağı: '+esc(meta.source||'kitap kataloğu')+'</div></section>';
 };
-const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.np?`<span class="chip">Foto ${b.np}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
+const chips=b=>`${b.r?'<span class="chip ok"><i class="cd ok"></i>Okundu</span>':b.k?'<span class="chip loan"><i class="cd rd"></i>Okuyorum</span>':'<span class="chip"><i class="cd"></i>Okunmadı</span>'}${b.np?`<span class="chip">${IC('photo','xs')}${esc(b.np)}</span>`:''}${b.l?`<span class="chip loan"><i class="cd ln"></i>Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
 const card=b=>`<div class="row" data-a="det" data-id="${esc(b.id)}">${cov(b)}<div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div></div></div>`;
-const topbar=(t,sticky=false)=>`<div class="top${sticky?' sticky-top':''}"><button class="btn back-icon" data-a="back" aria-label="Geri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg></button><h2>${t}</h2><span style="width:40px"></span></div>`;
+const topbar=(t,sticky=false)=>`<div class="top${sticky?' sticky-top':''}"><button class="btn back-icon" data-a="back" aria-label="Geri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.75 6.5 9.25 12l5.5 5.5"/></svg></button><h2>${t}</h2><span style="width:46px"></span></div>`;
 const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara" value="${esc(qtext)}">`;
 
+const LOGO=`<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc)"/><stop offset="1" style="stop-color:var(--b2)"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="14" fill="url(#lgG)"/><rect x="10" y="15" width="7" height="22" rx="2" fill="#fff" fill-opacity=".95"/><rect x="19" y="10" width="7" height="27" rx="2" fill="#fff" fill-opacity=".78"/><rect x="29" y="14" width="7" height="23" rx="2" fill="#fff" fill-opacity=".6" transform="rotate(14 32 37)"/><path d="M8 39.5h32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M37 5l1.4 3.6L42 10l-3.6 1.4L37 15l-1.4-3.6L32 10l3.6-1.4z" fill="#fff"/></svg>`;
+const IC=(n,c)=>'<svg class="ic '+(c||'')+'" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+n+'"/></svg>';
 function homeV(){
   const A=act();
-  return `<div class="home-screen"><div class="top"><h1>Kitaplığım</h1><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
+  return `<div class="home-screen"><div class="top home-top"><span class="tsp" aria-hidden="true"></span><div class="brand">${LOGO}<h1>Kitaplığım</h1></div><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
   <div class="srow">${searchBox()}<button class="rbtn" data-a="add" aria-label="Kitap ekle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
   <div id="tiles" class="fl" style="flex:1">
-  ${A.length?'':'<div class="empty">Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
-  <div class="bento">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><span>${L[f]}</span><b>${A.filter(F[f]).length}</b></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
+  ${A.length?'':'<div class="empty"><i class="eb">'+IC('moon','xl')+'</i>Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
+  <div class="bento">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><i class="te">${IC(f)}</i><span>${L[f]}</span><b>${A.filter(F[f]).length}</b></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
   <div id="res"></div></div>`;
 }
 function listV(){
@@ -772,7 +882,7 @@ function detV(){
   return `${topbar('Kitap')}
   <div class="book-spread">
    <aside class="book-page book-left-page" aria-label="Kapak ve okuma durumu">
-    <div class="detail-cover">${cov(b,'lg')}<button class="cvb" data-a="${hasCover?'mcover':'coverSearch'}">${hasCover?'Kapağı değiştir':'+ Kapak ekle'}</button></div>
+    <div class="detail-cover">${cov(b,'lg')}<button class="cvb" data-a="${hasCover?'mcover':'coverSearch'}">${hasCover?'Kapağı değiştir':'Kapak ekle'}</button></div>
      <div class="reading-controls">
       <div class="reading-label"><span class="reading-state-dot ${b.r?'is-read':b.k?'is-reading':''}"></span>${b.r?'Okundu':b.k?'Şu an okuyorum':'Okunmadı'}</div>
       <div class="reading-actions"><button class="reading-action ${b.r?'':'primary'}" data-a="rd">${b.r?'Okunmadı yap':'Okundu yap'}</button>${b.r?'':`<button class="reading-action" data-a="rg">${b.k?'Okumayı bırak':'Şu an okuyorum'}</button>`}</div>
@@ -781,9 +891,9 @@ function detV(){
    </aside>
    <main class="book-page book-right-page">
     <header class="book-heading"><div class="t big">${esc(b.t)}</div><div class="a detail-author">${esc(b.a)||'Yazar belirtilmemiş'}</div>${b.isbn?`<div class="detail-isbn">ISBN-13&nbsp; ${esc(b.isbn)}</div>`:''}${b.v==='check'&&b.g?`<div class="a" style="margin-top:8px">Eşleşen kayıt: ${esc(b.g)}</div>`:''}${b.src?`<div class="a" style="margin-top:6px">Kapak kaynağı: ${esc(b.src)}</div>`:''}</header>
-    ${b.l?`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Kitap şu anda ödünçte.</p></div><span class="section-mark" aria-hidden="true">↗</span></div><div class="book-loan-content"><div><b>${esc(b.l.to)}</b><p>${fmt(b.l.d)} tarihinden beri · ${days} gündür</p></div><button class="btn" data-a="loan">Geri aldım</button></div></section>`:`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Bu kitabı birine verdiğinde takibe al.</p></div><span class="section-mark" aria-hidden="true">↗</span></div><button class="btn" data-a="loan">Ödünç ver</button></section>`}
+    ${b.l?`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Kitap şu anda ödünçte.</p></div><span class="section-mark" aria-hidden="true">${IC('loan')}</span></div><div class="book-loan-content"><div><b>${esc(b.l.to)}</b><p>${fmt(b.l.d)} tarihinden beri · ${days} gündür</p></div><button class="btn" data-a="loan">Geri aldım</button></div></section>`:`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Bu kitabı birine verdiğinde takibe al.</p></div><span class="section-mark" aria-hidden="true">${IC('loan')}</span></div><button class="btn" data-a="loan">Ödünç ver</button></section>`}
     ${pend===b.id&&!hasU(b)?'<div class="banner">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<div class="btns"><button class="btn pri" data-a="paste">Panodan ekle</button></div></div>':''}
-    <section class="book-detail-block book-notes"><div class="section-head"><div><h3>Notlarım</h3><p>Düşüncelerini ve kitaba ait fotoğrafları burada sakla.</p></div><span class="section-mark" aria-hidden="true">✎</span></div><div class="note ${b.n?'':'empty-note'}">${b.n?esc(b.n):'Henüz not eklenmemiş.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></section>
+    <section class="book-detail-block book-notes"><div class="section-head"><div><h3>Notlarım</h3><p>Düşüncelerini ve kitaba ait fotoğrafları burada sakla.</p></div><span class="section-mark" aria-hidden="true">${IC('notes')}</span></div><div class="note ${b.n?'':'empty-note'}">${b.n?esc(b.n):'Henüz not eklenmemiş.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></section>
     ${bookMetadataHTML(b.meta)}
     <section class="book-detail-block"><div class="section-head"><div><h3>Kitap işlemleri</h3><p>Düzenleme ve dış bağlantılar.</p></div></div><div class="detail-links"><button class="btn" data-a="edit">Düzenle</button><a class="btn" href="${esc(kLink(b))}" ${hasU(b)?'':'data-k="1" '}target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a><button class="btn" data-a="cover">Kapağı yeniden ara</button></div><button class="btn del detail-delete" data-a="del">Kitabı kitaplığımdan çıkar</button></section>
    </main>
@@ -806,13 +916,13 @@ function profV(){
   </ol>`;
   return `${topbar('Ayarlar',true)}
   <main class="profile-page">
-   ${section('guide','Nasıl kullanılır?','İlk kez kullananlar için kısa başlangıç rehberi.','?',howTo)}
-   ${section('data','Kitaplık verileri','Yedekleme ve dosya aktarımı.','⇅','<div class="settings-actions"><button class="btn" data-a="backup">JSON yedeği al</button><button class="btn" data-a="restore">Yedekten geri yükle</button><button class="btn" data-a="csvin">CSV içe aktar</button><button class="btn" data-a="csvout">CSV dışa aktar</button></div>')}
-   ${section('appearance','Görünüm','Tema ve yazı boyutu.','◐',`${themeGroup('light','Açık temalar')}${themeGroup('dark','Koyu temalar')}<div class="setting-control"><label for="fs">Yazı boyutu</label><select class="inp" id="fs"><option value="k"${set.fs==='k'?' selected':''}>Küçük</option><option value="o"${(set.fs||'o')==='o'?' selected':''}>Orta</option><option value="b"${set.fs==='b'?' selected':''}>Büyük</option></select></div>`)}
-   ${section('isbn','ISBN bulma',`${noIsbn} kitapta ISBN yok. Başlığa göre kataloglarda arar; bulunan ISBN farklı bir baskıya ait olabilir.`,'#',`<div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div>`)}
-   ${section('covers', 'Kapak bulma ve eşitleme',`${noCover} kitapta kapak yok. Kapaklar hesabın ve cihazların arasında eşitlenir.`,'▧',`<div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div>`)}
-   ${del.length?section('deleted','Silinen kitaplar','7 gün sonra kalıcı olarak kaldırılır.','⌫',del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')):''}
-   ${section('account','Hesap',profile.username||'Kitaplık hesabı','◎',`<div class="account-email">${esc(auth.currentUser?.email||'')}</div><button class="btn del wide profile-signout" data-a="out">Oturumu kapat</button>`)}
+   ${section('guide','Nasıl kullanılır?','İlk kez kullananlar için kısa başlangıç rehberi.',IC('guide'),howTo)}
+   ${section('data','Kitaplık verileri','Yedekleme ve dosya aktarımı.',IC('save'),'<div class="settings-actions"><button class="btn" data-a="backup">JSON yedeği al</button><button class="btn" data-a="restore">Yedekten geri yükle</button><button class="btn" data-a="csvin">CSV içe aktar</button><button class="btn" data-a="csvout">CSV dışa aktar</button></div>')}
+   ${section('appearance','Görünüm','Tema ve yazı boyutu.',IC('palette'),`${themeGroup('light','Açık temalar')}${themeGroup('dark','Koyu temalar')}<div class="setting-control"><label for="fs">Yazı boyutu</label><select class="inp" id="fs"><option value="k"${set.fs==='k'?' selected':''}>Küçük</option><option value="o"${(set.fs||'o')==='o'?' selected':''}>Orta</option><option value="b"${set.fs==='b'?' selected':''}>Büyük</option></select></div>`)}
+   ${section('isbn','ISBN bulma',`${noIsbn} kitapta ISBN yok. Başlığa göre kataloglarda arar; bulunan ISBN farklı bir baskıya ait olabilir.`,IC('isbn'),`<div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div>`)}
+   ${section('covers', 'Kapak bulma ve eşitleme',`${noCover} kitapta kapak yok. Kapaklar hesabın ve cihazların arasında eşitlenir.`,IC('photo'),`<div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div>`)}
+   ${del.length?section('deleted','Silinen kitaplar','7 gün sonra kalıcı olarak kaldırılır.',IC('trash'),del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')):''}
+   ${section('account','Hesap',profile.username||'Kitaplık hesabı',IC('user'),`<div class="account-email">${esc(auth.currentUser?.email||'')}</div><button class="btn del wide profile-signout" data-a="out">Oturumu kapat</button>`)}
   </main>`;
 }
 function render(){
@@ -834,7 +944,7 @@ function fill(){
   if(q)l=l.filter(b=>fold(b.t).includes(q)||fold(b.a).includes(q)||fold(b.n).includes(q)||fold(b.isbn).includes(q));
   const cmp=(x,y)=>String(x||'').localeCompare(String(y||''),'tr');
   l.sort(sortBy==='son'?(x,y)=>(y.ad||0)-(x.ad||0):sortBy==='ya'?(x,y)=>cmp(x.a,y.a)||cmp(x.t,y.t):(x,y)=>cmp(x.t,y.t));
-  res.innerHTML=l.length?l.map(card).join(''):'<div class="empty">Sonuç bulunamadı.</div>';
+  res.innerHTML=l.length?l.map(card).join(''):'<div class="empty"><i class="eb">'+IC('search','xl')+'</i>Sonuç bulunamadı.</div>';
 }
 const photosHTML=()=>nph.map(x=>`<img src="${x.d}" data-a="pho" data-pid="${esc(x.id)}" alt="Not fotoğrafı" loading="lazy">`).join('');
 const paintPhotos=()=>{const e=$('nph');if(e)e.innerHTML=photosHTML()};
@@ -1172,7 +1282,7 @@ $('file').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   try{
     const arr=JSON.parse(await f.text());
-    if(!Array.isArray(arr)||!arr.every(b=>b&&typeof b.t==='string'))throw 0;
+    if(!Array.isArray(arr)||!arr.every(b=>b&&typeof b.t==='string'&&(b.np===undefined||Number.isSafeInteger(b.np)&&b.np>=0)))throw 0;
     if(confirm('Kitaplığındaki '+act().length+' kitabın yerine yedekteki '+arr.length+' kayıt yüklensin mi?'))change(()=>{books=arr});
   }catch(err){alert('Bu dosya bir kitaplık yedeği gibi görünmüyor.')}
 };
@@ -1321,6 +1431,11 @@ onIdTokenChanged(auth,async user=>{
 });
 applyTheme();
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+<script>
+(function(){var d0=null;function out(d,e){var r=d.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom}
+document.addEventListener('pointerdown',function(e){var d=e.target;d0=(d&&d.tagName==='DIALOG'&&d.open&&out(d,e))?d:null},true);
+document.addEventListener('click',function(e){var d=e.target;if(!d0||d!==d0)return;d0=null;if(d.open&&out(d,e))d.close()},true)})();
 </script>
 </body>
 </html>
