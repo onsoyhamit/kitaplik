@@ -4,8 +4,9 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 
 ## Özellikler
 
-- E-posta/parola ile hesap oluşturma, giriş ve parola sıfırlama
-- Benzersiz kullanıcı adı ve e-posta doğrulaması
+- E-posta/parola ile giriş, e-posta doğrulaması ve parola sıfırlama
+- Kayıtta zorunlu, hesap ayarlarından değiştirilebilir benzersiz kullanıcı adı (küçük/büyük harf duyarsız)
+- Şifre oluşturma/değiştirmede en az 8 karakter, harf, rakam ve noktalama işareti zorunluluğu
 - Kullanıcıya özel kitaplık, kapak ve not fotoğrafları
 - ISBN-13 alanı, kontrol basamağı doğrulaması ve CSV içe/dışa aktarımı
 - Yeni kitap eklerken arka kamerayla ISBN barkodu tarama; geçerli ISBN yazıldığında otomatik katalog araması
@@ -68,7 +69,7 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
 
 1. Firebase Console'da bir proje oluşturun ve bir **Web App** kaydedin.
 2. **Authentication → Sign-in method** bölümünde **Email/Password** yöntemini etkinleştirin.
-3. Authentication ayarlarında e-posta doğrulama şablonunu ve uygulamanın yayınlanacağı yetkili domaini yapılandırın.
+3. Authentication ayarlarında e-posta doğrulama şablonunu ve uygulamanın yayınlanacağı yetkili domaini yapılandırın. Parola politikasında en az 8 karakter, en az bir küçük harf, sayı ve alfasayısal olmayan karakter zorunluluklarını etkinleştirin; bu, e-posta parola sıfırlama akışında da kuralları uygular.
 4. Firestore Database oluşturun.
 5. Firebase Console'daki web app yapılandırmasını `index.html` içindeki `firebaseConfig` değerleriyle eşleştirin. Bu depo şu anda örnek/önceden tanımlı bir Firebase proje kimliği içeriyor; kendi projenizin sahibi ve erişim yetkilisi olduğunuzu doğrulamadan o projeye deploy etmeyin.
 6. Hosting için Firebase CLI kurup projeyi seçin:
@@ -91,7 +92,8 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
 
 - `firestore.rules`, kullanıcıların yalnızca kendi UID altındaki verilere erişmesini sağlar.
 - Kütüphane, kapak ve fotoğraf okuma/yazma işlemleri doğrulanmış e-posta gerektirir.
-- Kullanıcı adı kaydı transaction ile benzersiz tutulur.
+- Kullanıcı adı kayıtları transaction ile benzersiz tutulur; ad değiştirme işlemi yeni adı ve eski kaydı aynı transaction içinde günceller. Giriş e-posta adresiyle yapılır; kullanıcı adıyla giriş etkin değildir.
+- Kullanıcı adı değişikliğinde Firestore kuralları, yalnızca hesabın sahibinin yeni adı kaydetmesine ve eski adını bırakmasına izin verir.
 - Fotoğraf alanları ve kitap listesi için Firestore kurallarında boyut sınırları uygulanır. Büyük ölçekli kullanımda görselleri Firestore belge alanları yerine Firebase Storage'a taşımak daha uygundur.
 - Eski sürümdeki `library/main`, `covers` ve `notePhotos` ortak yollarındaki veriler otomatik olarak hesaplara kopyalanmaz. Bu verinin sahibini güvenle belirlemek mümkün değildir; otomatik kopyalama yeni kullanıcıların birbirinin verisini almasına yol açardı. Eski veriyi gerekiyorsa sahibini doğrulayıp doğru hesaba manuel yedek/geri yükleme yoluyla aktarın.
 - Hesap silme, kullanıcıya ait tüm Firestore belgelerini/Storage dosyalarını temizleyen backend işlemi gerektirir; henüz uygulama içi hesap silme akışı yoktur.
