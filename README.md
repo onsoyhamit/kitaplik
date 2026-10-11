@@ -8,13 +8,15 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 - Benzersiz kullanıcı adı ve e-posta doğrulaması
 - Kullanıcıya özel kitaplık, kapak ve not fotoğrafları
 - ISBN-13 alanı, kontrol basamağı doğrulaması ve CSV içe/dışa aktarımı
-- Yeni kitap eklerken kamerayla ISBN barkodu tarama ve katalog bilgilerini otomatik doldurma
+- Yeni kitap eklerken arka kamerayla ISBN barkodu tarama; geçerli ISBN yazıldığında otomatik katalog araması
+- Başlık/yazar için katalog destekli yazım düzeltme ve yüksek güvenli eşleşmede otomatik künye doldurma
 - Eksik ISBN’leri başlıkla toplu arama ve otomatik kaydetme
 - Okuma durumu, ödünç takibi, notlar ve puanlama
 - Üç açık ve üç koyu tema; düzenlenmiş kitap detay ve ayarlar ekranları
 - Kitap detayında kapak/okuma takibi sol sayfada, ödünç ve notlar sağ sayfada
+- Kitap detayında yalın yeşil okuma eylemleri; ana sayfada kaynak bağlantılı günlük kitap pasajı
 - CSV içe/dışa aktarma ve JSON yedekleme
-- ISBN veya başlık/yazar ile Open Library ve Google Books kapak araması (ortalama %65 doğrulama)
+- ISBN veya başlık/yazar ile Open Library ve Google Books katalog/kapak araması
 - 1000kitap'ta kapak arama ve görsel bağlantısı kopyalama aracı
 - Çevrimdışı PWA kabuğu
 
@@ -47,9 +49,13 @@ Firebase, doğrulama e-postası için sender adı/adresi, konu ve özel gönderi
 
 Kapaksız bir kitabın **+ Kapak ekle** düğmesi 1000kitap arama sayfasını açar. Kopyalama aracını ilk kullanımda uygulamadaki düğmeden kopyala, bir yer imi oluştur ve yer iminin adresine yapıştır. Sonraki kullanımlarda 1000kitap sayfasındayken bu yer imine tıkla, ardından kitabın kapak görseline tıkla; görselin URL'si panoya kopyalanır. Uygulamaya dönüp **Panodan yapıştır** ile bağlantıyı kapak olarak kaydet. Tarayıcı bookmarklet'leri bazı mobil tarayıcılarda/Content Security Policy ayarlarında kısıtlanabilir; bu durumda görsele uzun basıp **Resim adresini kopyala** seçeneğini kullan.
 
-Kitap eklerken veya düzenlerken ISBN-13 girebilirsin. Uygulama ISBN-13 kontrol basamağını doğrular; önce Open Library'de, sonra Google Books'ta ISBN üzerinden arar. İki kaynaktan da kapak bulunamazsa başlık/yazar eşleşmesine geri döner. ISBN CSV içe/dışa aktarıma da dahildir; eski dört sütunlu CSV dosyaları içe aktarılmaya devam eder. Bulunan kapak kaynağı kitap ayrıntısında gösterilir.
+Kitap eklerken veya düzenlerken ISBN-13 girebilirsin. Yeni kitap formunda 13 basamaklı ve kontrol basamağı geçerli bir ISBN tamamlandığında arama kendiliğinden başlar; önce Google Books, sonra Open Library kataloglarında aranır. Bulunan baskının kitap adı/yazarı forma gelir. İki kaynaktan da bilgi bulunamazsa başlık ve yazarı elle girebilirsin. Başlıkla eklemede yazım farklılıkları tolere edilir; kitap adı/yazarı yalnızca yüksek güvenli katalog eşleşmesinde düzeltilir ve otomatik doldurulur. ISBN CSV içe/dışa aktarıma da dahildir; eski dört sütunlu CSV dosyaları içe aktarılmaya devam eder.
 
-Yeni kitap eklerken ISBN alanının yanındaki kamera simgesiyle arka kapaktaki ISBN barkodunu tara. Kamera görüntüsü cihazda işlenir; katalog araması için yalnızca barkoddan okunan ISBN Google Books ve Open Library'ye gönderilir. Katalogda bulunursa başlık, yazar, yayınevi, yayın tarihi, sayfa sayısı ve sağlayabildiği açıklama/kategori/dil bilgileri forma alınır; bulunan kapak da kitap kaydına eklenir. Kaydetmeden önce başlık ve yazarı kontrol edebilirsin. Kamera kullanımı HTTPS ve tarayıcı kamera izni gerektirir; barkod okuyucu ilk kullanımda jsDelivr üzerinden yüklenir. ISBN barkodu olmayan veya taranamayan kitaplarda numarayı elle girebilirsin.
+Yeni kitap eklerken ISBN alanının yanındaki kamera simgesiyle arka kapaktaki ISBN barkodunu tara. Tarayıcı arka kamerayı, yüksek çözünürlük tercihlerini ve yalnızca EAN-13 barkod formatını kullanır; ekrandaki çerçeve barkodun hizalanmasına yardımcı olur. Kamera görüntüsü cihazda işlenir; katalog araması için yalnızca barkoddan okunan ISBN Google Books ve Open Library'ye gönderilir. Katalogda bulunursa başlık, yazar ve sağlanan yayın bilgileri forma alınır. Kamera kullanımı HTTPS ve tarayıcı izni gerektirir; ZXing barkod okuyucu ilk kullanımda jsDelivr üzerinden yüklenir. ISBN barkodu olmayan veya taranamayan kitaplarda 13 rakamlı ISBN'yi elle girebilirsin; ISBN araması otomatik başlar.
+
+Ana sayfadaki **Günün Pasajı**, Ömer Seyfettin'in kamu malı klasik eserlerinden kısa, kaynak bağlantılı seçkiler gösterir. Pasajlar uygulama içinde bulunduğu için Türkçedir ve çevrimdışı da görünür; **Kaynağı aç** bağlantısı Wikisource metnine gider. Biryudumkitap.com içerikleri uygulamaya kopyalanmaz veya otomatik çekilmez; bu tür içeriklerin yeniden yayımlanması için sahibinden izin/resmi entegrasyon gerekir.
+
+Open Library ve Google Books kitap ekleme, ISBN doğrulama ve kapak bulma akışlarında doğrudan katalog kaynağı olarak kullanılır. Uygulamanın kullanabildiği resmi bir 1000kitap katalog API'si bulunmadığından, 1000kitap için kitap arama bağlantısı ve kullanıcının seçtiği kapak URL'sini kaydetme aracı sunulur; sayfa içeriği otomatik olarak çekilmez.
 
 Mevcut kitapların ISBN'lerini tek tek yazmak gerekmez. Profil → **Eksik ISBN’leri bul** işlemi kitap adıyla Open Library'de arar ve bulunamazsa Google Books'a geçer; yazarı arama şartı olarak kullanmaz, yalnızca eşleşen sonuçları öne almak için kullanır. Tam başlık eşleşen katalog baskılarından geçerli ISBN-13 kaydeder. İşlem durum çubuğunda bulunanları, sonuç çıkmayan kitapları ve API hatalarını ayrı gösterir; her 10 kitapta bulunanları buluta kaydeder ve durdurulabilir. Kataloglar baskı özelindeki ISBN'i her zaman doğru tespit edemeyeceğinden, bulunan numara fiziksel kitaptaki barkodla eşleşmeyebilir. Yüzlerce kitapta kamu kataloglarının hız/kota sınırlarına bağlı olarak birkaç dakika sürebilir.
 
