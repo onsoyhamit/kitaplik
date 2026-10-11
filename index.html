@@ -74,25 +74,48 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .account-name{font:600 1.12rem/1.3 var(--serif)}
 .account-email{margin-top:3px;color:var(--mute);font-size:.82rem;overflow-wrap:anywhere}
 .profile-signout{margin:0;border-color:color-mix(in srgb,var(--danger) 30%,var(--line));background:color-mix(in srgb,var(--danger) 5%,var(--card))}
-.detail-hero{display:grid;grid-template-columns:144px minmax(0,1fr);gap:18px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--sh)}
-.detail-cover{position:relative;width:144px;height:216px}
-.detail-cover .cov{width:100%;height:100%;border-radius:9px;box-shadow:0 10px 25px rgba(0,0,0,.16)}
-.detail-cover .cvb{left:7px;right:7px;bottom:7px;font-size:.75rem}
-.detail-heading{min-width:0}.detail-heading .t.big{font-size:clamp(1.35rem,5vw,1.9rem);line-height:1.16;overflow-wrap:anywhere}
-.detail-author{margin-top:7px;font-size:.95rem}
-.detail-isbn{display:inline-flex;margin-top:10px;padding:5px 9px;border-radius:8px;background:var(--bg);font-size:.78rem;font-variant-numeric:tabular-nums}
-.detail-chips{margin-top:10px}
-.detail-controls{display:flex;flex-wrap:wrap;gap:8px}
-.detail-controls .btn{flex:1 1 145px;min-height:44px}
-.detail-loan{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.detail-loan p{margin:3px 0 0;color:var(--mute);font-size:.82rem}
-.detail-notes .note{min-height:26px;line-height:1.65}
-.detail-notes .empty-note{color:var(--mute);font-style:italic}
+.book-spread{display:grid;grid-template-columns:minmax(205px,.76fr) minmax(0,1.5fr);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh)}
+.book-page{min-width:0;padding:22px}
+.book-left-page{display:flex;flex-direction:column;align-items:center;background:color-mix(in srgb,var(--bg) 72%,var(--card));border-right:1px solid var(--line);box-shadow:inset -8px 0 14px -16px var(--ink)}
+.book-right-page{display:flex;flex-direction:column;gap:14px;padding:24px}
+.book-spread .detail-cover{position:relative;width:min(100%,168px);height:auto;aspect-ratio:2/3;margin:2px auto 18px}
+.book-spread .detail-cover .cov{width:100%;height:100%;border-radius:8px;box-shadow:0 12px 26px rgba(0,0,0,.18)}
+.book-spread .detail-cover .cvb{left:7px;right:7px;bottom:7px;font-size:.75rem}
+.book-heading{width:100%;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.book-heading .t.big{font-size:clamp(1.35rem,3vw,1.8rem);line-height:1.18;overflow-wrap:anywhere}
+.detail-author{margin-top:6px;font-size:.9rem}
+.detail-isbn{display:inline-flex;margin-top:10px;padding:5px 9px;border-radius:8px;background:var(--bg);font-size:.76rem;font-variant-numeric:tabular-nums}
+.detail-chips{margin-top:8px}
+.reading-panel{width:100%;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.reading-label{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:.76rem;font-weight:600}
+.reading-label .chip{font-size:.7rem}
+.reading-toggle{width:100%;min-height:38px;padding:8px 10px;font-size:.8rem}
+.reading-secondary{width:100%;margin-top:6px;padding:6px;border:0;background:transparent;color:var(--mute);font:inherit;font-size:.76rem;cursor:pointer}
+.reading-date{width:100%;margin-top:9px}
+.reading-date label{margin:0 0 4px;font-size:.73rem}
+.reading-date .inp{width:100%;padding:8px;font-size:.78rem}
+.reading-date-hint{margin-top:8px;color:var(--mute);font-size:.72rem;line-height:1.45}
+.reading-rating{display:flex;justify-content:center;margin-top:2px}
+.book-detail-block{min-width:0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.book-detail-block h3{margin:0;font-size:.98rem}
+.book-detail-block .section-head{margin-bottom:9px}
+.book-detail-block .section-head p{font-size:.78rem}
+.book-loan{border-color:color-mix(in srgb,var(--loan) 30%,var(--line));background:color-mix(in srgb,var(--loan-bg) 42%,var(--card))}
+.book-loan .section-mark{background:var(--loan-bg);color:var(--loan)}
+.book-loan-content{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.book-loan-content p{margin:3px 0 0;color:var(--mute);font-size:.82rem}
+.book-loan .btn{min-height:40px}
+.book-notes{border-color:color-mix(in srgb,var(--acc) 30%,var(--line));background:color-mix(in srgb,var(--bg) 34%,var(--card))}
+.book-notes .note{min-height:44px;line-height:1.7}
+.book-notes .empty-note{color:var(--mute);font-style:italic}
+.book-notes .pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
 .detail-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.detail-links .btn{width:100%;min-height:44px}
-.detail-delete{width:100%;margin:0}
+.detail-links .btn{width:100%;min-height:40px}
+.detail-delete{width:100%;margin:10px 0 0}
+.book-spread .banner{margin:0}
 .profile-footer{padding-top:4px}
-@media(max-width:420px){.detail-hero{grid-template-columns:112px minmax(0,1fr);gap:13px;padding:13px}.detail-cover{width:112px;height:168px}.theme-choice{flex-direction:column;align-items:flex-start}.settings-stat{padding:10px}.section-card{padding:14px}}
+@media(max-width:620px){.book-spread{grid-template-columns:minmax(118px,.68fr) minmax(0,1.35fr);border-radius:16px}.book-page{padding:14px}.book-right-page{gap:10px}.book-spread .detail-cover{width:min(100%,132px);margin:0 auto 12px}.reading-panel{padding:9px}.book-detail-block{padding:12px}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.reading-panel{width:min(100%,300px);padding:9px}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.settings-stat{padding:10px}.section-card{padding:14px}}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
 .quote{margin-top:auto;padding-top:22px}.qc{background:var(--card);border-radius:28px;padding:16px 20px 18px;box-shadow:var(--sh)}
 .qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
@@ -660,20 +683,24 @@ function detV(){
   const days=b.l?Math.max(0,Math.floor((Date.now()-new Date(b.l.d))/864e5)):0;
   const hasCover=!!(covers[b.id]||b.mc||b.c);
   return `${topbar('Kitap')}
-  <div class="detail-page">
-   <section class="detail-hero">
+  <div class="book-spread">
+   <aside class="book-page book-left-page" aria-label="Kapak ve okuma durumu">
     <div class="detail-cover">${cov(b,'lg')}<button class="cvb" data-a="${hasCover?'mcover':'coverSearch'}">${hasCover?'Kapağı değiştir':'+ Kapak ekle'}</button></div>
-    <div class="detail-heading"><div class="t big">${esc(b.t)}</div><div class="a detail-author">${esc(b.a)||'Yazar belirtilmemiş'}</div>${b.isbn?`<div class="detail-isbn">ISBN-13&nbsp; ${esc(b.isbn)}</div>`:''}<div class="acts detail-chips">${chips(b)}</div>${b.v==='check'&&b.g?`<div class="a">Bulunan kayıt: ${esc(b.g)}</div>`:''}${b.src?`<div class="a">Kapak kaynağı: ${esc(b.src)}</div>`:''}</div>
-   </section>
-   <section class="section-card"><div class="section-head"><div><h3>Okuma durumu</h3><p>Kitabını ve ilerlemeni yönet.</p></div><span class="section-mark" aria-hidden="true">↗</span></div>
-    <div class="detail-controls"><button class="btn pri" data-a="rd">${b.r?'Okunmadı yap':'Okundu olarak işaretle'}</button>${b.r?'':`<button class="btn" data-a="rg">${b.k?'Okumayı bırak':'Şu an okuyorum'}</button>`}</div>
-    ${b.r?`<div class="setting-control"><label for="rdate">Okuma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"></div><div class="stars" aria-label="Puan ver">${[1,2,3,4,5].map(n=>`<button class="star ${b.p>=n?'on':''}" data-a="star" data-n="${n}" aria-label="${n} yıldız">★</button>`).join('')}</div>`:''}
-   </section>
-   ${b.l?`<section class="section-card detail-loan"><div><h3>Ödünçte</h3><p>${esc(b.l.to)} · ${fmt(b.l.d)} tarihinden beri, ${days} gündür</p></div><button class="btn" data-a="loan">Geri aldım</button></section>`:`<section class="section-card"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Kitabı birine verdiysen takibe al.</p></div><span class="section-mark" aria-hidden="true">↗</span></div><button class="btn" data-a="loan">Ödünç ver</button></section>`}
-   ${bookMetadataHTML(b.meta)}
-   <section class="section-card detail-notes"><div class="section-head"><div><h3>Notlarım</h3><p>Bu kitapla ilgili düşüncelerin ve fotoğrafların.</p></div><span class="section-mark" aria-hidden="true">✎</span></div><div class="note ${b.n?'':'empty-note'}">${b.n?esc(b.n):'Henüz not eklenmemiş.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></section>
-   ${pend===b.id&&!hasU(b)?'<div class="banner">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<div class="btns"><button class="btn pri" data-a="paste">Panodan ekle</button></div></div>':''}
-   <section class="section-card"><div class="section-head"><div><h3>Kitap işlemleri</h3><p>Bilgileri düzenle, dış katalogda aç veya kitaplığımdan kaldır.</p></div></div><div class="detail-links"><button class="btn" data-a="edit">Düzenle</button><a class="btn" href="${esc(kLink(b))}" ${hasU(b)?'':'data-k="1" '}target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a><button class="btn" data-a="cover">Kapağı yeniden ara</button></div><button class="btn del detail-delete" data-a="del">Kitabı kitaplığımdan çıkar</button></section>
+    <section class="reading-panel">
+     <div class="reading-label"><span>Okuma durumu</span><span class="chip ${b.r?'ok':''}">${b.r?'Okundu':b.k?'Okuyorum':'Okunmadı'}</span></div>
+     <button class="btn ${b.r?'':'pri'} reading-toggle" data-a="rd">${b.r?'Okunmadı yap':'Okundu olarak işaretle'}</button>
+     ${b.r?`<div class="reading-date"><label for="rdate">Okunma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"></div><div class="stars reading-rating" aria-label="Puan ver">${[1,2,3,4,5].map(n=>`<button class="star ${b.p>=n?'on':''}" data-a="star" data-n="${n}" aria-label="${n} yıldız">★</button>`).join('')}</div>`:'<div class="reading-date-hint">Okundu olarak işaretleyince okuma tarihini buradan ekleyebilirsin.</div>'}
+     ${b.r?'':`<button class="reading-secondary" data-a="rg">${b.k?'Okumayı bırak':'Şu an okuyorum'}</button>`}
+    </section>
+   </aside>
+   <main class="book-page book-right-page">
+    <header class="book-heading"><div class="t big">${esc(b.t)}</div><div class="a detail-author">${esc(b.a)||'Yazar belirtilmemiş'}</div>${b.isbn?`<div class="detail-isbn">ISBN-13&nbsp; ${esc(b.isbn)}</div>`:''}${b.v==='check'&&b.g?`<div class="a" style="margin-top:8px">Eşleşen kayıt: ${esc(b.g)}</div>`:''}${b.src?`<div class="a" style="margin-top:6px">Kapak kaynağı: ${esc(b.src)}</div>`:''}</header>
+    ${b.l?`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Kitap şu anda ödünçte.</p></div><span class="section-mark" aria-hidden="true">↗</span></div><div class="book-loan-content"><div><b>${esc(b.l.to)}</b><p>${fmt(b.l.d)} tarihinden beri · ${days} gündür</p></div><button class="btn" data-a="loan">Geri aldım</button></div></section>`:`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Bu kitabı birine verdiğinde takibe al.</p></div><span class="section-mark" aria-hidden="true">↗</span></div><button class="btn" data-a="loan">Ödünç ver</button></section>`}
+    ${pend===b.id&&!hasU(b)?'<div class="banner">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<div class="btns"><button class="btn pri" data-a="paste">Panodan ekle</button></div></div>':''}
+    <section class="book-detail-block book-notes"><div class="section-head"><div><h3>Notlarım</h3><p>Düşüncelerini ve kitaba ait fotoğrafları burada sakla.</p></div><span class="section-mark" aria-hidden="true">✎</span></div><div class="note ${b.n?'':'empty-note'}">${b.n?esc(b.n):'Henüz not eklenmemiş.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></section>
+    ${bookMetadataHTML(b.meta)}
+    <section class="book-detail-block"><div class="section-head"><div><h3>Kitap işlemleri</h3><p>Düzenleme ve dış bağlantılar.</p></div></div><div class="detail-links"><button class="btn" data-a="edit">Düzenle</button><a class="btn" href="${esc(kLink(b))}" ${hasU(b)?'':'data-k="1" '}target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a><button class="btn" data-a="cover">Kapağı yeniden ara</button></div><button class="btn del detail-delete" data-a="del">Kitabı kitaplığımdan çıkar</button></section>
+   </main>
   </div>`;
 }
 function profV(){
