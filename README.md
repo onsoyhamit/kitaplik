@@ -6,7 +6,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 
 - E-posta/parola ile giriş, e-posta doğrulaması ve parola sıfırlama
 - Kayıtta zorunlu, hesap ayarlarından değiştirilebilir benzersiz kullanıcı adı (küçük/büyük harf duyarsız)
-- Şifre oluşturma/değiştirmede en az 8 karakter, harf, rakam ve noktalama işareti zorunluluğu
+- Şifre oluşturma/değiştirmede en az 6 karakter, harf, rakam ve noktalama işareti zorunluluğu
 - Kullanıcıya özel kitaplık, kapak ve not fotoğrafları
 - ISBN-13 alanı, kontrol basamağı doğrulaması ve CSV içe/dışa aktarımı
 - Yeni kitap eklerken arka kamerayla ISBN barkodu tarama; geçerli ISBN yazıldığında otomatik katalog araması
@@ -69,7 +69,7 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
 
 1. Firebase Console'da bir proje oluşturun ve bir **Web App** kaydedin.
 2. **Authentication → Sign-in method** bölümünde **Email/Password** yöntemini etkinleştirin.
-3. Authentication ayarlarında e-posta doğrulama şablonunu ve uygulamanın yayınlanacağı yetkili domaini yapılandırın. Parola politikasında en az 8 karakter, en az bir küçük harf, sayı ve alfasayısal olmayan karakter zorunluluklarını etkinleştirin; bu, e-posta parola sıfırlama akışında da kuralları uygular.
+3. Authentication ayarlarında e-posta doğrulama şablonunu ve uygulamanın yayınlanacağı yetkili domaini yapılandırın. Parola politikasında en az 6 karakter, en az bir küçük harf, sayı ve alfasayısal olmayan karakter zorunluluklarını etkinleştirin; bu, e-posta parola sıfırlama akışında da kuralları uygular.
 4. Firestore Database oluşturun.
 5. Firebase Console'daki web app yapılandırmasını `index.html` içindeki `firebaseConfig` değerleriyle eşleştirin. Bu depo şu anda örnek/önceden tanımlı bir Firebase proje kimliği içeriyor; kendi projenizin sahibi ve erişim yetkilisi olduğunuzu doğrulamadan o projeye deploy etmeyin.
 6. Hosting için Firebase CLI kurup projeyi seçin:
