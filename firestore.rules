@@ -13,67 +13,15 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
-    function validUsernameKey(usernameKey) {
-      return usernameKey is string
-        && usernameKey.matches('^[a-z0-9._-]{3,20}$');
-    }
-
-    match /usernames/{usernameKey} {
-      allow get: if signedIn();
-      allow list: if false;
-      allow create: if signedIn()
-        && validUsernameKey(usernameKey)
-        && request.resource.data.keys().hasOnly(['uid'])
-        && request.resource.data.uid == request.auth.uid
-        && existsAfter(/databases/$(database)/documents/users/$(request.auth.uid))
-        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameKey == usernameKey;
-      allow update: if false;
-      allow delete: if signedIn()
-        && resource.data.keys().hasOnly(['uid'])
-        && resource.data.uid == request.auth.uid
-        && existsAfter(/databases/$(database)/documents/users/$(request.auth.uid))
-        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameKey != usernameKey
-        && validUsernameKey(getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameKey)
-        && existsAfter(/databases/$(database)/documents/usernames/$(getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameKey))
-        && getAfter(/databases/$(database)/documents/usernames/$(getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.usernameKey)).data.uid == request.auth.uid;
-    }
-
     match /users/{uid} {
       allow get: if owner(uid);
       allow list: if false;
       allow create: if owner(uid)
-        && request.resource.data.keys().hasOnly([
-          'uid', 'username', 'usernameKey', 'createdAt'
-        ])
-        && request.resource.data.keys().hasAll([
-          'uid', 'username', 'usernameKey', 'createdAt'
-        ])
+        && request.resource.data.keys().hasOnly(['uid', 'createdAt'])
+        && request.resource.data.keys().hasAll(['uid', 'createdAt'])
         && request.resource.data.uid == uid
-        && request.resource.data.username is string
-        && validUsernameKey(request.resource.data.username)
-        && request.resource.data.usernameKey == request.resource.data.username
-        && validUsernameKey(request.resource.data.usernameKey)
-        && request.resource.data.createdAt is int
-        && existsAfter(/databases/$(database)/documents/usernames/$(request.resource.data.usernameKey))
-        && getAfter(/databases/$(database)/documents/usernames/$(request.resource.data.usernameKey)).data.uid == uid;
-      allow update: if owner(uid)
-        && request.resource.data.keys().hasOnly([
-          'uid', 'username', 'usernameKey', 'createdAt'
-        ])
-        && request.resource.data.keys().hasAll([
-          'uid', 'username', 'usernameKey', 'createdAt'
-        ])
-        && request.resource.data.uid == resource.data.uid
-        && request.resource.data.uid == uid
-        && request.resource.data.username is string
-        && validUsernameKey(request.resource.data.username)
-        && request.resource.data.usernameKey == request.resource.data.username
-        && validUsernameKey(request.resource.data.usernameKey)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['username', 'usernameKey'])
-        && exists(/databases/$(database)/documents/usernames/$(resource.data.usernameKey))
-        && get(/databases/$(database)/documents/usernames/$(resource.data.usernameKey)).data.uid == uid
-        && existsAfter(/databases/$(database)/documents/usernames/$(request.resource.data.usernameKey))
-        && getAfter(/databases/$(database)/documents/usernames/$(request.resource.data.usernameKey)).data.uid == uid;
+        && request.resource.data.createdAt is int;
+      allow update: if false;
       allow delete: if false;
 
       match /library/{documentId} {
