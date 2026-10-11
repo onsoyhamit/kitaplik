@@ -14,7 +14,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 - Okuma durumu, ödünç takibi, notlar ve puanlama
 - Üç açık ve üç koyu tema; düzenlenmiş kitap detay ve ayarlar ekranları
 - Kitap detayında kapak/okuma takibi sol sayfada, ödünç ve notlar sağ sayfada
-- Kitap detayında yalın yeşil okuma eylemleri; ana sayfada kaynak bağlantılı günlük kitap pasajı
+- Kitap detayında yalın yeşil okuma eylemleri; ana sayfada TDK kaynaklı günlük Türkçe söz
 - CSV içe/dışa aktarma ve JSON yedekleme
 - ISBN veya başlık/yazar ile Open Library ve Google Books katalog/kapak araması
 - 1000kitap'ta kapak arama ve görsel bağlantısı kopyalama aracı
@@ -53,7 +53,7 @@ Kitap eklerken veya düzenlerken ISBN-13 girebilirsin. Yeni kitap formunda 13 ba
 
 Yeni kitap eklerken ISBN alanının yanındaki kamera simgesiyle arka kapaktaki ISBN barkodunu tara. Tarayıcı arka kamerayı, yüksek çözünürlük tercihlerini ve yalnızca EAN-13 barkod formatını kullanır; ekrandaki çerçeve barkodun hizalanmasına yardımcı olur. Kamera görüntüsü cihazda işlenir; katalog araması için yalnızca barkoddan okunan ISBN Google Books ve Open Library'ye gönderilir. Katalogda bulunursa başlık, yazar ve sağlanan yayın bilgileri forma alınır. Kamera kullanımı HTTPS ve tarayıcı izni gerektirir; ZXing barkod okuyucu ilk kullanımda jsDelivr üzerinden yüklenir. ISBN barkodu olmayan veya taranamayan kitaplarda 13 rakamlı ISBN'yi elle girebilirsin; ISBN araması otomatik başlar.
 
-Ana sayfadaki **Günün Pasajı**, Ömer Seyfettin'in kamu malı klasik eserlerinden kısa, kaynak bağlantılı seçkiler gösterir. Pasajlar uygulama içinde bulunduğu için Türkçedir ve çevrimdışı da görünür; **Kaynağı aç** bağlantısı Wikisource metnine gider. Biryudumkitap.com içerikleri uygulamaya kopyalanmaz veya otomatik çekilmez; bu tür içeriklerin yeniden yayımlanması için sahibinden izin/resmi entegrasyon gerekir.
+Ana sayfadaki **Günün Sözü**, Türk atasözlerinden çevrimdışı çalışan günlük bir seçki gösterir. Her sözün atfı **Türk atasözü**, kaynak bağlantısı ise ilgili maddeyi açan Türk Dil Kurumu Güncel Türkçe Sözlük kaydıdır.
 
 Open Library ve Google Books kitap ekleme, ISBN doğrulama ve kapak bulma akışlarında doğrudan katalog kaynağı olarak kullanılır. Uygulamanın kullanabildiği resmi bir 1000kitap katalog API'si bulunmadığından, 1000kitap için kitap arama bağlantısı ve kullanıcının seçtiği kapak URL'sini kaydetme aracı sunulur; sayfa içeriği otomatik olarak çekilmez.
 

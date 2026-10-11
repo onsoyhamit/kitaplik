@@ -119,7 +119,7 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 @media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.settings-stat{padding:10px}.section-card{padding:14px}}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
 .quote{margin-top:auto;padding-top:22px}.qc{background:var(--card);border-radius:28px;padding:16px 20px 18px;box-shadow:var(--sh)}
-.passage-label{margin-bottom:8px;color:var(--mute);font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.quote-label{margin-bottom:8px;color:var(--mute);font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
 .qt{font:italic 1.2rem/1.45 var(--serif);margin:0 0 8px}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.95rem;color:var(--mute)}
 .qrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}.qrow .a{flex:1;min-width:70px}
@@ -820,24 +820,32 @@ function watchPhotos(id){
 }
 function shrinkMax(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{let M=1000,q=0.7,out='';for(let k=0;k<4;k++){const r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;M=Math.round(M*0.75);q=Math.max(0.45,q-0.1)}URL.revokeObjectURL(u);out.length<900000?res(out):rej(new Error('big'))};im.onerror=()=>rej(new Error('img'));im.src=u})}
 const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
-const PASSAGES=[
-  {q:"En sevdiğimiz şey atlardı. Dadaruh'la beraber onları suya götürmek, çıplak sırtlarına binmek, ne doyulmaz bir zevkti.",a:'Ömer Seyfettin',t:'Kaşağı',url:'https://tr.wikisource.org/wiki/Ka%C5%9Fa%C4%9F%C4%B1'},
-  {q:'Küçük salonun fes renginde kalın ve ağır perdeli penceresinden dışarısı muhteşem, parlak bir suluboya levhası gibi görünüyordu.',a:'Ömer Seyfettin',t:'Bahar ve Kelebekler',url:'https://tr.wikisource.org/wiki/Bahar_ve_Kelebekler'},
-  {q:"Her sabah Çarşı Camii'nin arkasındaki harap zaptiye ahırlarının önünden, bir serçe sürüsü gibi cıvıldayarak geçerdik.",a:'Ömer Seyfettin',t:'Falaka',url:'https://tr.wikisource.org/wiki/Falaka'},
-  {q:'Vakit vakit ince bir yağmur serpeliyordu. Güneş yoktu. Nihayetsiz mor bir kubbeyi andıran dumanlı gökten sonsuzluğun geçmiş saatlerini hatırlatır gamlı guguk sesleri aksediyordu.',a:'Ömer Seyfettin',t:'Yalnız Efe',url:'https://tr.wikisource.org/wiki/Yaln%C4%B1z_Efe'}
+const SAYINGS=[
+  'Damlaya damlaya göl olur.',
+  'Ağaç yaşken eğilir.',
+  'Ne ekersen onu biçersin.',
+  'Ak akçe kara gün içindir.',
+  'Dost kara günde belli olur.',
+  'Ayağını yorganına göre uzat.',
+  'Gülü seven dikenine katlanır.',
+  'Emek olmadan yemek olmaz.',
+  'Sabreden derviş muradına ermiş.',
+  'Taşıma su ile değirmen dönmez.',
+  'Birlikten kuvvet doğar.'
 ];
 function quoteHTML(){
-  if(!qd)return '<div class="a">Günün pasajı yükleniyor…</div>';
-  return `<div class="passage-label">Günün Pasajı</div><div class="qm">“</div><div class="qt">${esc(qd.q)}</div><div class="qrow"><span class="a">${esc(qd.t)} · ${esc(qd.a)}</span><a class="ol" href="${esc(qd.url)}" target="_blank" rel="noopener noreferrer">Kaynağı aç</a><button class="ol" data-a="qnew">Başka pasaj</button></div>`;
+  if(!qd)return '<div class="a">Günün sözü yükleniyor…</div>';
+  const source='https://sozluk.gov.tr/gts?ara='+encodeURIComponent(qd.q.replace(/[.!?]$/,''));
+  return `<div class="quote-label">Günün Sözü</div><div class="qm">“</div><div class="qt">${esc(qd.q)}</div><div class="qrow"><span class="a">Türk atasözü · Kaynak: Türk Dil Kurumu</span><a class="ol" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Kaynağı gör</a><button class="ol" data-a="qnew">Başka söz</button></div>`;
 }
 const paintQuote=()=>{const e=$('qbox');if(e)e.innerHTML=quoteHTML()};
 function loadQuote(random){
-  let index=dayNo()%PASSAGES.length;
-  if(random&&PASSAGES.length>1){
-    const current=PASSAGES.findIndex(p=>p.t===qd?.t);
-    index=(current+1+Math.floor(Math.random()*(PASSAGES.length-1)))%PASSAGES.length;
+  let index=dayNo()%SAYINGS.length;
+  if(random&&SAYINGS.length>1){
+    const current=SAYINGS.indexOf(qd?.q);
+    index=(current+1+Math.floor(Math.random()*(SAYINGS.length-1)))%SAYINGS.length;
   }
-  qd=PASSAGES[index];paintQuote();
+  qd={q:SAYINGS[index]};paintQuote();
 }
 async function enrich(id,manual){
   const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
