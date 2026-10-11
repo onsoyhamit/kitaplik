@@ -41,7 +41,6 @@ h1,h2,h3{margin:0;font-family:var(--sans)}h1{font-size:1.65rem;font-weight:700}h
 .chip{font-size:.75rem;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}.chip.ok{background:var(--ok-bg);color:var(--ok)}.chip.loan{background:var(--loan-bg);color:var(--loan)}
 .card2{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}.card2 h3{margin:0 0 6px}
 .note{white-space:pre-wrap}.empty{text-align:center;color:var(--mute);padding:30px 10px}
-.stars{margin-top:8px}.star{background:none;border:0;font-size:1.8rem;color:var(--line);cursor:pointer;padding:0 4px}.star.on{color:#e0a100}
 .sw{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
 select.inp{width:auto;min-width:160px}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,420px)}dialog::backdrop{background:rgba(0,0,0,.45)}
@@ -96,7 +95,6 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .reading-date{width:100%;margin-top:9px}
 .reading-date label{margin:0 0 4px;font-size:.73rem}
 .reading-date .inp{width:100%;padding:8px;font-size:.78rem}
-.reading-rating{display:flex;justify-content:center;margin-top:2px}
 .book-detail-block{min-width:0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
 .book-detail-block h3{margin:0;font-size:.98rem}
 .book-detail-block .section-head{margin-bottom:9px}
@@ -119,7 +117,6 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 @media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.settings-stat{padding:10px}.section-card{padding:14px}}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
 .quote{margin-top:auto;padding-top:22px}.qc{background:var(--card);border-radius:28px;padding:16px 20px 18px;box-shadow:var(--sh)}
-.quote-label{margin-bottom:8px;color:var(--mute);font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
 .qt{font:italic 1.2rem/1.45 var(--serif);margin:0 0 8px}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.95rem;color:var(--mute)}
 .qrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}.qrow .a{flex:1;min-width:70px}
@@ -225,7 +222,7 @@ auth.languageCode='tr';
 let fdb;
 try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
 
-let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',isbnScan={active:false,cancel:false,message:''},coverScan={active:false,cancel:false,message:''},target=null,saving=Promise.resolve(),profile={uid:null,username:''},scannedBookInfo=null,scannedBookIsbn='',isbnLookupTimer=null,isbnLookupRun=0,isbnLookupPromise=null,isbnLookupPromiseValue='',isbnLookupPromiseRun=0,barcodeControls=null,barcodeRun=0,barcodeActive=false;
+let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',isbnScan={active:false,cancel:false,message:''},coverScan={active:false,cancel:false,message:''},target=null,saving=Promise.resolve(),profile={uid:null,username:''},scannedBookInfo=null,scannedBookIsbn='',isbnLookupTimer=null,isbnLookupRun=0,isbnLookupPromise=null,isbnLookupPromiseValue='',isbnLookupPromiseRun=0,barcodeControls=null,barcodeRun=0,barcodeActive=false;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
@@ -722,7 +719,7 @@ const bookMetadataHTML=meta=>{
   if(!rows.length)return '';
   return '<section class="section-card"><div class="section-head"><div><h3>Kitap bilgileri</h3><p>Katalogdan bulunan baskı bilgileri.</p></div><span class="section-mark" aria-hidden="true">i</span></div>'+rows.join('')+'<div class="a">Bilgi kaynağı: '+esc(meta.source||'kitap kataloğu')+'</div></section>';
 };
-const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.p?`<span class="chip">★ ${b.p}</span>`:''}${b.np?`<span class="chip">Foto ${b.np}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
+const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.np?`<span class="chip">Foto ${b.np}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
 const card=b=>`<div class="row" data-a="det" data-id="${esc(b.id)}">${cov(b)}<div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div></div></div>`;
 const topbar=t=>`<div class="top"><button class="btn sm" data-a="back">Geri</button><h2>${t}</h2><span style="width:56px"></span></div>`;
 const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara" value="${esc(qtext)}">`;
@@ -758,7 +755,7 @@ function detV(){
      <div class="reading-controls">
       <div class="reading-label"><span class="reading-state-dot ${b.r?'is-read':b.k?'is-reading':''}"></span>${b.r?'Okundu':b.k?'Şu an okuyorum':'Okunmadı'}</div>
       <div class="reading-actions"><button class="reading-action ${b.r?'':'primary'}" data-a="rd">${b.r?'Okunmadı yap':'Okundu yap'}</button>${b.r?'':`<button class="reading-action" data-a="rg">${b.k?'Okumayı bırak':'Şu an okuyorum'}</button>`}</div>
-      ${b.r?`<div class="reading-date"><label for="rdate">Okunma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"></div><div class="stars reading-rating" aria-label="Puan ver">${[1,2,3,4,5].map(n=>`<button class="star ${b.p>=n?'on':''}" data-a="star" data-n="${n}" aria-label="${n} yıldız">★</button>`).join('')}</div>`:''}
+      ${b.r?`<div class="reading-date"><label for="rdate">Okunma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"></div>`:''}
      </div>
    </aside>
    <main class="book-page book-right-page">
@@ -820,32 +817,32 @@ function watchPhotos(id){
 }
 function shrinkMax(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{let M=1000,q=0.7,out='';for(let k=0;k<4;k++){const r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;M=Math.round(M*0.75);q=Math.max(0.45,q-0.1)}URL.revokeObjectURL(u);out.length<900000?res(out):rej(new Error('big'))};im.onerror=()=>rej(new Error('img'));im.src=u})}
 const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
-const SAYINGS=[
-  'Damlaya damlaya göl olur.',
-  'Ağaç yaşken eğilir.',
-  'Ne ekersen onu biçersin.',
-  'Ak akçe kara gün içindir.',
-  'Dost kara günde belli olur.',
-  'Ayağını yorganına göre uzat.',
-  'Gülü seven dikenine katlanır.',
-  'Emek olmadan yemek olmaz.',
-  'Sabreden derviş muradına ermiş.',
-  'Taşıma su ile değirmen dönmez.',
-  'Birlikten kuvvet doğar.'
-];
 function quoteHTML(){
-  if(!qd)return '<div class="a">Günün sözü yükleniyor…</div>';
-  const source='https://sozluk.gov.tr/gts?ara='+encodeURIComponent(qd.q.replace(/[.!?]$/,''));
-  return `<div class="quote-label">Günün Sözü</div><div class="qm">“</div><div class="qt">${esc(qd.q)}</div><div class="qrow"><span class="a">Türk atasözü · Kaynak: Türk Dil Kurumu</span><a class="ol" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Kaynağı gör</a><button class="ol" data-a="qnew">Başka söz</button></div>`;
+  if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="qrow"><button class="ol" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
+  return `<div class="qm">“</div><div class="qt">${esc(qd.q)}</div>${qd.tr?`<div class="qt tr">${esc(qd.tr)}</div>`:''}<div class="qrow"><span class="a">${esc(qd.a)}</span>${qd.tr?'':'<button class="ol" data-a="qtr">Türkçeye çevir</button>'}<button class="ol" data-a="qnew">Başka söz</button></div>`;
 }
 const paintQuote=()=>{const e=$('qbox');if(e)e.innerHTML=quoteHTML()};
-function loadQuote(random){
-  let index=dayNo()%SAYINGS.length;
-  if(random&&SAYINGS.length>1){
-    const current=SAYINGS.indexOf(qd?.q);
-    index=(current+1+Math.floor(Math.random()*(SAYINGS.length-1)))%SAYINGS.length;
-  }
-  qd={q:SAYINGS[index]};paintQuote();
+const saveQuote=()=>{try{if(qd&&!qd.r)localStorage.setItem('qd',JSON.stringify(qd))}catch(e){}};
+async function loadQuote(random){
+  if(!random){try{const c=JSON.parse(localStorage.getItem('qd')||'null');if(c&&c.day===dayNo()){qd=c;paintQuote();return}}catch(e){}}
+  try{
+    const r=await fetch(random?'https://dummyjson.com/quotes/random':'https://dummyjson.com/quotes?limit=1&skip='+(dayNo()%1400));
+    if(!r.ok)throw 0;
+    const j=await r.json(),it=random?j:(j.quotes||[])[0];
+    if(!it||!it.quote)throw 0;
+    qd={q:it.quote,a:it.author||'',day:dayNo()};if(random)qd.r=1;
+    qerr=false;saveQuote();
+  }catch(e){if(random)toast('Söz alınamadı. İnternet bağlantını kontrol et.');else qerr=true}
+  paintQuote();
+}
+async function trQuote(){
+  if(!qd||qd.tr)return;
+  try{
+    const r=await fetch('https://api.mymemory.translated.net/get?langpair=en|tr&q='+encodeURIComponent(qd.q));
+    const j=await r.json(),t=j.responseData&&j.responseData.translatedText;
+    if(!t||j.responseStatus!=200)throw 0;
+    qd.tr=t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&');saveQuote();paintQuote();
+  }catch(e){toast('Çeviri yapılamadı. Biraz sonra tekrar dene.')}
 }
 async function enrich(id,manual){
   const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
@@ -991,7 +988,6 @@ document.addEventListener('click',e=>{
     case 'coverSearch':if(!b)break;target=b;$('mcUrl').value='';$('mcRm').hidden=true;$('coverToolCode').value=coverToolCode;window.open(kLink(b),'_blank','noopener,noreferrer');$('dCover').showModal();break;
     case 'cover':enrich(id,true);break;
     case 'paste':(async()=>{try{const tx=await navigator.clipboard.readText();const m=(tx||'').match(/https?:\/\/[^\s]+/);const u=m?m[0].replace(/^http:/,'https:'):'';if(b&&okUrl(u)){change(()=>{b.u=u});pend='';toast('Bağlantı kaydedildi.')}else toast('Panoda 1000kitap bağlantısı bulamadım.')}catch(err){toast('Panoya erişilemedi. Düzenle penceresine yapıştırabilirsin.')}})();break;
-    case 'star':if(b){const n=+el.dataset.n;change(()=>{b.p=b.p===n?0:n})}break;
     case 'del':if(b){change(()=>{b.x=Date.now()});toast('Kitap çıkarıldı.',()=>change(()=>{b.x=0}));(history.length>1)?history.back():go('home')}break;
     case 'undel':if(b)change(()=>{b.x=0});break;
     case 'th':change(()=>{set.th=el.dataset.th;delete set.acc});break;
@@ -1002,6 +998,7 @@ document.addEventListener('click',e=>{
     case 'csvout':{const q=x=>'"'+String(x||'').replace(/"/g,'""')+'"';
         dl('kitaplik.csv','\uFEFF'+['Kitap;Yazar;Okundu;Not;ISBN-13'].concat(act().map(b=>[q(b.t),q(b.a),b.r?'okundu':'',q(b.n),q(b.isbn)].join(';'))).join('\r\n'),'text/csv');break}
     case 'qnew':loadQuote(true);break;
+    case 'qtr':trQuote();break;
     case 'covers':scanMissingCovers();break;
     case 'coverStop':coverScan.cancel=true;break;
     case 'isbnScan':scanMissingIsbns();break;

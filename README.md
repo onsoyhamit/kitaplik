@@ -11,10 +11,10 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 - Yeni kitap eklerken arka kamerayla ISBN barkodu tarama; geçerli ISBN yazıldığında otomatik katalog araması
 - Başlık/yazar için katalog destekli yazım düzeltme ve yüksek güvenli eşleşmede otomatik künye doldurma
 - Eksik ISBN’leri başlıkla toplu arama ve otomatik kaydetme
-- Okuma durumu, ödünç takibi, notlar ve puanlama
+- Okuma durumu, ödünç takibi ve notlar
 - Üç açık ve üç koyu tema; düzenlenmiş kitap detay ve ayarlar ekranları
 - Kitap detayında kapak/okuma takibi sol sayfada, ödünç ve notlar sağ sayfada
-- Kitap detayında yalın yeşil okuma eylemleri; ana sayfada TDK kaynaklı günlük Türkçe söz
+- Kitap detayında yalın yeşil okuma eylemleri; ana sayfada günlük söz ve isteğe bağlı Türkçe çeviri
 - CSV içe/dışa aktarma ve JSON yedekleme
 - ISBN veya başlık/yazar ile Open Library ve Google Books katalog/kapak araması
 - 1000kitap'ta kapak arama ve görsel bağlantısı kopyalama aracı
@@ -53,7 +53,7 @@ Kitap eklerken veya düzenlerken ISBN-13 girebilirsin. Yeni kitap formunda 13 ba
 
 Yeni kitap eklerken ISBN alanının yanındaki kamera simgesiyle arka kapaktaki ISBN barkodunu tara. Tarayıcı arka kamerayı, yüksek çözünürlük tercihlerini ve yalnızca EAN-13 barkod formatını kullanır; ekrandaki çerçeve barkodun hizalanmasına yardımcı olur. Kamera görüntüsü cihazda işlenir; katalog araması için yalnızca barkoddan okunan ISBN Google Books ve Open Library'ye gönderilir. Katalogda bulunursa başlık, yazar ve sağlanan yayın bilgileri forma alınır. Kamera kullanımı HTTPS ve tarayıcı izni gerektirir; ZXing barkod okuyucu ilk kullanımda jsDelivr üzerinden yüklenir. ISBN barkodu olmayan veya taranamayan kitaplarda 13 rakamlı ISBN'yi elle girebilirsin; ISBN araması otomatik başlar.
 
-Ana sayfadaki **Günün Sözü**, Türk atasözlerinden çevrimdışı çalışan günlük bir seçki gösterir. Her sözün atfı **Türk atasözü**, kaynak bağlantısı ise ilgili maddeyi açan Türk Dil Kurumu Güncel Türkçe Sözlük kaydıdır.
+Ana sayfadaki **Günün Sözü**, önceki sürümlerdeki gibi günlük olarak çevrimiçi bir söz getirir; kaynak İngilizce söz döndürürse **Türkçeye çevir** düğmesiyle isteğe bağlı çeviri yapılabilir.
 
 Open Library ve Google Books kitap ekleme, ISBN doğrulama ve kapak bulma akışlarında doğrudan katalog kaynağı olarak kullanılır. Uygulamanın kullanabildiği resmi bir 1000kitap katalog API'si bulunmadığından, 1000kitap için kitap arama bağlantısı ve kullanıcının seçtiği kapak URL'sini kaydetme aracı sunulur; sayfa içeriği otomatik olarak çekilmez.
 
