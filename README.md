@@ -12,7 +12,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 - Eksik ISBN’leri başlıkla toplu arama ve otomatik kaydetme
 - Okuma durumu, ödünç takibi, notlar ve puanlama
 - CSV içe/dışa aktarma ve JSON yedekleme
-- ISBN veya başlık/yazar ile Open Library ve Google Books kapak araması
+- ISBN veya başlık/yazar ile Open Library ve Google Books kapak araması (ortalama %65 doğrulama)
 - 1000kitap'ta kapak arama ve görsel bağlantısı kopyalama aracı
 - Çevrimdışı PWA kabuğu
 
