@@ -88,6 +88,10 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .settings-message{margin:10px 0 0}
 .account-name{font:600 1.12rem/1.3 var(--serif)}
 .account-email{margin-top:3px;color:var(--mute);font-size:.82rem;overflow-wrap:anywhere}
+.account-form-row{display:flex;align-items:flex-end;gap:8px}.account-form-row .inp{min-width:0;margin:0}.account-form-row .btn{min-height:46px;flex:0 0 auto}
+.account-password{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.account-password h4{margin:0 0 8px;font-size:.92rem}
+.account-hint{margin:-4px 0 10px;color:var(--mute);font-size:.78rem;line-height:1.45}
+.account-status{min-height:1.3em;font-size:.8rem;color:var(--mute)}.account-status.error{color:var(--danger)}.account-status.success{color:var(--ok)}
 .profile-signout{margin:0;border-color:color-mix(in srgb,var(--danger) 30%,var(--line));background:color-mix(in srgb,var(--danger) 5%,var(--card))}
 .book-spread{display:grid;grid-template-columns:minmax(205px,.76fr) minmax(0,1.5fr);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh)}
 .book-page{min-width:0;padding:22px}
@@ -271,9 +275,10 @@ dialog h2{display:flex;align-items:center;gap:10px}
    <button class="btn wide" id="resetPassword">Parolamı unuttum</button>
   </div>
   <div id="signupPanel" hidden>
-   <label for="suU">Kullanıcı adı</label><input class="inp" id="suU" type="text" autocomplete="username">
-   <label for="suE">E-posta</label><input class="inp" id="suE" type="email" autocomplete="email">
-   <label for="suP">Parola</label><input class="inp" id="suP" type="password" autocomplete="new-password">
+   <label for="suU">Kullanıcı adı</label><input class="inp" id="suU" type="text" autocomplete="username" minlength="3" maxlength="20" pattern="[A-Za-z0-9._-]{3,20}" required>
+   <label for="suE">E-posta</label><input class="inp" id="suE" type="email" autocomplete="email" required>
+   <label for="suP">Parola</label><input class="inp" id="suP" type="password" autocomplete="new-password" minlength="8" required>
+   <p class="account-hint">En az 8 karakter; en az bir harf, bir rakam ve bir noktalama işareti kullan.</p>
    <div id="suErr" class="banner" hidden></div>
    <button class="btn pri wide" id="suGo">Hesap oluştur</button>
   </div>
@@ -335,7 +340,7 @@ dialog h2{display:flex;align-items:center;gap:10px}
 </dialog>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {getAuth,onIdTokenChanged,signInWithEmailAndPassword,signOut,createUserWithEmailAndPassword,deleteUser,sendEmailVerification,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getAuth,onIdTokenChanged,signInWithEmailAndPassword,signOut,createUserWithEmailAndPassword,deleteUser,sendEmailVerification,sendPasswordResetEmail,EmailAuthProvider,reauthenticateWithCredential,updatePassword} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,getDoc,onSnapshot,collection,deleteDoc,query,where,runTransaction} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",
@@ -355,6 +360,8 @@ let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=fa
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
+const usernamePattern=/^[a-zA-Z0-9._-]{3,20}$/;
+const validPassword=password=>password.length>=8&&/\p{L}/u.test(password)&&/\p{N}/u.test(password)&&/\p{P}/u.test(password);
 const fmt=d=>d?d.split('-').reverse().join('.'):'';
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const F={all:()=>true,read:b=>b.r,unread:b=>!b.r,reading:b=>b.k&&!b.r,loan:b=>b.l,notes:b=>b.n||b.np};
@@ -922,7 +929,7 @@ function profV(){
    ${section('isbn','ISBN bulma',`${noIsbn} kitapta ISBN yok. Başlığa göre kataloglarda arar; bulunan ISBN farklı bir baskıya ait olabilir.`,IC('isbn'),`<div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div>`)}
    ${section('covers', 'Kapak bulma ve eşitleme',`${noCover} kitapta kapak yok. Kapaklar hesabın ve cihazların arasında eşitlenir.`,IC('photo'),`<div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div>`)}
    ${del.length?section('deleted','Silinen kitaplar','7 gün sonra kalıcı olarak kaldırılır.',IC('trash'),del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')):''}
-   ${section('account','Hesap',profile.username||'Kitaplık hesabı',IC('user'),`<div class="account-email">${esc(auth.currentUser?.email||'')}</div><button class="btn del wide profile-signout" data-a="out">Oturumu kapat</button>`)}
+   ${section('account','Hesap',profile.username||'Kullanıcı adı ve parola',IC('user'),`<p class="account-hint">Giriş e-posta adresinle yapılır; kullanıcı adı hesabında görünen ad olarak kullanılır.</p><label for="accountUsername">Kullanıcı adı</label><div class="account-form-row"><input class="inp" id="accountUsername" type="text" autocomplete="username" minlength="3" maxlength="20" pattern="[A-Za-z0-9._-]{3,20}" value="${esc(profile.username)}" required><button class="btn pri" type="button" data-a="usernameSave">Kaydet</button></div><div id="accountUsernameStatus" class="account-status" role="status" aria-live="polite"></div><div class="account-email">E-posta: ${esc(auth.currentUser?.email||'')}</div><div class="account-password"><h4>Şifreyi değiştir</h4><label for="currentPassword">Mevcut şifre</label><input class="inp" id="currentPassword" type="password" autocomplete="current-password"><label for="newPassword">Yeni şifre</label><input class="inp" id="newPassword" type="password" autocomplete="new-password" minlength="8" aria-describedby="passwordRules"><label for="confirmPassword">Yeni şifreyi tekrar yaz</label><input class="inp" id="confirmPassword" type="password" autocomplete="new-password" minlength="8"><p class="account-hint" id="passwordRules">En az 8 karakter; en az bir harf, bir rakam ve bir noktalama işareti kullan.</p><button class="btn pri wide" type="button" data-a="passwordSave">Şifreyi değiştir</button><div id="passwordStatus" class="account-status" role="status" aria-live="polite"></div></div><button class="btn del wide profile-signout" type="button" data-a="out">Oturumu kapat</button>`)}
   </main>`;
 }
 function render(){
@@ -1145,6 +1152,8 @@ document.addEventListener('click',e=>{
     case 'coverStop':coverScan.cancel=true;break;
     case 'isbnScan':scanMissingIsbns();break;
     case 'isbnStop':isbnScan.cancel=true;break;
+    case 'usernameSave':saveUsername();break;
+    case 'passwordSave':changeAccountPassword();break;
     case 'out':signOut(auth);break;
   }
 });
@@ -1286,7 +1295,65 @@ $('file').onchange=async e=>{
     if(confirm('Kitaplığındaki '+act().length+' kitabın yerine yedekteki '+arr.length+' kayıt yüklensin mi?'))change(()=>{books=arr});
   }catch(err){alert('Bu dosya bir kitaplık yedeği gibi görünmüyor.')}
 };
-const errTxt={'auth/invalid-credential':'E-posta veya parola hatalı.','auth/invalid-email':'E-posta adresi geçersiz.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.','auth/network-request-failed':'İnternet bağlantısı yok.','auth/email-already-in-use':'Bu e-posta adresi zaten kullanılıyor.','auth/weak-password':'Parola en az 6 karakter olmalı.','auth/operation-not-allowed':'Firebase Console’da e-posta/parola ile girişi etkinleştir.','auth/username-taken':'Bu kullanıcı adı zaten kullanılıyor.'};
+const errTxt={'auth/invalid-credential':'Mevcut şifre doğru değil.','auth/invalid-email':'E-posta adresi geçersiz.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.','auth/network-request-failed':'İnternet bağlantısı yok.','auth/email-already-in-use':'Bu e-posta adresi zaten kullanılıyor.','auth/weak-password':'Şifre en az 8 karakter olmalı; harf, rakam ve noktalama işareti içermeli.','auth/operation-not-allowed':'Firebase Console’da e-posta/parola ile girişi etkinleştir.','auth/username-taken':'Bu kullanıcı adı zaten kullanılıyor.','auth/wrong-password':'Mevcut şifre doğru değil.','auth/requires-recent-login':'Güvenlik için yeniden giriş yapıp tekrar dene.'};
+
+function setAccountStatus(id,message,kind=''){
+  const element=$(id);if(!element)return;
+  element.textContent=message;
+  element.className='account-status'+(kind?' '+kind:'');
+}
+
+async function saveUsername(){
+  const user=auth.currentUser,username=$('accountUsername').value.trim().toLowerCase();
+  setAccountStatus('accountUsernameStatus','');
+  if(!user){setAccountStatus('accountUsernameStatus','Hesabına yeniden giriş yap.','error');return}
+  if(!usernamePattern.test(username)){setAccountStatus('accountUsernameStatus','Kullanıcı adı 3–20 karakter olmalı; İngilizce harf, rakam, nokta, tire ve alt çizgi kullanılabilir.','error');$('accountUsername').focus();return}
+  const usernameKey=username.toLowerCase(),userRef=doc(fdb,'users',user.uid),newUsernameRef=doc(fdb,'usernames',usernameKey);
+  try{
+    await runTransaction(fdb,async tx=>{
+      const userSnap=await tx.get(userRef);
+      if(!userSnap.exists())throw new Error('account-missing');
+      const userData=userSnap.data(),oldKey=typeof userData.usernameKey==='string'?userData.usernameKey:'';
+      const newUsernameSnap=await tx.get(newUsernameRef);
+      const oldUsernameRef=oldKey&&oldKey!==usernameKey?doc(fdb,'usernames',oldKey):null;
+      const oldUsernameSnap=oldUsernameRef?await tx.get(oldUsernameRef):null;
+      if(newUsernameSnap.exists()&&newUsernameSnap.data().uid!==user.uid)throw Object.assign(new Error('username-taken'),{code:'auth/username-taken'});
+      if(oldKey&&oldKey!==usernameKey&&(!oldUsernameSnap?.exists()||oldUsernameSnap.data().uid!==user.uid))throw new Error('username-registry-missing');
+      if(oldKey===usernameKey&&(!newUsernameSnap.exists()||newUsernameSnap.data().uid!==user.uid))throw new Error('username-registry-missing');
+      if(oldKey!==usernameKey){
+        tx.set(newUsernameRef,{uid:user.uid});
+        if(oldUsernameRef)tx.delete(oldUsernameRef);
+      }
+      tx.update(userRef,{username,usernameKey});
+    });
+    profile.username=username;
+    render();
+    toast('Kullanıcı adı güncellendi.');
+  }catch(error){
+    const message=error.code==='auth/username-taken'?'Bu kullanıcı adı başka bir hesap tarafından kullanılıyor.':error.message==='username-registry-missing'?'Mevcut kullanıcı adı kaydı doğrulanamadı. Destek için bizimle iletişime geç.':'Kullanıcı adı güncellenemedi. İnternet bağlantını ve Firestore kurallarını kontrol et.';
+    setAccountStatus('accountUsernameStatus',message,'error');
+  }
+}
+
+async function changeAccountPassword(){
+  const user=auth.currentUser,currentPassword=$('currentPassword').value,newPassword=$('newPassword').value,confirmPassword=$('confirmPassword').value;
+  setAccountStatus('passwordStatus','');
+  if(!user?.email){setAccountStatus('passwordStatus','Hesabına yeniden giriş yap.','error');return}
+  if(!currentPassword){setAccountStatus('passwordStatus','Önce mevcut şifreni gir.','error');$('currentPassword').focus();return}
+  if(!validPassword(newPassword)){setAccountStatus('passwordStatus','Yeni şifre en az 8 karakter olmalı; en az bir harf, bir rakam ve bir noktalama işareti içermeli.','error');$('newPassword').focus();return}
+  if(newPassword!==confirmPassword){setAccountStatus('passwordStatus','Yeni şifreler eşleşmiyor.','error');$('confirmPassword').focus();return}
+  if(newPassword===currentPassword){setAccountStatus('passwordStatus','Yeni şifren mevcut şifreden farklı olmalı.','error');$('newPassword').focus();return}
+  try{
+    const credential=EmailAuthProvider.credential(user.email,currentPassword);
+    await reauthenticateWithCredential(user,credential);
+    await updatePassword(user,newPassword);
+    $('currentPassword').value='';$('newPassword').value='';$('confirmPassword').value='';
+    setAccountStatus('passwordStatus','Şifren başarıyla değiştirildi.','success');
+  }catch(error){
+    const message=errTxt[error.code]||'Şifre değiştirilemedi. İnternet bağlantını kontrol edip tekrar dene.';
+    setAccountStatus('passwordStatus',message,'error');
+  }
+}
 
 function setAuthMode(mode){
   const loginPanel=$('loginPanel');
@@ -1312,7 +1379,7 @@ document.addEventListener('click',e=>{
 async function login(){
   $('lgErr').hidden=true;
   try{await signInWithEmailAndPassword(auth,$('lgE').value.trim(),$('lgP').value)}
-  catch(e){$('lgErr').textContent=errTxt[e.code]||'Giriş yapılamadı ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
+  catch(e){$('lgErr').textContent=e.code==='auth/invalid-credential'?'E-posta veya şifre hatalı.':errTxt[e.code]||'Giriş yapılamadı ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
 }
 
 async function resetPassword(){
@@ -1325,10 +1392,11 @@ async function resetPassword(){
 
 async function signup(){
   $('suErr').hidden=true;
-  const username=$('suU').value.trim();
+  const username=$('suU').value.trim().toLowerCase();
   const email=$('suE').value.trim();
   const password=$('suP').value;
-  if(!/^[a-zA-Z0-9._-]{3,20}$/.test(username)){$('suErr').textContent='Kullanıcı adı 3–20 karakter olmalı; İngilizce harf, rakam, nokta, tire ve alt çizgi kullanılabilir.';$('suErr').hidden=false;$('suU').focus();return}
+  if(!usernamePattern.test(username)){$('suErr').textContent='Kullanıcı adı 3–20 karakter olmalı; İngilizce harf, rakam, nokta, tire ve alt çizgi kullanılabilir.';$('suErr').hidden=false;$('suU').focus();return}
+  if(!validPassword($('suP').value)){$('suErr').textContent='Şifre en az 8 karakter olmalı; en az bir harf, bir rakam ve bir noktalama işareti içermeli.';$('suErr').hidden=false;$('suP').focus();return}
   let createdUser=null,provisioned=false;
   try{
     const result=await createUserWithEmailAndPassword(auth,email,password);
