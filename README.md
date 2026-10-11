@@ -13,6 +13,7 @@ Mobil uyumlu, kurulabilir bir PWA olarak çalışan kişisel kitaplık uygulamas
 - Eksik ISBN’leri başlıkla toplu arama ve otomatik kaydetme
 - Okuma durumu, ödünç takibi ve notlar
 - Üç açık ve üç koyu tema; düzenlenmiş kitap detay ve ayarlar ekranları
+- Cihaz ekranına göre uyarlanan, dikey kaydırma gerektirmeyen ana sayfa; açılır/kapanır ayarlar ve uygulama içi başlangıç rehberi
 - Kitap detayında kapak/okuma takibi sol sayfada, ödünç ve notlar sağ sayfada
 - Kitap detayında yalın yeşil okuma eylemleri; ana sayfada günlük söz ve isteğe bağlı Türkçe çeviri
 - CSV içe/dışa aktarma ve JSON yedekleme

@@ -19,16 +19,17 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.4 var(--sans)}
 .wrap{max-width:760px;margin:0 auto;padding:14px 14px 70px}
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.top.sticky-top{position:sticky;top:0;z-index:15;padding:8px 0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px)}
+.back-icon{width:40px;height:40px;display:grid;place-items:center;padding:0;border-radius:50%}.back-icon svg{width:20px;height:20px}
 h1,h2,h3{margin:0;font-family:var(--sans)}h1{font-size:1.65rem;font-weight:700}h2{font-size:1.25rem}h3{font-size:1rem;margin:18px 0 8px}
 .inp{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;margin:0 0 10px}
 :focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:10px 13px;font:inherit;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
 .pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}.del{color:var(--danger)}.wide{width:100%;margin:6px 0}
-.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(118px,auto);gap:10px;margin-top:4px}
-.tile{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:var(--card);border:0;border-radius:26px;padding:14px 16px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;box-shadow:var(--sh);grid-column:span 2}
-.tile span{color:var(--mute);font-size:.78rem}.tile b{font:700 2.3rem/1 var(--sans)}
-.tile:nth-child(1){grid-column:1/4;grid-row:1/3;background:var(--acc);color:var(--acc-ink)}.tile:nth-child(1) span{color:var(--acc-ink);opacity:.85;font-size:.95rem}.tile:nth-child(1) b{font-size:4rem}
-.tile:nth-child(2),.tile:nth-child(3){grid-column:4/7}
+.bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:clamp(6px,1.2vh,10px);margin-top:4px;flex:1;min-height:0}
+.tile{min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:var(--card);border:0;border-radius:clamp(12px,2.2vw,22px);padding:clamp(8px,1.5vh,14px) clamp(9px,1.8vw,16px);text-align:left;cursor:pointer;color:var(--ink);font:inherit;box-shadow:var(--sh);overflow:hidden}
+.tile span{color:var(--mute);font-size:clamp(.62rem,1.6vh,.82rem);line-height:1.2}.tile b{font:700 clamp(1.35rem,4.8vh,2.4rem)/1 var(--sans)}
+.tile:first-child{background:var(--acc);color:var(--acc-ink)}.tile:first-child span{color:var(--acc-ink);opacity:.88}
 .sm{padding:6px 10px;font-size:.8rem}.srow{display:flex;gap:10px;align-items:center;margin-bottom:14px}.srow .inp{flex:1;margin:0;height:52px}
 .inp[type=search]{border:0;border-radius:999px;box-shadow:var(--sh);padding-left:48px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237F76A8' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:18px center;background-size:20px}
 .rbtn{width:52px;height:52px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px rgba(124,92,240,.35);flex:0 0 auto;padding:0}.rbtn svg{width:26px;height:26px}.rbtn.g{width:46px;height:46px}.rbtn.g svg{width:24px;height:24px}
@@ -56,10 +57,23 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
 .section-head h3{margin:0;font-size:1rem}.section-head p{margin:4px 0 0;color:var(--mute);font-size:.82rem}
 .section-mark{width:36px;height:36px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;background:var(--bg);color:var(--acc);font-size:1.05rem;font-weight:700}
-.settings-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
-.settings-stat{padding:12px;border-radius:14px;background:var(--bg);min-width:0}.settings-stat b{display:block;font-size:1.2rem}.settings-stat span{color:var(--mute);font-size:.75rem}
 .settings-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .settings-actions .btn{width:100%;min-height:44px}
+.settings-accordion{margin:0;padding:0 16px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--sh)}
+.settings-accordion+ .settings-accordion{margin-top:10px}
+.settings-accordion summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:62px;cursor:pointer}
+.settings-accordion summary::-webkit-details-marker{display:none}
+.settings-accordion summary::after{content:"＋";margin-left:auto;color:var(--acc);font-size:1.1rem;font-weight:600}
+.settings-accordion[open] summary::after{content:"−"}
+.settings-accordion summary .section-mark{width:34px;height:34px}
+.settings-accordion summary h3{margin:0;font-size:.96rem}
+.settings-accordion summary p{margin:3px 0 0;color:var(--mute);font-size:.78rem}
+.settings-accordion-content{padding:0 0 16px}
+.settings-accordion-content>.settings-message:first-child{margin-top:0}
+.howto-list{margin:0;padding-left:22px}
+.howto-list li{padding:0 0 10px 3px;line-height:1.55}
+.howto-list li:last-child{padding-bottom:0}
+.howto-list b{color:var(--ink)}
 .theme-group+.theme-group{margin-top:14px}
 .theme-label{display:block;margin-bottom:7px;color:var(--mute);font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
 .theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -114,13 +128,19 @@ dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 .book-spread .banner{margin:0}
 .profile-footer{padding-top:4px}
 @media(max-width:620px){.book-spread{grid-template-columns:minmax(118px,.68fr) minmax(0,1.35fr);border-radius:16px}.book-page{padding:14px}.book-right-page{gap:10px}.book-spread .detail-cover{width:min(100%,132px);margin:0 auto 12px}.book-detail-block{padding:12px}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.settings-stat{padding:10px}.section-card{padding:14px}}
+@media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.section-card{padding:14px}}
 #main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
-.quote{margin-top:auto;padding-top:22px}.qc{background:var(--card);border-radius:28px;padding:16px 20px 18px;box-shadow:var(--sh)}
+.quote{padding-top:clamp(6px,1.2vh,12px);flex:0 0 auto}.qc{background:var(--card);border-radius:clamp(12px,2vw,22px);padding:clamp(9px,1.4vh,14px) clamp(12px,2vw,18px);box-shadow:var(--sh)}
 .qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
-.qt{font:italic 1.2rem/1.45 var(--serif);margin:0 0 8px}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.95rem;color:var(--mute)}
-.qrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}.qrow .a{flex:1;min-width:70px}
+.qt{font:italic clamp(.82rem,1.9vh,1.1rem)/1.3 var(--serif);margin:0 0 5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.82rem;color:var(--mute)}
+.qrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px}.qrow .a{flex:1;min-width:70px;font-size:clamp(.68rem,1.5vh,.82rem)}
 .ol{background:transparent;border:2px solid var(--acc);color:var(--acc);border-radius:999px;padding:7px 13px;font:inherit;font-size:.82rem;font-weight:500;cursor:pointer}
+.home-screen{height:100%;min-height:0;display:flex;flex-direction:column}.home-screen>.top{flex:0 0 auto;margin-bottom:clamp(5px,1vh,10px)}.home-screen .srow{flex:0 0 auto;margin-bottom:clamp(6px,1vh,12px)}.home-screen #tiles{flex:1;min-height:0;overflow:hidden}.home-screen .bento{min-height:0}.home-screen .empty{padding:4px 8px;font-size:.75rem}.home-screen #res{flex:0 0 auto;max-height:30vh;overflow:auto}
+.wrap#main.home-layout{height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0;padding:10px 14px max(10px,env(safe-area-inset-bottom,0px));overflow:hidden}
+#view.home-view{height:100%;min-height:0}
+@media(max-width:480px){.bento{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}.tile b{font-size:clamp(1.3rem,4.3vh,2rem)}}
+@media(max-height:620px){.home-screen>.top{margin-bottom:4px}.home-screen .srow{margin-bottom:4px}.home-screen .srow .inp{height:42px}.home-screen .rbtn{width:42px;height:42px}.bento{gap:5px}.tile{padding:6px 9px}.quote{padding-top:5px}.qc{padding:7px 10px}.qm{height:1.2rem;font-size:2rem;margin-bottom:2px}.qt{-webkit-line-clamp:1}.qrow{margin-top:2px}.qrow .ol{padding:3px 8px;font-size:.68rem}}
+@media(max-width:360px){.wrap:has(.home-screen){padding-left:9px;padding-right:9px}.tile span{font-size:.6rem}}
 .cvw{position:relative;width:110px;height:165px;flex:0 0 auto}.cvb{position:absolute;left:6px;right:6px;bottom:6px;padding:6px 4px;font:inherit;font-size:.72rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.95}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;background:var(--bg)}.pgrid:empty{display:none}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
@@ -222,7 +242,7 @@ auth.languageCode='tr';
 let fdb;
 try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
 
-let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',isbnScan={active:false,cancel:false,message:''},coverScan={active:false,cancel:false,message:''},target=null,saving=Promise.resolve(),profile={uid:null,username:''},scannedBookInfo=null,scannedBookIsbn='',isbnLookupTimer=null,isbnLookupRun=0,isbnLookupPromise=null,isbnLookupPromiseValue='',isbnLookupPromiseRun=0,barcodeControls=null,barcodeRun=0,barcodeActive=false;
+let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',isbnScan={active:false,cancel:false,message:''},coverScan={active:false,cancel:false,message:''},target=null,saving=Promise.resolve(),profile={uid:null,username:''},scannedBookInfo=null,scannedBookIsbn='',isbnLookupTimer=null,isbnLookupRun=0,isbnLookupPromise=null,isbnLookupPromiseValue='',isbnLookupPromiseRun=0,barcodeControls=null,barcodeRun=0,barcodeActive=false,settingsOpen=new Set();
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
@@ -721,17 +741,17 @@ const bookMetadataHTML=meta=>{
 };
 const chips=b=>`${b.r?'<span class="chip ok">Okundu</span>':b.k?'<span class="chip loan">Okuyorum</span>':'<span class="chip">Okunmadı</span>'}${b.np?`<span class="chip">Foto ${b.np}</span>`:''}${b.l?`<span class="chip loan">Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
 const card=b=>`<div class="row" data-a="det" data-id="${esc(b.id)}">${cov(b)}<div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div></div></div>`;
-const topbar=t=>`<div class="top"><button class="btn sm" data-a="back">Geri</button><h2>${t}</h2><span style="width:56px"></span></div>`;
+const topbar=(t,sticky=false)=>`<div class="top${sticky?' sticky-top':''}"><button class="btn back-icon" data-a="back" aria-label="Geri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6M9 12h12"/></svg></button><h2>${t}</h2><span style="width:40px"></span></div>`;
 const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara" value="${esc(qtext)}">`;
 
 function homeV(){
   const A=act();
-  return `<div class="top"><h1>Kitaplığım</h1><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
+  return `<div class="home-screen"><div class="top"><h1>Kitaplığım</h1><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
   <div class="srow">${searchBox()}<button class="rbtn" data-a="add" aria-label="Kitap ekle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
   <div id="tiles" class="fl" style="flex:1">
   ${A.length?'':'<div class="empty">Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
   <div class="bento">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><span>${L[f]}</span><b>${A.filter(F[f]).length}</b></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
-  <div id="res"></div>`;
+  <div id="res"></div></div>`;
 }
 function listV(){
   let sum='';
@@ -769,27 +789,38 @@ function detV(){
   </div>`;
 }
 function profV(){
-  const A=act(),rd=A.filter(b=>b.r),yr=String(new Date().getFullYear()),yc=rd.filter(b=>(b.rd||'').startsWith(yr)).length;
-  const del=books.filter(b=>b.x),noIsbn=A.filter(b=>!validIsbn13(b.isbn)).length,noCover=A.filter(b=>!(covers[b.id]||b.mc||b.c)).length,selected=themeKey();
+  const del=books.filter(b=>b.x),noIsbn=act().filter(b=>!validIsbn13(b.isbn)).length,noCover=act().filter(b=>!(covers[b.id]||b.mc||b.c)).length,selected=themeKey();
   const themeButton=([key,theme])=>`<button class="theme-choice" data-a="th" data-th="${key}" aria-pressed="${selected===key}"><span class="theme-swatch" style="--swatch:${theme.bg};--swatch-line:${theme.line};--swatch-inner:${theme.acc}"></span><span>${theme.n}</span></button>`;
   const themeGroup=(group,title)=>`<div class="theme-group"><span class="theme-label">${title}</span><div class="theme-grid">${Object.entries(TH).filter(([,theme])=>theme.group===group).map(themeButton).join('')}</div></div>`;
-  return `${topbar('Ayarlar')}
+  const section=(key,title,description,icon,content)=>`<details class="settings-accordion" data-section="${key}"${settingsOpen.has(key)?' open':''}><summary><span class="section-mark" aria-hidden="true">${icon}</span><span><h3>${esc(title)}</h3>${description?`<p>${esc(description)}</p>`:''}</span></summary><div class="settings-accordion-content">${content}</div></details>`;
+  const howTo=`<ol class="howto-list">
+   <li><b>Kitap ekle:</b> Ana sayfadaki + düğmesine dokun. Kitap adını ve yazarı gir; ISBN-13 biliyorsan yaz, bilmiyorsan arka kapaktaki barkodu kamera düğmesiyle tara. Geçerli ISBN tamamlanınca katalog araması başlar. Bulunan başlık ve yazarı eklemeden önce kontrol et.</li>
+   <li><b>Kapak bul:</b> Kitap detayında kapak alanına dokun. Katalogda bulunamazsa 1000kitap araması, görsel bağlantısı ekleme veya cihazından kapak fotoğrafı yükleme seçeneklerini kullan.</li>
+   <li><b>Kitaplarını düzenle:</b> Ana sayfadaki arama alanıyla kitap veya yazar ara. Durum kutularından tüm kitapları, okunanları, okunmayanları, okumakta olduklarını, ödünç verilenleri veya not eklediklerini aç.</li>
+   <li><b>Okuma ve ödünç bilgisi:</b> Bir kitabı okundu ya da şu an okunuyor olarak işaretle. Kitabı birine verdiğinde ödünç takibine al; geri aldığında kaydı kapat.</li>
+   <li><b>Not ve fotoğraf ekle:</b> Kitap detayında Düzenle ile notunu kaydet; Fotoğraf ekle düğmesiyle kitaba ait görselleri sakla.</li>
+   <li><b>Başka cihazda kullan:</b> Aynı hesapla giriş yap ve internet bağlantısı kullan. Kitapların ve hesapta saklanan kapak/not fotoğrafların eşitlenir.</li>
+   <li><b>Yedek al:</b> Buradaki Kitaplık verileri bölümünden JSON yedeği alabilir veya CSV içe/dışa aktarabilirsin. Yedeklerini güvenli bir yerde sakla.</li>
+   <li><b>Görünümü değiştir:</b> Görünüm bölümünden açık/koyu tema ve yazı boyutunu seç.</li>
+  </ol>`;
+  return `${topbar('Ayarlar',true)}
   <main class="profile-page">
-   <p class="page-intro">Kitaplığını, görünümünü ve hesabını buradan yönet.</p>
-   <section class="section-card"><div class="section-head"><div><h3>Kitaplığım</h3><p>Okuma durumuna genel bakış.</p></div><span class="section-mark" aria-hidden="true">▤</span></div><div class="settings-summary"><div class="settings-stat"><b>${A.length}</b><span>Toplam kitap</span></div><div class="settings-stat"><b>${rd.length}</b><span>Okunan</span></div><div class="settings-stat"><b>${yc}</b><span>Bu yıl</span></div></div></section>
-   <section class="section-card"><div class="section-head"><div><h3>Kitaplık verileri</h3><p>Yedeğini al veya dosyadan içe/dışa aktar.</p></div><span class="section-mark" aria-hidden="true">⇅</span></div><div class="settings-actions"><button class="btn" data-a="backup">JSON yedeği al</button><button class="btn" data-a="restore">Yedekten geri yükle</button><button class="btn" data-a="csvin">CSV içe aktar</button><button class="btn" data-a="csvout">CSV dışa aktar</button></div></section>
-   <section class="section-card"><div class="section-head"><div><h3>Görünüm</h3><p>Altı renk paletinden birini seç.</p></div><span class="section-mark" aria-hidden="true">◐</span></div>${themeGroup('light','Açık temalar')}${themeGroup('dark','Koyu temalar')}<div class="setting-control"><label for="fs">Yazı boyutu</label><select class="inp" id="fs"><option value="k"${set.fs==='k'?' selected':''}>Küçük</option><option value="o"${(set.fs||'o')==='o'?' selected':''}>Orta</option><option value="b"${set.fs==='b'?' selected':''}>Büyük</option></select></div></section>
-   <section class="section-card"><div class="section-head"><div><h3>ISBN bulma</h3><p>${noIsbn} kitapta ISBN yok. Başlıkla kataloglarda arar; bulunan ISBN kullandığın baskıyla farklı olabilir.</p></div><span class="section-mark" aria-hidden="true">#</span></div><div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div></section>
-   <section class="section-card"><div class="section-head"><div><h3>Kapak bulma ve eşitleme</h3><p>${noCover} kitapta kapak yok. Bulunanlar ve yüklediğin kapak fotoğrafları hesabında saklanıp diğer cihazlarla eşitlenir.</p></div><span class="section-mark" aria-hidden="true">▧</span></div><div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div></section>
-   ${del.length?`<section class="section-card"><div class="section-head"><div><h3>Silinen kitaplar</h3><p>7 gün sonra kalıcı olarak kaldırılır.</p></div></div>${del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')}</section>`:''}
-   <section class="section-card"><div class="section-head"><div><h3>Hesap</h3><p class="account-name">${esc(profile.username||'Kitaplık hesabı')}</p><div class="account-email">${esc(auth.currentUser?.email||'')}</div></div><span class="section-mark" aria-hidden="true">◎</span></div><button class="btn del wide profile-signout" data-a="out">Oturumu kapat</button></section>
+   ${section('guide','Nasıl kullanılır?','İlk kez kullananlar için kısa başlangıç rehberi.','?',howTo)}
+   ${section('data','Kitaplık verileri','Yedekleme ve dosya aktarımı.','⇅','<div class="settings-actions"><button class="btn" data-a="backup">JSON yedeği al</button><button class="btn" data-a="restore">Yedekten geri yükle</button><button class="btn" data-a="csvin">CSV içe aktar</button><button class="btn" data-a="csvout">CSV dışa aktar</button></div>')}
+   ${section('appearance','Görünüm','Tema ve yazı boyutu.','◐',`${themeGroup('light','Açık temalar')}${themeGroup('dark','Koyu temalar')}<div class="setting-control"><label for="fs">Yazı boyutu</label><select class="inp" id="fs"><option value="k"${set.fs==='k'?' selected':''}>Küçük</option><option value="o"${(set.fs||'o')==='o'?' selected':''}>Orta</option><option value="b"${set.fs==='b'?' selected':''}>Büyük</option></select></div>`)}
+   ${section('isbn','ISBN bulma',`${noIsbn} kitapta ISBN yok. Başlığa göre kataloglarda arar; bulunan ISBN farklı bir baskıya ait olabilir.`,'#',`<div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div>`)}
+   ${section('covers', 'Kapak bulma ve eşitleme',`${noCover} kitapta kapak yok. Kapaklar hesabın ve cihazların arasında eşitlenir.`,'▧',`<div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div>`)}
+   ${del.length?section('deleted','Silinen kitaplar','7 gün sonra kalıcı olarak kaldırılır.','⌫',del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')):''}
+   ${section('account','Hesap',profile.username||'Kitaplık hesabı','◎',`<div class="account-email">${esc(auth.currentUser?.email||'')}</div><button class="btn del wide profile-signout" data-a="out">Oturumu kapat</button>`)}
   </main>`;
 }
 function render(){
   applyTheme();
   if(!$('main')||$('main').hidden)return;
-  $('view').className=nav.v==='home'?'fl':'';
+  $('main').classList.toggle('home-layout',nav.v==='home');
+  $('view').className=nav.v==='home'?'fl home-view':'';
   $('view').innerHTML={home:homeV,list:listV,detail:detV,profile:profV}[nav.v]();
+  if(nav.v==='profile')$('view').querySelectorAll('.settings-accordion').forEach(item=>item.addEventListener('toggle',()=>{if(item.open)settingsOpen.add(item.dataset.section);else settingsOpen.delete(item.dataset.section)}));
   if(nav.v==='detail'&&ref)watchPhotos(nav.id);else if(nphFor){if(unsub3)unsub3();unsub3=null;nphFor='';nph=[]}
   fill();
 }
