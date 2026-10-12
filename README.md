@@ -88,6 +88,12 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
 
 `firebase.json`, `index.html` dosyasını Hosting kökü olarak yayınlar; `firestore.rules` kurallarını da deploy'a bağlar. Kuralları yayınlamadan herkese açık erişim vermeyin. İlk yayından sonra Hosting URL'sini Authentication'daki yetkili domainlere ekleyin ve kayıt, doğrulama, parola sıfırlama, farklı hesapla giriş ve kullanıcılar arası veri ayrımını iki ayrı test hesabıyla sınayın.
 
+### GitHub ile otomatik yayınlama
+
+`.github/workflows/firebase-hosting-merge.yml`, `main` dalına her push veya birleştirmede statik uygulamayı Firebase Hosting'e otomatik yayınlar. Pull request workflow'u değişiklik için geçici bir önizleme bağlantısı oluşturur; bu önizleme canlı siteyi değiştirmez. Repository Settings → Secrets and variables → Actions bölümünde `FIREBASE_SERVICE_ACCOUNT_KITAPLIGIM55` adlı Firebase servis hesabı sırrı bulunmalıdır. İlk kez kurulum yapıyorsanız bu sırrı güvenli bir servis hesabı anahtarıyla oluşturun; anahtarı repoya eklemeyin.
+
+Güncelleme için GitHub'da `index.html` veya `sw.js` dosyasını doğrudan `main` dalında değiştirip commit edebilir ya da bir pull request'i birleştirebilirsin. GitHub Actions tamamlanınca değişiklik canlıya alınır; GitHub → Actions sekmesinden sonucu ve varsa önizleme bağlantısını görebilirsin. Deploy tamamlandıktan sonra zaten açık olan sekmeler kendiliğinden yenilenmez; yeni sürümü almak için sayfayı yenilemek gerekir.
+
 ## Güvenlik ve veri saklama
 
 - `firestore.rules`, kullanıcıların yalnızca kendi UID altındaki verilere erişmesini sağlar.
