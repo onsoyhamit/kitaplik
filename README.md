@@ -57,6 +57,8 @@ Ana sayfadaki **Günün Sözü**, önceki sürümlerdeki gibi günlük olarak ç
 
 Open Library ve Google Books kitap ekleme, ISBN doğrulama ve kapak bulma akışlarında doğrudan katalog kaynağı olarak kullanılır. Uygulamanın kullanabildiği resmi bir 1000kitap katalog API'si bulunmadığından, 1000kitap için kitap arama bağlantısı ve kullanıcının seçtiği kapak URL'sini kaydetme aracı sunulur; sayfa içeriği otomatik olarak çekilmez.
 
+Profil → **ISBN bulma** bölümünde kapağı ve ISBN'si birlikte eksik kitapları Excel'de açılabilen CSV dosyası olarak dışa aktarabilirsin. Dosya UTF-8 kodlamalıdır ve kitap adı, yazar, ISBN-13, kapak adresi ve 1000kitap bağlantısı sütunlarını içerir.
+
 Mevcut kitapların ISBN'lerini tek tek yazmak gerekmez. Profil → **Eksik ISBN’leri bul** işlemi kitap adıyla Open Library'de arar ve bulunamazsa Google Books'a geçer; yazarı arama şartı olarak kullanmaz, yalnızca eşleşen sonuçları öne almak için kullanır. Tam başlık eşleşen katalog baskılarından geçerli ISBN-13 kaydeder. İşlem durum çubuğunda bulunanları, sonuç çıkmayan kitapları ve API hatalarını ayrı gösterir; her 10 kitapta bulunanları buluta kaydeder ve durdurulabilir. Kataloglar baskı özelindeki ISBN'i her zaman doğru tespit edemeyeceğinden, bulunan numara fiziksel kitaptaki barkodla eşleşmeyebilir. Yüzlerce kitapta kamu kataloglarının hız/kota sınırlarına bağlı olarak birkaç dakika sürebilir.
 
 Profil → **Eksik kapakları bul** işlemi kapağı olmayan kitapları ISBN ile, ISBN yoksa kitap adıyla Open Library ve Google Books'ta arar. Her 10 sonuçta bulunan kapaklar kitaplık kaydına kaydedilir; böylece aynı hesapla giriş yapılan diğer cihazlardaki kitaplık anlık eşitleme yoluyla kapak URL'lerini ve barkod taramasından gelen kitap bilgilerini de alır. Kullanıcının yüklediği kapak fotoğrafları ayrıca `users/{uid}/covers/{bookId}` altında Firestore'da saklanır ve aynı hesaptaki cihazlarla senkronize edilir. Senkronizasyon için internet ve aynı kullanıcı hesabı gerekir; dış katalog görsel bağlantıları sağlayıcı erişilebilir olduğu sürece görüntülenir.
@@ -85,6 +87,12 @@ ISBN kullandığın baskının barkodundan alınmalıdır; farklı baskıların 
    ```
 
 `firebase.json`, `index.html` dosyasını Hosting kökü olarak yayınlar; `firestore.rules` kurallarını da deploy'a bağlar. Kuralları yayınlamadan herkese açık erişim vermeyin. İlk yayından sonra Hosting URL'sini Authentication'daki yetkili domainlere ekleyin ve kayıt, doğrulama, parola sıfırlama, farklı hesapla giriş ve kullanıcılar arası veri ayrımını iki ayrı test hesabıyla sınayın.
+
+### GitHub ile otomatik yayınlama
+
+`.github/workflows/firebase-hosting-merge.yml`, `main` dalına her push veya birleştirmede statik uygulamayı Firebase Hosting'e otomatik yayınlar. Pull request workflow'u değişiklik için geçici bir önizleme bağlantısı oluşturur; bu önizleme canlı siteyi değiştirmez. Repository Settings → Secrets and variables → Actions bölümünde `FIREBASE_SERVICE_ACCOUNT_KITAPLIGIM55` adlı Firebase servis hesabı sırrı bulunmalıdır. İlk kez kurulum yapıyorsanız bu sırrı güvenli bir servis hesabı anahtarıyla oluşturun; anahtarı repoya eklemeyin.
+
+Güncelleme için GitHub'da `index.html` veya `sw.js` dosyasını doğrudan `main` dalında değiştirip commit edebilir ya da bir pull request'i birleştirebilirsin. GitHub Actions tamamlanınca değişiklik canlıya alınır; GitHub → Actions sekmesinden sonucu ve varsa önizleme bağlantısını görebilirsin. Deploy tamamlandıktan sonra zaten açık olan sekmeler kendiliğinden yenilenmez; yeni sürümü almak için sayfayı yenilemek gerekir.
 
 ## Güvenlik ve veri saklama
 
