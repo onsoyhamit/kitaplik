@@ -1,1481 +1,269 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Kitaplığım</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#0E1024">
-<meta name="apple-mobile-web-app-title" content="Kitaplığım">
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kitaplığım</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1a1310"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
-:root{--bg:#F2EDFF;--card:#fff;--ink:#241A47;--mute:#7F76A8;--line:#E3DCF7;--acc:#7C5CF0;--sh:0 10px 28px rgba(60,40,120,.10);--serif:Lora,"Iowan Old Style",Georgia,serif;--sans:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--acc-ink:#fff;--ok:#2c7a4b;--ok-bg:#e3f2e9;--loan:#a9650f;--loan-bg:#fbeedb;--danger:#b3322b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-:root[data-theme=dark]{--bg:#14102A;--card:#1E1840;--ink:#EEEAFB;--mute:#A59DCB;--line:#2E2759;--sh:none;--ok:#6cc58d;--ok-bg:#1b3326;--loan:#e3a550;--loan-bg:#3a2a12;--danger:#ef7b73}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.4 var(--sans)}
-.wrap{max-width:760px;margin:0 auto;padding:14px 14px 70px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.top.sticky-top{position:sticky;top:0;z-index:15;padding:8px 0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px)}
-.back-icon{width:40px;height:40px;display:grid;place-items:center;padding:0;border-radius:50%}.back-icon svg{width:20px;height:20px}
-h1,h2,h3{margin:0;font-family:var(--sans)}h1{font-size:1.65rem;font-weight:700}h2{font-size:1.25rem}h3{font-size:1rem;margin:18px 0 8px}
-.inp{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;margin:0 0 10px}
-:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:10px 13px;font:inherit;font-size:.9rem;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
-.pri{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}.del{color:var(--danger)}.wide{width:100%;margin:6px 0}
-.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(5px,1.2vh,10px);margin-top:4px;flex:1;min-height:0}
-.tile{min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;background:var(--card);border:0;border-radius:clamp(10px,2.2vw,22px);padding:clamp(6px,1.5vh,14px) clamp(6px,1.8vw,16px);text-align:left;cursor:pointer;color:var(--ink);font:inherit;box-shadow:var(--sh);overflow:hidden}
-.tile span{color:var(--mute);font-size:clamp(.56rem,1.6vh,.82rem);line-height:1.2}.tile b{font:700 clamp(1.05rem,4.8vh,2.4rem)/1 var(--sans)}
-.tile:first-child{grid-column:1/4;grid-row:1/3;background:var(--acc);color:var(--acc-ink)}.tile:first-child span{color:var(--acc-ink);opacity:.88;font-size:clamp(.72rem,2vh,1rem)}.tile:first-child b{font-size:clamp(2rem,8vh,4rem)}
-.tile:nth-child(2){grid-column:4/7;grid-row:1}.tile:nth-child(3){grid-column:4/7;grid-row:2}
-.tile:nth-child(4){grid-column:1/3;grid-row:3}.tile:nth-child(5){grid-column:3/5;grid-row:3}.tile:nth-child(6){grid-column:5/7;grid-row:3}
-.sm{padding:6px 10px;font-size:.8rem}.srow{display:flex;gap:10px;align-items:center;margin-bottom:14px}.srow .inp{flex:1;margin:0;height:52px}
-.inp[type=search]{border:0;border-radius:999px;box-shadow:var(--sh);padding-left:48px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237F76A8' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:18px center;background-size:20px}
-.rbtn{width:52px;height:52px;border-radius:50%;border:0;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px rgba(124,92,240,.35);flex:0 0 auto;padding:0}.rbtn svg{width:26px;height:26px}.rbtn.g{width:46px;height:46px}.rbtn.g svg{width:24px;height:24px}
-.thb{padding:7px 11px;font-size:.8rem}.thb[aria-pressed=true]{outline:2px solid var(--acc);outline-offset:1px}
-.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;display:flex;gap:12px;cursor:pointer}
-.main{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}.grow{flex:1;min-width:0}
-.cov{width:48px;height:72px;object-fit:cover;border-radius:4px;background:var(--bg);flex:0 0 auto}.cov.lg{width:110px;height:165px}.ph{border:1px dashed var(--line)}
-.t{font:600 1.05rem/1.25 var(--serif)}.t.big{font-size:1.35rem}.a{color:var(--mute);font-size:.9rem}
-.acts,.btns{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}.btns{margin:12px 0}
-.chip{font-size:.75rem;border-radius:999px;padding:3px 9px;background:var(--bg);color:var(--mute)}.chip.ok{background:var(--ok-bg);color:var(--ok)}.chip.loan{background:var(--loan-bg);color:var(--loan)}
-.card2{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}.card2 h3{margin:0 0 6px}
-.note{white-space:pre-wrap}.empty{text-align:center;color:var(--mute);padding:30px 10px}
-.sw{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
-select.inp{width:auto;min-width:160px}
-dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;width:min(92vw,420px)}dialog::backdrop{background:rgba(0,0,0,.45)}
-label{display:block;font-size:.85rem;color:var(--mute);margin:10px 0 4px}
-dialog input,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}textarea{min-height:130px;resize:vertical}
-.dact{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.banner{background:var(--loan-bg);color:var(--loan);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.9rem}
-.scanrow{display:flex;gap:8px;align-items:center}.scanrow input{flex:1;min-width:0}.scanrow .btn{height:44px;width:48px;padding:8px;display:grid;place-items:center;flex:0 0 auto}.scanrow svg{width:23px;height:23px}
-.scan-view{position:relative;margin-top:12px;overflow:hidden;border-radius:10px;background:#080711}.scanvideo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}.scan-guide{position:absolute;left:7%;right:7%;top:38%;height:24%;border:2px solid rgba(255,255,255,.86);border-radius:10px;box-shadow:0 0 0 999px rgba(0,0,0,.22);pointer-events:none}.metarow{margin:5px 0}.bookdesc{white-space:pre-wrap}
-.profile-page,.detail-page{display:flex;flex-direction:column;gap:14px}
-.page-intro{margin:-6px 0 2px;color:var(--mute);font-size:.88rem}
-.section-card{margin:0;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--sh)}
-.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.section-head h3{margin:0;font-size:1rem}.section-head p{margin:4px 0 0;color:var(--mute);font-size:.82rem}
-.section-mark{width:36px;height:36px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;background:var(--bg);color:var(--acc);font-size:1.05rem;font-weight:700}
-.settings-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.settings-actions .btn{width:100%;min-height:44px}
-.settings-accordion{margin:0;padding:0 16px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:var(--sh)}
-.settings-accordion+ .settings-accordion{margin-top:10px}
-.settings-accordion summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:62px;cursor:pointer}
-.settings-accordion summary::-webkit-details-marker{display:none}
-.settings-accordion summary::after{content:"＋";margin-left:auto;color:var(--acc);font-size:1.1rem;font-weight:600}
-.settings-accordion[open] summary::after{content:"−"}
-.settings-accordion summary .section-mark{width:34px;height:34px}
-.settings-accordion summary h3{margin:0;font-size:.96rem}
-.settings-accordion summary p{margin:3px 0 0;color:var(--mute);font-size:.78rem}
-.settings-accordion-content{padding:0 0 16px}
-.settings-accordion-content>.settings-message:first-child{margin-top:0}
-.howto-list{margin:0;padding-left:22px}
-.howto-list li{padding:0 0 10px 3px;line-height:1.55}
-.howto-list li:last-child{padding-bottom:0}
-.howto-list b{color:var(--ink)}
-.theme-group+.theme-group{margin-top:14px}
-.theme-label{display:block;margin-bottom:7px;color:var(--mute);font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.theme-choice{display:flex;align-items:center;gap:8px;min-width:0;padding:9px 8px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:.75rem;text-align:left;cursor:pointer}
-.theme-choice[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 24%,transparent)}
-.theme-swatch{width:24px;height:24px;flex:0 0 auto;border-radius:50%;background:var(--swatch);border:3px solid var(--swatch-line);box-shadow:inset 0 0 0 3px var(--swatch-inner)}
-.setting-control{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
-.setting-control label{margin:0}
-.setting-control select.inp{margin:0;min-width:130px}
-.settings-message{margin:10px 0 0}
-.account-email{margin-top:3px;color:var(--mute);font-size:.82rem;overflow-wrap:anywhere}
-.account-password{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.account-password h4{margin:0 0 8px;font-size:.92rem}
-.account-hint{margin:-4px 0 10px;color:var(--mute);font-size:.78rem;line-height:1.45}
-.account-status{min-height:1.3em;font-size:.8rem;color:var(--mute)}.account-status.error{color:var(--danger)}.account-status.success{color:var(--ok)}
-.profile-signout{margin:0;border-color:color-mix(in srgb,var(--danger) 30%,var(--line));background:color-mix(in srgb,var(--danger) 5%,var(--card))}
-.note-edit-btn{width:38px;height:38px;padding:7px;display:grid;place-items:center;border-radius:12px;color:var(--acc);background:var(--card);border:1px solid color-mix(in srgb,var(--acc) 45%,var(--line));cursor:pointer}
-.note-edit-btn .ic{width:21px;height:21px}
-.book-spread{display:grid;grid-template-columns:minmax(205px,.76fr) minmax(0,1.5fr);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh)}
-.book-page{min-width:0;padding:22px}
-.book-left-page{display:flex;flex-direction:column;align-items:center;background:color-mix(in srgb,var(--bg) 72%,var(--card));border-right:1px solid var(--line);box-shadow:inset -8px 0 14px -16px var(--ink)}
-.book-right-page{display:flex;flex-direction:column;gap:14px;padding:24px}
-.book-spread .detail-cover{position:relative;width:min(100%,168px);height:auto;aspect-ratio:2/3;margin:2px auto 18px}
-.book-spread .detail-cover .cov{width:100%;height:100%;border-radius:8px;box-shadow:0 12px 26px rgba(0,0,0,.18)}
-.book-spread .detail-cover .cvb{left:7px;right:7px;bottom:7px;font-size:.75rem}
-.book-heading{width:100%;padding-bottom:14px;border-bottom:1px solid var(--line)}
-.book-heading .t.big{font-size:clamp(1.35rem,3vw,1.8rem);line-height:1.18;overflow-wrap:anywhere}
-.detail-author{margin-top:6px;font-size:.9rem}
-.detail-isbn{display:inline-flex;margin-top:10px;padding:5px 9px;border-radius:8px;background:var(--bg);font-size:.76rem;font-variant-numeric:tabular-nums}
-.detail-chips{margin-top:8px}
-.reading-controls{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
-.reading-label{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600}
-.reading-state-dot{width:8px;height:8px;border-radius:50%;background:var(--mute)}
-.reading-state-dot.is-read,.reading-state-dot.is-reading{background:var(--ok)}
-.reading-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-.reading-action{min-height:34px;padding:6px 9px;border:1px solid color-mix(in srgb,var(--ok) 42%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--ok-bg) 68%,var(--card));color:var(--ok);font:inherit;font-size:.74rem;font-weight:600;cursor:pointer}
-.reading-action.primary{background:var(--ok);border-color:var(--ok);color:#fff}
-.reading-date{width:100%;margin-top:9px}
-.reading-date label{margin:0 0 4px;font-size:.73rem}
-.reading-date .inp{width:100%;padding:8px;font-size:.78rem}
-.book-detail-block{min-width:0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
-.book-detail-block h3{margin:0;font-size:.98rem}
-.book-detail-block .section-head{margin-bottom:9px}
-.book-detail-block .section-head p{font-size:.78rem}
-.book-loan{border-color:color-mix(in srgb,var(--loan) 30%,var(--line));background:color-mix(in srgb,var(--loan-bg) 42%,var(--card))}
-.book-loan .section-mark{background:var(--loan-bg);color:var(--loan)}
-.book-loan-content{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.book-loan-content p{margin:3px 0 0;color:var(--mute);font-size:.82rem}
-.book-loan .btn{min-height:40px}
-.book-notes{border-color:color-mix(in srgb,var(--acc) 30%,var(--line));background:color-mix(in srgb,var(--bg) 34%,var(--card))}
-.book-notes .note{min-height:44px;line-height:1.7}
-.book-notes .empty-note{color:var(--mute);font-style:italic}
-.book-notes .pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
-.detail-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.detail-links .btn{width:100%;min-height:40px}
-.detail-delete{width:100%;margin:10px 0 0}
-.book-spread .banner{margin:0}
-.profile-footer{padding-top:4px}
-@media(max-width:620px){.book-spread{grid-template-columns:minmax(118px,.68fr) minmax(0,1.35fr);border-radius:16px}.book-page{padding:14px}.book-right-page{gap:10px}.book-spread .detail-cover{width:min(100%,132px);margin:0 auto 12px}.book-detail-block{padding:12px}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:420px){.book-spread{grid-template-columns:1fr;border-radius:16px}.book-left-page{display:flex;align-items:center;gap:12px;border-right:0;border-bottom:1px solid var(--line);box-shadow:inset 0 -8px 14px -16px var(--ink)}.book-spread .detail-cover{width:min(100%,112px);margin:0 auto}.book-page{padding:12px}.book-heading .t.big{font-size:1.42rem}.book-right-page{gap:9px}.book-detail-block{padding:11px}.book-loan-content{align-items:flex-start;flex-direction:column}.book-loan .btn{width:100%}.book-notes .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.theme-choice{flex-direction:column;align-items:flex-start}.section-card{padding:14px}}
-#main{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}#main[hidden]{display:none}#view{flex:1}.fl{display:flex;flex-direction:column}.fl[hidden]{display:none}
-.quote{padding-top:clamp(6px,1.2vh,12px);flex:0 0 auto}.qc{background:var(--card);border-radius:clamp(12px,2vw,22px);padding:clamp(9px,1.4vh,14px) clamp(12px,2vw,18px);box-shadow:var(--sh)}
-.qm{font:700 3.4rem/1 var(--serif);color:var(--acc);height:2.2rem;margin-bottom:6px}
-.qt{font:italic clamp(.82rem,1.9vh,1.1rem)/1.3 var(--serif);margin:0 0 5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.qt.tr{font-style:normal;font-family:var(--sans);font-size:.82rem;color:var(--mute)}
-.qrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px}.qrow .a{flex:1;min-width:70px;font-size:clamp(.68rem,1.5vh,.82rem)}
-.ol{background:transparent;border:2px solid var(--acc);color:var(--acc);border-radius:999px;padding:7px 13px;font:inherit;font-size:.82rem;font-weight:500;cursor:pointer}
-.home-screen{height:100%;min-height:0;display:flex;flex-direction:column}.home-screen>.top{flex:0 0 auto;margin-bottom:clamp(5px,1vh,10px)}.home-screen .srow{flex:0 0 auto;margin-bottom:clamp(6px,1vh,12px)}.home-screen #tiles{flex:1;min-height:0;overflow:hidden}.home-screen .bento{min-height:0}.home-screen .empty{padding:4px 8px;font-size:.75rem}.home-screen #res{flex:0 0 auto;max-height:30vh;overflow:auto}
-.wrap#main.home-layout{height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0;padding:10px 14px max(10px,env(safe-area-inset-bottom,0px));overflow:hidden}
-#view.home-view{height:100%;min-height:0}
-@media(max-height:620px){.home-screen>.top{margin-bottom:4px}.home-screen .srow{margin-bottom:4px}.home-screen .srow .inp{height:42px}.home-screen .rbtn{width:42px;height:42px}.bento{gap:5px}.tile{padding:5px 7px}.tile:first-child b{font-size:clamp(1.8rem,7vh,3rem)}.tile span{font-size:clamp(.52rem,1.45vh,.72rem)}.quote{padding-top:5px}.qc{padding:7px 10px}.qm{height:1.2rem;font-size:2rem;margin-bottom:2px}.qt{-webkit-line-clamp:1}.qrow{margin-top:2px}.qrow .ol{padding:3px 8px;font-size:.68rem}}
-@media(max-width:360px){.wrap:has(.home-screen){padding-left:9px;padding-right:9px}.tile{padding-left:5px;padding-right:5px}.tile span{font-size:.52rem}}
-.cvw{position:relative;width:110px;height:165px;flex:0 0 auto}.cvb{position:absolute;left:6px;right:6px;bottom:6px;padding:6px 4px;font:inherit;font-size:.72rem;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;opacity:.95}
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer;background:var(--bg)}.pgrid:empty{display:none}
-#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;z-index:20;max-width:92vw;display:flex;gap:10px;align-items:center}#toast[hidden]{display:none}
-
-/* ===== GECE KÜTÜPHANESİ — yeni tasarım katmanı ===== */
-:root{--serif:Fraunces,"Iowan Old Style",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--b2:#FF9A62;--b3:#7A5AF8;--sh:0 16px 34px -18px color-mix(in srgb,var(--acc) 55%,transparent);--ease:cubic-bezier(.2,.9,.3,1.25)}
-:root[data-theme=dark]{--sh:0 18px 36px -18px rgba(0,0,0,.75)}
-@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:none}}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-9px) rotate(5deg)}}
-@keyframes shine{0%{background-position:0 0}100%{background-position:200% 0}}
-body{font-family:var(--sans);background:var(--bg);-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(60vmax 46vmax at 92% -8%,color-mix(in srgb,var(--acc) 30%,transparent),transparent 62%),radial-gradient(52vmax 42vmax at -12% 108%,color-mix(in srgb,var(--b2) 26%,transparent),transparent 62%),radial-gradient(36vmax 30vmax at 48% 46%,color-mix(in srgb,var(--b3) 11%,transparent),transparent 70%)}
-body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;background-image:radial-gradient(color-mix(in srgb,var(--ink) 9%,transparent) 1px,transparent 1.3px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 80%);mask-image:linear-gradient(180deg,#000,transparent 80%)}
-h1,h2,h3{letter-spacing:-.01em}h2{font:700 1.3rem/1.1 var(--serif)}
-.brand{display:flex;align-items:center;gap:11px;min-width:0}.logo{width:46px;height:46px;flex:0 0 auto;filter:drop-shadow(0 8px 14px color-mix(in srgb,var(--acc) 45%,transparent));transform:rotate(-6deg);transition:transform .4s var(--ease)}.brand:hover .logo{transform:rotate(4deg) scale(1.08)}
-.brand h1{font:800 1.75rem/1 var(--serif);letter-spacing:-.03em}.brand h1 em{font-style:italic;font-weight:600;color:var(--acc)}
-.brand.big{flex-direction:column;gap:14px;text-align:center}.brand.big .logo{width:92px;height:92px}.brand.big h1{font-size:2.6rem}
-.top.sticky-top{background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-radius:0 0 22px 22px;padding:8px 4px}
-.btn{border:1.5px solid var(--line);background:color-mix(in srgb,var(--card) 88%,transparent);border-radius:14px;font-weight:600;transition:transform .25s var(--ease),box-shadow .25s,border-color .2s}.btn:hover{transform:translateY(-2px);border-color:var(--acc)}.btn:active{transform:scale(.94)}
-.pri{background:linear-gradient(120deg,var(--acc),var(--b2),var(--acc));background-size:200% 100%;color:var(--acc-ink);border-color:transparent;box-shadow:0 10px 22px -8px color-mix(in srgb,var(--acc) 70%,transparent)}.pri:hover{border-color:transparent;animation:shine 1.6s linear infinite}
-.back-icon{width:44px;height:44px;border-radius:16px;background:var(--card);box-shadow:var(--sh)}
-.inp,dialog input,textarea{border:1.5px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--card) 92%,var(--bg));transition:border-color .2s,box-shadow .2s}
-.inp:focus,dialog input:focus,textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 22%,transparent)}
-.inp[type=search]{height:56px;border:1.5px solid var(--line);border-radius:999px;background-color:var(--card);padding-left:52px;box-shadow:var(--sh);font-weight:500}
-.rbtn{background:linear-gradient(135deg,var(--acc),var(--b2));color:var(--acc-ink);box-shadow:0 12px 26px -8px color-mix(in srgb,var(--acc) 75%,transparent);transition:transform .35s var(--ease)}.rbtn:hover{transform:rotate(90deg) scale(1.08)}.rbtn:active{transform:scale(.9)}
-.rbtn.g{background:var(--card);color:var(--acc);border:1.5px solid var(--line);box-shadow:var(--sh)}.rbtn.g:hover{transform:rotate(60deg)}
-/* ana ekran */
-.tile{position:relative;border:1.5px solid var(--line);border-radius:clamp(16px,3vw,28px);background:var(--card);box-shadow:var(--sh);justify-content:flex-start;animation:rise .6s var(--ease) both;transition:transform .3s var(--ease)}
-.tile:hover{transform:translateY(-3px) rotate(-.6deg)}.tile:active{transform:scale(.96)}
-.tile:nth-child(2){animation-delay:.07s}.tile:nth-child(3){animation-delay:.14s}.tile:nth-child(4){animation-delay:.21s}.tile:nth-child(5){animation-delay:.28s}.tile:nth-child(6){animation-delay:.35s}
-.tile .te{font-style:normal;font-size:clamp(1.2rem,4.4vh,2.1rem);line-height:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
-.tile span{margin-top:auto;font-weight:600;letter-spacing:.01em}.tile b{font-family:var(--serif);font-weight:800;letter-spacing:-.03em}
-.tile[data-f=read]{--t:var(--b3)}.tile[data-f=unread]{--t:var(--b2)}.tile[data-f=reading]{--t:var(--acc)}.tile[data-f=loan]{--t:var(--b2)}.tile[data-f=notes]{--t:var(--b3)}
-.tile:not([data-f=all]){background:linear-gradient(160deg,color-mix(in srgb,var(--t) 24%,var(--card)),var(--card) 72%)}
-.tile:not([data-f=all]) b{color:color-mix(in srgb,var(--t) 72%,var(--ink))}
-.tile[data-f=all]{background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--b2) 80%,#fff),transparent 60%),linear-gradient(150deg,var(--acc),color-mix(in srgb,var(--acc) 55%,var(--b3)));color:var(--acc-ink);border-color:transparent;overflow:hidden}
-.tile[data-f=all] .te{font-size:clamp(2.2rem,8vh,3.8rem);animation:bob 4.5s ease-in-out infinite;transform-origin:50% 90%}
-.tile[data-f=all]::after{content:"✦";position:absolute;right:11%;bottom:14%;font-size:clamp(1.4rem,5vh,2.6rem);opacity:.35}
-.tile[data-f=all] b{color:inherit;font-size:clamp(2.2rem,9vh,4.4rem)}
-.qc{position:relative;border:1.5px solid var(--line);border-radius:clamp(16px,3vw,26px);background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 12%,var(--card)),var(--card));box-shadow:var(--sh);overflow:hidden}
-.qc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--acc),var(--b2),var(--b3))}
-.qm{color:var(--acc);font-family:var(--serif)}.qt{font-family:var(--serif);font-weight:500}
-.ol{border:1.5px solid color-mix(in srgb,var(--acc) 60%,var(--line));border-radius:999px;color:color-mix(in srgb,var(--acc) 75%,var(--ink));font-weight:600;background:transparent;transition:transform .25s var(--ease),background .2s}.ol:hover{background:color-mix(in srgb,var(--acc) 16%,transparent);transform:translateY(-1px)}
-/* kitap satırları */
-.row{position:relative;gap:14px;padding:13px;border:1.5px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--sh);transition:transform .3s var(--ease),border-color .2s;overflow:hidden}
-.row:hover{transform:translateY(-3px);border-color:var(--acc)}.row:active{transform:scale(.985)}
-.row:has(.chip.ok){box-shadow:inset 5px 0 0 var(--ok),var(--sh)}.row:has(.chip.loan){box-shadow:inset 5px 0 0 var(--b2),var(--sh)}
-.row .grow{padding-left:2px}
-.cov{width:54px;height:80px;border-radius:5px 10px 10px 5px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.28));transform:rotate(-3deg);transition:transform .35s var(--ease)}.row:hover .cov{transform:rotate(0) scale(1.06)}
-.cov.ph{display:grid;place-items:center;border:0;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 38%,var(--card)),color-mix(in srgb,var(--b3) 34%,var(--card)));filter:none;box-shadow:inset 4px 0 0 rgba(255,255,255,.35),0 10px 14px -8px rgba(0,0,0,.4)}.cov.ph::after{content:"📖";font-size:1.4rem}.cov.lg.ph::after{font-size:2.6rem}
-.t{font-family:var(--serif);font-weight:650;letter-spacing:-.01em}.a{color:var(--mute)}
-.chip{font-weight:600;font-size:.72rem;padding:4px 10px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,var(--card))}.chip.ok{border-color:transparent}.chip.loan{border-color:transparent}
-.empty{margin:18px 0;border:2px dashed var(--line);border-radius:24px;padding:28px 16px;background:color-mix(in srgb,var(--card) 60%,transparent)}.empty .eb{display:block;font-style:normal;font-size:2.4rem;margin-bottom:6px;animation:bob 4s ease-in-out infinite}
-.card2{border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--sh)}
-.banner{border-radius:16px;font-weight:500}
-/* detay */
-.book-spread{border:1.5px solid var(--line);border-radius:30px;box-shadow:var(--sh);animation:rise .55s var(--ease) both}
-.book-left-page{background:radial-gradient(90% 60% at 50% 0,color-mix(in srgb,var(--acc) 22%,transparent),transparent 70%),color-mix(in srgb,var(--bg) 70%,var(--card))}
-.book-spread .detail-cover .cov{border-radius:6px 14px 14px 6px;transform:rotate(-4deg);filter:drop-shadow(0 20px 18px rgba(0,0,0,.38))}
-.book-heading .t.big{font-family:var(--serif);font-weight:800;letter-spacing:-.02em}
-.detail-isbn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;border:1px dashed var(--line)}
-.book-detail-block,.section-card{border:1.5px solid var(--line);border-radius:20px}
-.section-mark{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),color-mix(in srgb,var(--b2) 22%,var(--card)));font-size:1.15rem;border-radius:14px}
-.reading-action{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));background:color-mix(in srgb,var(--acc) 12%,var(--card));color:color-mix(in srgb,var(--acc) 70%,var(--ink));transition:transform .25s var(--ease)}.reading-action:hover{transform:translateY(-2px)}
-.reading-action.primary{background:linear-gradient(120deg,var(--acc),var(--b2));border-color:transparent;color:var(--acc-ink)}
-.reading-state-dot{box-shadow:0 0 0 4px color-mix(in srgb,currentColor 0%,transparent)}.reading-state-dot.is-read,.reading-state-dot.is-reading{background:var(--acc);box-shadow:0 0 12px var(--acc)}
-.pgrid img{border-radius:14px;transition:transform .3s var(--ease)}.pgrid img:hover{transform:scale(1.05) rotate(1deg)}
-/* ayarlar */
-.settings-accordion{border:1.5px solid var(--line);border-radius:22px;box-shadow:var(--sh);transition:border-color .2s}.settings-accordion[open]{border-color:color-mix(in srgb,var(--acc) 55%,var(--line))}
-.settings-accordion summary::after{content:"＋";display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:color-mix(in srgb,var(--acc) 16%,transparent);font-size:1rem;transition:transform .3s var(--ease)}.settings-accordion[open] summary::after{content:"＋";transform:rotate(135deg)}
-.theme-choice{border:1.5px solid var(--line);border-radius:16px;font-weight:600;transition:transform .25s var(--ease)}.theme-choice:hover{transform:translateY(-2px)}
-.theme-swatch{width:28px;height:28px;background:linear-gradient(135deg,var(--swatch-inner) 50%,var(--swatch) 50%);box-shadow:none}
-.howto-list li::marker{color:var(--acc);font-weight:800}
-/* diyaloglar */
-dialog{border:1.5px solid var(--line);border-radius:28px;padding:22px;background:var(--card);box-shadow:0 40px 80px -20px rgba(0,0,0,.55)}dialog[open]{animation:rise .4s var(--ease)}
-dialog::backdrop{background:color-mix(in srgb,var(--bg) 40%,rgba(5,5,20,.62));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-dialog h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:6px}
-label{font-weight:600;letter-spacing:.01em}
-#toast{border-radius:999px;padding:12px 18px;box-shadow:0 18px 40px -12px rgba(0,0,0,.5);font-weight:600;animation:rise .4s var(--ease)}#toast .btn{border-radius:999px;padding:6px 12px;color:var(--ink)}
-/* giriş */
-#login,#verify{position:relative;overflow:hidden;min-height:100dvh}
-.auth{position:relative;z-index:1;padding-top:7vh;max-width:430px;margin:0 auto}.auth .tag{text-align:center;margin:12px 0 22px;font-weight:500}
-#login .card2{padding:18px;border-radius:28px;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-#login .btns{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 0 8px;padding:5px;border-radius:999px;background:var(--bg);border:1.5px solid var(--line)}
-#login .btns .btn{border:0;border-radius:999px;background:transparent;box-shadow:none;padding:11px}#login .btns .btn.pri{background:linear-gradient(120deg,var(--acc),var(--b2));color:var(--acc-ink)}
-.floaties span{position:absolute;font-size:2rem;opacity:.5;animation:bob 6s ease-in-out infinite;pointer-events:none}
-.floaties span:nth-child(1){left:8%;top:12%}.floaties span:nth-child(2){right:12%;top:8%;animation-delay:-1s;color:var(--acc)}.floaties span:nth-child(3){left:14%;bottom:16%;animation-delay:-2s}.floaties span:nth-child(4){right:9%;bottom:20%;animation-delay:-3s}.floaties span:nth-child(5){left:48%;bottom:6%;animation-delay:-4s}
-#verify h1{font:800 2rem/1.1 var(--serif)}
-@media(max-width:420px){.brand h1{font-size:1.5rem}.logo{width:40px;height:40px}.brand.big h1{font-size:2.2rem}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-
-/* ===== v3: yumuşak ikonlar, ortalı başlık, yeni geri tuşu ===== */
-.ic{width:1.35em;height:1.35em;display:block;flex:0 0 auto}.ic.xs{display:inline-block;width:13px;height:13px;vertical-align:-2px;margin-right:5px}.ic.s{width:28px;height:28px}.ic.xl{width:60px;height:60px;margin:0 auto 10px;filter:drop-shadow(0 8px 10px color-mix(in srgb,var(--acc) 22%,transparent))}
-.brand h1{font:650 1.6rem/1 var(--serif);letter-spacing:-.01em;color:var(--ink)}.brand.big h1{font-size:2.3rem}
-.home-top{display:grid;grid-template-columns:46px 1fr 46px;align-items:center;gap:8px}.home-top .tsp{width:46px;height:46px}.home-top .brand{justify-self:center;gap:9px}.home-top .logo{width:38px;height:38px}
-.back-icon{display:grid;place-items:center;padding:0;width:46px;height:46px;border-radius:50%;border:1.5px solid transparent;color:var(--acc);background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,color-mix(in srgb,var(--acc) 70%,#fff),color-mix(in srgb,var(--b2) 60%,#fff),color-mix(in srgb,var(--b3) 60%,#fff)) border-box;box-shadow:0 10px 22px -12px color-mix(in srgb,var(--acc) 65%,transparent),inset 0 1px 0 rgba(255,255,255,.5)}
-.back-icon:hover{border-color:transparent;transform:translateX(-2px);box-shadow:0 12px 26px -10px color-mix(in srgb,var(--acc) 75%,transparent)}.back-icon:active{transform:scale(.92)}
-.back-icon svg{display:block;width:22px;height:22px;stroke-width:2.4}
-.tile .te{display:grid;place-items:center;width:clamp(30px,6.4vh,46px);height:clamp(30px,6.4vh,46px);border-radius:34%;background:color-mix(in srgb,var(--t,var(--acc)) 18%,var(--card));font-size:0;filter:none}.tile .te .ic{width:68%;height:68%}
-.tile[data-f=all] .te{width:clamp(48px,11vh,76px);height:clamp(48px,11vh,76px);background:rgba(255,255,255,.3);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.4);font-size:0}
-.tile[data-f=all]{background:radial-gradient(120% 90% at 100% 0,color-mix(in srgb,var(--b2) 62%,#fff),transparent 62%),linear-gradient(150deg,color-mix(in srgb,var(--acc) 84%,#fff),color-mix(in srgb,var(--acc) 52%,var(--b3)))}
-.section-mark{font-size:0}.section-mark .ic{width:24px;height:24px}
-.chip{display:inline-flex;align-items:center}.cd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:linear-gradient(135deg,var(--line),var(--mute));opacity:.85}
-.cd.ok{background:linear-gradient(135deg,color-mix(in srgb,var(--ok) 55%,#fff),var(--ok));opacity:1}.cd.rd{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 60%,#fff),var(--b2));opacity:1}.cd.ln{background:linear-gradient(135deg,color-mix(in srgb,var(--b2) 60%,#fff),var(--b3));opacity:1}
-.cov.ph::after{content:"";width:46%;aspect-ratio:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 6.2C10 4.7 7 4.2 3.5 4.7v13.6c3.5-.5 6.5 0 8.5 1.5V6.2Z' fill='%23fff' fill-opacity='.8'/%3E%3Cpath d='M12 6.2c2-1.5 5-2 8.5-1.5v13.6c-3.5-.5-6.5 0-8.5 1.5V6.2Z' fill='%23fff' fill-opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat;font-size:0}
-.empty .eb{display:block;animation:none}
-dialog h2{display:flex;align-items:center;gap:10px}
-.floaties span{font-size:0;opacity:.7}.floaties .ic{width:46px;height:46px;filter:blur(.3px)}
-.tile[data-f=all]::after{opacity:.25}
-</style>
-</head>
-<body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--acc) 62%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--b2) 62%,#fff)"/></linearGradient><linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--b3) 58%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--acc) 66%,#fff)"/></linearGradient><linearGradient id="gC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--b2) 60%,#fff)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--b3) 56%,#fff)"/></linearGradient><symbol id="i-all" viewBox="0 0 24 24"><rect x="3" y="6" width="5" height="14" rx="1.6" fill="url(#gA)"/><rect x="9.5" y="3" width="5.5" height="17" rx="1.6" fill="url(#gB)"/><rect x="16.2" y="7" width="5" height="13" rx="1.6" fill="url(#gC)" transform="rotate(10 18.7 20)"/><path d="M5.5 9v8M12.2 6.5v11" stroke="#fff" stroke-opacity=".6" stroke-width="1.2" stroke-linecap="round"/></symbol><symbol id="i-read" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gB)"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-unread" viewBox="0 0 24 24"><path d="M7 3.5h10a1.5 1.5 0 0 1 1.5 1.5v15.2a.6.6 0 0 1-1 .45L12 16.8l-5.5 3.85a.6.6 0 0 1-1-.45V5A1.5 1.5 0 0 1 7 3.5Z" fill="url(#gC)"/><path d="M9 8h6" stroke="#fff" stroke-opacity=".7" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="i-reading" viewBox="0 0 24 24"><path d="M12 6.2C10 4.7 7 4.2 3.5 4.7v13.6c3.5-.5 6.5 0 8.5 1.5V6.2Z" fill="url(#gA)"/><path d="M12 6.2c2-1.5 5-2 8.5-1.5v13.6c-3.5-.5-6.5 0-8.5 1.5V6.2Z" fill="url(#gB)"/><path d="M6 8.5c1.5-.1 3 .1 4.3.7M6 12c1.5-.1 3 .1 4.3.7" stroke="#fff" stroke-opacity=".65" stroke-width="1.3" stroke-linecap="round" fill="none"/></symbol><symbol id="i-loan" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gC)"/><path d="M7 9.5h9.5l-2.7-2.7M17 14.5H7.5l2.7 2.7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-notes" viewBox="0 0 24 24"><path d="M4 20l1.1-4.3L16.4 4.4a2 2 0 0 1 2.8 0l1.4 1.4a2 2 0 0 1 0 2.8L9.3 19.9Z" fill="url(#gA)"/><path d="m14.5 6.3 3.2 3.2" stroke="#fff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="url(#gB)"/><circle cx="17" cy="6" r="1.3" fill="url(#gA)"/><circle cx="20" cy="9.5" r=".8" fill="url(#gC)"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="url(#gA)"/><circle cx="10.5" cy="10.5" r="3.6" fill="#fff" fill-opacity=".45"/><path d="m15.5 15.5 5 5" stroke="url(#gC)" stroke-width="3" stroke-linecap="round"/></symbol><symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.5l2.2 6.3 6.3 2.2-6.3 2.2L12 19.5l-2.2-6.3L3.5 11l6.3-2.2Z" fill="url(#gA)"/></symbol><symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3.2" fill="url(#gB)"/><circle cx="9" cy="10" r="1.8" fill="#fff" fill-opacity=".8"/><path d="m4.5 17 4.5-4.5 3 3 3-3.5 4.5 5" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol><symbol id="i-guide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#gB)"/><path d="m15.8 8.2-2 5.6-5.6 2 2-5.6Z" fill="#fff" fill-opacity=".85"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="url(#gC)"/><path d="M12 8v6.5m0 0-2.6-2.6M12 14.5l2.6-2.6M8 17h8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.6-1.9-.3-1.2.4-2.1 1.6-2.1H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3Z" fill="url(#gA)"/><circle cx="7.8" cy="11.5" r="1.4" fill="#fff" fill-opacity=".85"/><circle cx="10.6" cy="7.6" r="1.4" fill="#fff" fill-opacity=".7"/><circle cx="15.2" cy="8" r="1.4" fill="#fff" fill-opacity=".55"/></symbol><symbol id="i-isbn" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3.5" fill="url(#gB)"/><path d="M7.5 8v8M10.5 8v8M13 8v8M16.5 8v8" stroke="#fff" stroke-opacity=".8" stroke-width="1.5" stroke-linecap="round"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M6 7.5h12l-.9 11a2 2 0 0 1-2 1.8H8.9a2 2 0 0 1-2-1.8Z" fill="url(#gC)"/><rect x="4.5" y="5" width="15" height="2.4" rx="1.2" fill="url(#gA)"/><path d="M9.5 3.8h5" stroke="url(#gA)" stroke-width="1.8" stroke-linecap="round"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="4" fill="url(#gA)"/><path d="M4 20c.5-4 3.6-6 8-6s7.5 2 8 6Z" fill="url(#gB)"/></symbol></defs></svg>
-<div class="wrap" id="login" hidden>
- <div class="floaties" aria-hidden="true"><span><svg class="ic"><use href="#i-all"/></svg></span><span><svg class="ic"><use href="#i-spark"/></svg></span><span><svg class="ic"><use href="#i-moon"/></svg></span><span><svg class="ic"><use href="#i-reading"/></svg></span><span><svg class="ic"><use href="#i-notes"/></svg></span></div>
- <div class="auth"><div class="brand big"><svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc)"/><stop offset="1" style="stop-color:var(--b2)"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="14" fill="url(#lgG)"/><rect x="10" y="15" width="7" height="22" rx="2" fill="#fff" fill-opacity=".95"/><rect x="19" y="10" width="7" height="27" rx="2" fill="#fff" fill-opacity=".78"/><rect x="29" y="14" width="7" height="23" rx="2" fill="#fff" fill-opacity=".6" transform="rotate(14 32 37)"/><path d="M8 39.5h32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M37 5l1.4 3.6L42 10l-3.6 1.4L37 15l-1.4-3.6L32 10l3.6-1.4z" fill="#fff"/></svg><h1>Kitaplığım</h1></div><p class="a tag">Raflarını cebine koy. Giriş yap ya da yeni bir hesap oluştur</p>
- <div class="card2">
-  <div class="btns">
-   <button class="btn pri" data-auth="login" aria-pressed="true">Giriş</button>
-   <button class="btn" data-auth="signup" aria-pressed="false">Yeni hesap</button>
-  </div>
-  <div id="loginPanel">
-   <label for="lgE">E-posta</label><input class="inp" id="lgE" type="email" autocomplete="email">
-   <label for="lgP">Parola</label><input class="inp" id="lgP" type="password" autocomplete="current-password">
-   <div id="lgErr" class="banner" hidden></div>
-   <button class="btn pri wide" id="lgGo">Giriş yap</button>
-   <button class="btn wide" id="resetPassword">Parolamı unuttum</button>
-  </div>
-  <div id="signupPanel" hidden>
-   <label for="suE">E-posta</label><input class="inp" id="suE" type="email" autocomplete="email" required>
-   <label for="suP">Parola</label><input class="inp" id="suP" type="password" autocomplete="new-password" minlength="6" required>
-   <p class="account-hint">En az 6 karakter; en az bir harf, bir rakam ve bir noktalama işareti kullan.</p>
-   <div id="suErr" class="banner" hidden></div>
-   <button class="btn pri wide" id="suGo">Hesap oluştur</button>
-  </div>
- </div>
- </div>
-</div>
-<div class="wrap" id="verify" hidden>
- <div style="padding-top:60px"><h1>E-postanı doğrula</h1><p class="a" id="verifyInfo"></p>
- <div class="banner">Üyeliği Tamamlamak İçin E-Posta Spam Klasörünü Kontrol Et. Gelen E-Postadaki linke tıkladıktan sonra bu sayfaya dön.</div>
- <div id="verifyErr" class="banner" hidden></div>
- <button class="btn pri" id="verifyCheck">Doğruladım, devam et</button>
- <button class="btn" id="verifyResend">Doğrulama e-postasını yeniden gönder</button>
- <button class="btn" id="verifyOut">Çıkış yap</button></div>
-</div>
-<div class="wrap" id="main" hidden><div id="view"></div></div>
-<div id="toast" hidden></div>
-<input type="file" id="csv" accept=".csv,text/csv,text/plain" hidden>
-<input type="file" id="file" accept=".json,application/json" hidden>
-<dialog id="dAdd"><h2><svg class="ic s"><use href="#i-spark"/></svg>Yeni kitap</h2>
- <label for="addT">Kitap adı</label><input id="addT" autocomplete="off">
- <label for="addA">Yazar</label><input id="addA" autocomplete="off">
- <label for="addIsbn">ISBN-13 (isteğe bağlı)</label><div class="scanrow"><input id="addIsbn" inputmode="numeric" autocomplete="off" placeholder="978..."><button class="btn" id="scanBarcode" type="button" aria-label="ISBN barkodunu kamerayla tara" title="ISBN barkodunu tara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M7 8v8m3-8v8m3-8v8m2-8v8"/></svg></button></div>
- <div id="scanResult" class="a" role="status" aria-live="polite"></div>
- <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="addOk">Ekle</button></div>
-</dialog>
-<dialog id="dScan" style="width:min(94vw,480px)"><h2><svg class="ic s"><use href="#i-isbn"/></svg>ISBN barkodunu tara</h2><p class="a">Kitabın arka kapağındaki ISBN yazısının hemen üzerindeki uzun barkodu çerçeveye al. Daha net okumak için telefonu sabit tutup kameranın odaklanmasını bekle. Görüntü cihazında işlenir; yalnızca okunan ISBN kataloglara gönderilir.</p><div class="scan-view"><video class="scanvideo" id="scanVideo" autoplay muted playsinline></video><div class="scan-guide" aria-hidden="true"></div></div><div class="banner" id="scanStatus" role="status" aria-live="polite">Kamera hazırlanıyor…</div><div class="dact"><button class="btn" id="scanClose">Kapat</button></div></dialog>
-<dialog id="dLoan"><h2><svg class="ic s"><use href="#i-loan"/></svg>Ödünç ver</h2><div class="a" id="loanBook"></div>
- <label for="loanTo">Kime verdin?</label><input id="loanTo" autocomplete="off">
- <label for="loanD">Hangi tarihte?</label><input id="loanD" type="date">
- <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="loanOk">Kaydet</button></div>
-</dialog>
-<input type="file" id="npFile" accept="image/*" multiple hidden>
-<dialog id="dPhoto" style="width:min(96vw,720px)"><img id="ppImg" alt="" style="width:100%;border-radius:8px">
- <div class="dact"><button class="btn del" id="ppDel">Fotoğrafı sil</button><button class="btn" data-close>Kapat</button></div>
-</dialog>
-<dialog id="dCover"><h2><svg class="ic s"><use href="#i-photo"/></svg>Kapak resmi</h2>
- <div class="card2">
-  <b>1000kitap'tan kapak seç</b>
-  <div class="a">Kitap arama sayfasını aç. Kapak görseline tıklayınca bağlantıyı panoya kopyalamak için kopyalama aracını bir kez tarayıcına ekle.</div>
-  <div class="btns"><button class="btn pri" id="mcSearch">1000kitap'ta bu kitabı ara</button><button class="btn" id="copyCoverTool">Kopyalama aracını kopyala</button></div>
-  <details><summary>Aracı bir kez tarayıcıya ekle</summary>
-   <ol><li>Aracı kopyala düğmesine bas.</li><li>Tarayıcıda bir yer imi oluştur; yer imini düzenleyip adres alanına kopyalanan kodu yapıştır ve adını “Kitap kapağını kopyala” koy.</li><li>1000kitap arama sayfasındayken bu yer imine bas, sonra kitap kapağına tıkla.</li></ol>
-   <textarea id="coverToolCode" rows="3" readonly aria-label="Kapak bağlantısını kopyalama aracı kodu"></textarea>
-  </details>
- </div>
- <label for="mcUrl">Resim adresi</label><input id="mcUrl" type="url" placeholder="https://...">
- <div class="btns"><button class="btn" id="mcPaste">Panodan yapıştır</button><button class="btn pri" id="mcSave">Adresi kaydet</button></div>
- <label>veya cihazından</label><button class="btn" id="mcPhoto">Fotoğraf seç</button>
- <input type="file" id="mcFile" accept="image/*" hidden>
- <div class="dact"><button class="btn del" id="mcRm" hidden>Kapağı kaldır</button><button class="btn" data-close>Kapat</button></div>
-</dialog>
-<dialog id="dEdit"><h2><svg class="ic s"><use href="#i-notes"/></svg>Kitabı düzenle</h2>
- <label for="edT">Kitap adı</label><input id="edT" autocomplete="off">
- <label for="edA">Yazar</label><input id="edA" autocomplete="off">
- <label for="edIsbn">ISBN-13 (isteğe bağlı)</label><input id="edIsbn" inputmode="numeric" autocomplete="off" placeholder="978...">
- <label for="edU">1000kitap bağlantısı (isteğe bağlı)</label><input id="edU" type="url" placeholder="https://1000kitap.com/kitap/...">
- <label for="edN">Düşüncelerim ve notlarım</label><textarea id="edN" placeholder="Bu kitap hakkında ne düşünüyorsun?"></textarea>
- <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="edOk">Kaydet</button></div>
-</dialog>
-<dialog id="dNote"><h2><svg class="ic s"><use href="#i-notes"/></svg>Notlarım</h2>
- <label for="noteText">Düşüncelerim ve notlarım</label><textarea id="noteText" placeholder="Bu kitap hakkında ne düşünüyorsun?"></textarea>
- <div class="dact"><button class="btn" data-close>Vazgeç</button><button class="btn pri" id="noteSave">Notu kaydet</button></div>
-</dialog>
+:root,[data-t=gece]{--bg:#1a1310;--p:#2a201a;--ac:#e8a23a;--ro:#d38a93;--tx:#f3e9dc;--mu:#cdbdab;--fa:#a39080;--on:#1a1310;--ln:#43352a;color-scheme:dark}
+[data-t=orman]{--bg:#111a14;--p:#1c2a20;--ac:#9bc46b;--ro:#d89a6a;--tx:#e8f0e3;--mu:#b3c6b3;--fa:#8aa58d;--on:#0f1610;--ln:#2f4535;color-scheme:dark}
+[data-t=okyanus]{--bg:#0e1a24;--p:#17293a;--ac:#5fb8c9;--ro:#e0a58f;--tx:#e6f1f6;--mu:#adc4d0;--fa:#8aa7b6;--on:#0b1620;--ln:#29445a;color-scheme:dark}
+[data-t=kagit]{--bg:#f6f0e6;--p:#ece3d4;--ac:#b5651d;--ro:#9a4651;--tx:#2a201a;--mu:#5f4f40;--fa:#7d6d5b;--on:#fff;--ln:#d2c5b0;color-scheme:light}
+:root{--r:4px;--e:cubic-bezier(.22,.8,.24,1)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--tx);font:1rem/1.5 "DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+#app{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 0}
+h1,h2{font-family:Fraunces,Georgia,"Times New Roman",serif;font-weight:600;margin:0;color:var(--tx);text-wrap:balance}
+.ttl{font-size:2.1rem;line-height:1.12;color:var(--ac);letter-spacing:-.01em}
+h2{font-size:1.15rem}
+p{margin:0 0 .6rem;text-wrap:pretty}
+.eb{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--mu);margin:1.5rem 0 .6rem;font-weight:500}
+.mast .eb{margin-top:.4rem}
+.pg{flex:1;padding:1.1rem 1.4rem 6.4rem}
+.pg.nonav{padding-bottom:1.6rem}
+.c{text-align:center}.mu{color:var(--mu)}.fa{color:var(--fa)}.sm{font-size:.8rem}
+a.lk{color:var(--ac);text-decoration:underline;text-underline-offset:3px}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+/* buttons */
+.b{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;min-height:48px;border:1px solid var(--ln);border-radius:var(--r);padding:.7rem 1rem;background:var(--p);color:var(--tx);margin:0 0 .6rem;cursor:pointer;text-align:center;transition:transform .15s var(--e),background-color .2s,border-color .2s,filter .2s}
+.b:hover{border-color:var(--ac)}.b:active{transform:scale(.98)}
+.b.p{background:var(--ac);border-color:var(--ac);color:var(--on);font-weight:600}.b.p:hover{filter:brightness(1.08)}
+.b.o{background:transparent;border-color:var(--ac)}
+.b.g{background:none;border-color:transparent;color:var(--mu)}
+.b.r{color:var(--ro)}
+.row2{display:flex;gap:.6rem}.row2>.b{flex:1}
+.sbtn{margin-top:.5rem;border:0;border-radius:var(--r);padding:.55rem 1rem;min-height:40px;background:var(--ac);color:var(--on);font-weight:600;cursor:pointer;transition:transform .15s var(--e)}.sbtn:active{transform:scale(.97)}
+/* fields */
+label{display:block;font-size:.8rem;color:var(--mu);margin:0 0 .9rem;letter-spacing:.02em}
+input,textarea{display:block;width:100%;margin-top:.35rem;padding:.8rem .85rem;border:1px solid var(--ln);border-radius:var(--r);background:var(--p);color:var(--tx);outline:0;font-size:max(16px,1rem);transition:border-color .2s,outline-color .2s}
+input:focus,textarea:focus{border-color:var(--ac);outline:2px solid color-mix(in srgb,var(--ac) 35%,transparent)}
+input.er{border-color:var(--ro)}
+input[type=checkbox]{width:20px;height:20px;margin:0;accent-color:var(--ac);flex:none}
+.chk{display:flex;gap:.7rem;align-items:center;font-size:.85rem}
+.er-t{color:var(--ro);font-size:.82rem;margin:-.2rem 0 .8rem;animation:shake .4s}
+.hint{color:var(--fa);font-size:.8rem;margin:-.3rem 0 1rem}
+/* header */
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
+.sp{width:44px;display:block}
+.ib{width:44px;height:44px;border-radius:var(--r);border:1px solid var(--ln);background:var(--p);cursor:pointer;font-size:1.1rem;display:grid;place-content:center;transition:border-color .2s,transform .15s var(--e)}.ib:hover{border-color:var(--ac)}.ib:active{transform:scale(.94)}
+.mast{margin:.2rem 0 1rem}.tot{margin:.4rem 0 0}.tot b{font-variant-numeric:tabular-nums;color:var(--tx)}
+.sr{display:flex;gap:.6rem}.sr input{margin:0}
+.add{width:50px;height:50px;flex:none;border:0;border-radius:var(--r);background:var(--ac);color:var(--on);font-size:1.5rem;cursor:pointer;display:grid;place-content:center;transition:transform .2s var(--e)}.add:hover{transform:rotate(90deg)}.add:active{transform:scale(.94)}
+/* stat strip */
+.strip{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ln);margin:1.2rem 0 .4rem}
+.strip button{background:none;border:0;padding:1rem;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:.2rem;transition:background-color .2s;min-height:96px;position:relative}
+.strip button:nth-child(odd){border-right:1px solid var(--ln)}.strip button:nth-child(-n+2){border-bottom:1px solid var(--ln)}
+.strip button:hover{background:var(--p)}.strip button:active{background:var(--p)}
+.strip i{color:var(--ac);font-size:1.15rem;transition:transform .3s var(--e)}.strip button:hover i{transform:translateX(3px) scale(1.1)}
+.strip .n{font-family:Fraunces,Georgia,serif;font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums;font-weight:600;margin-top:auto}
+.strip .l{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--mu)}
+/* segmented */
+.seg{display:flex;border:1px solid var(--ln);overflow-x:auto;scrollbar-width:none;margin-bottom:.8rem}.seg::-webkit-scrollbar{display:none}
+.seg button{flex:1 0 auto;min-height:44px;padding:.5rem .95rem;border:0;border-right:1px solid var(--ln);background:none;color:var(--mu);font-size:.85rem;cursor:pointer;white-space:nowrap;transition:background-color .25s,color .25s}
+.seg button:last-child{border-right:0}.seg button:hover{background:var(--p)}
+.seg .on{background:var(--ac);color:var(--on);font-weight:600}.seg .on:hover{background:var(--ac)}
+/* rows & covers */
+.list{border-top:1px solid var(--ln)}
+.rw{display:flex;gap:1rem;align-items:center;padding:.75rem .3rem;border-bottom:1px solid var(--ln);cursor:pointer;transition:background-color .2s,padding .3s var(--e)}
+.rw:hover{background:var(--p);padding-left:.8rem}.rw:active{background:var(--p)}
+.rwt{flex:1;min-width:0}.tt{font-weight:600;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ch{color:var(--fa);transition:transform .3s var(--e)}.rw:hover .ch,.lr:hover .ch{transform:translateX(4px);color:var(--ac)}
+.cv{position:relative;display:flex;align-items:center;justify-content:center;width:44px;height:62px;flex:none;border-radius:2px;color:var(--on);font:600 1.15rem Fraunces,Georgia,serif;overflow:hidden;border:1px solid color-mix(in srgb,var(--tx) 14%,transparent);background:var(--ro)}
+.cv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.2)}
+.cv.l{width:132px;height:186px;font-size:2.6rem;margin:1rem auto;transform:rotate(-3deg)}.cv.l::before{width:9px}
+/* detail */
+.tp{position:relative;background:var(--p);margin:-1.1rem -1.4rem 1.4rem;padding:1.1rem 1.4rem 1.4rem;border-bottom:1px solid var(--ln);text-align:center;perspective:800px}
+.tp .ib{position:absolute;left:1.1rem;top:1.1rem;z-index:2}
+.stt{display:flex;align-items:center;justify-content:center;gap:.5rem;margin:.4rem 0 1rem;font-size:.9rem}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--fa);display:inline-block}.dot.r{background:var(--ac)}.dot.k{background:var(--tx)}
+.dt h1{font-size:1.7rem;color:var(--tx);overflow-wrap:anywhere}
+code{font-family:ui-monospace,Menlo,Consolas,monospace}
+.sec{border-top:1px solid var(--ln);padding:1.1rem 0 .5rem;margin-top:1rem}.sec h2{margin-bottom:.2rem}
+.hn{background:var(--p);border-left:3px solid var(--ac);padding:.9rem 1rem;margin:1rem 0;font-size:.85rem}
+/* lists */
+.lst{border-top:1px solid var(--ln);margin-bottom:.4rem}
+.lr{display:flex;align-items:center;gap:.8rem;width:100%;border:0;border-bottom:1px solid var(--ln);background:none;padding:.85rem .3rem;color:var(--tx);text-align:left;cursor:pointer;min-height:50px;transition:background-color .2s}
+.lr:hover{background:var(--p)}.lr i:first-child{color:var(--ac);font-size:1.2rem}.lr .ch{margin-left:auto}
+.tc{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;border-bottom:1px solid var(--ln);padding:.85rem .3rem;background:none;cursor:pointer;min-height:50px;position:relative;color:var(--tx);transition:padding .3s var(--e),background-color .2s}
+.tc::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:3px;background:var(--ac);transform:scaleY(0);transition:transform .3s var(--e)}
+.tc.on{padding-left:.9rem;font-weight:600}.tc.on::before{transform:scaleY(1)}.tc:hover{background:var(--p)}
+.tc span{display:flex;gap:4px}.tc i{display:block;width:18px;height:18px;border-radius:2px;border:1px solid #8886}
+.prh{display:flex;gap:1rem;align-items:center;margin:.3rem 0 .6rem}
+.av{width:62px;height:62px;flex:none;border-radius:var(--r);background:var(--ac);color:var(--on);display:grid;place-content:center;font:600 1.8rem Fraunces,Georgia,serif}
+.prh h2{font-size:1.4rem}.brk{overflow-wrap:anywhere;margin:0}
+.note{border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:.9rem .1rem;font-size:.8rem;color:var(--mu);margin-bottom:1rem}
+details.priv{border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:.7rem 0;margin:.4rem 0 1rem;font-size:.8rem;color:var(--mu)}
+details.priv summary{cursor:pointer;color:var(--ac);min-height:28px}
+/* nav */
+nav{position:fixed;left:0;right:0;bottom:0;max-width:520px;margin:auto;background:var(--bg);border-top:1px solid var(--ln);z-index:5;padding-bottom:env(safe-area-inset-bottom)}
+.ni{display:flex;position:relative}
+nav button{flex:1;min-height:58px;background:none;border:0;color:var(--fa);font-size:.72rem;cursor:pointer;transition:color .25s;letter-spacing:.04em}
+nav button i{display:block;font-style:normal;font-size:1.35rem;margin-bottom:2px;transition:transform .3s var(--e)}
+nav .on{color:var(--ac)}nav .on i{transform:translateY(-2px)}
+.ind{position:absolute;top:-1px;left:0;width:33.3334%;height:2px;background:var(--ac);transition:transform .45s var(--e)}
+/* misc */
+#toast{position:fixed;left:1rem;right:1rem;bottom:5.5rem;max-width:488px;margin:auto;background:var(--p);color:var(--tx);border:1px solid var(--ac);border-radius:var(--r);padding:.8rem 1rem;display:none;justify-content:space-between;align-items:center;gap:1rem;z-index:30;font-size:.9rem}
+#toast.in{animation:toastIn .35s var(--e)}
+.und{color:var(--ac);cursor:pointer;text-decoration:underline;padding:.3rem;white-space:nowrap}
+.off{background:var(--p);color:var(--ro);text-align:center;padding:.5rem;font-size:.8rem;border-bottom:1px solid var(--ln);animation:in .4s var(--e)}
+.ctr{display:grid;place-content:center;text-align:center;min-height:100dvh;gap:.4rem}
+.emp{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:9vh}.emp .b{margin-top:1.4rem}
+.ob{display:flex;flex-direction:column;min-height:100dvh}.obart{margin-top:10vh}.obtx{margin-top:1.6rem}
+.art{width:100%;max-width:240px;display:block}
+.emp .art,.ob .art{margin:0 auto}
+.dts{display:flex;gap:6px;margin:auto 0 1.2rem;padding-top:1.4rem}
+.dts span{display:block;width:8px;height:8px;background:var(--fa);transition:width .4s var(--e),background-color .3s}.dts .on{width:26px;background:var(--ac)}
+.ld{display:flex;gap:6px;justify-content:center;align-items:flex-end;height:44px;margin-bottom:.8rem}
+.ld span{width:10px;height:44px;background:var(--ac);transform-origin:50% 100%;animation:bars 1s ease-in-out infinite}.ld span:nth-child(2){animation-delay:.15s;background:var(--ro)}.ld span:nth-child(3){animation-delay:.3s;background:var(--mu)}
+.bigi{display:inline-block;font-size:3.4rem;color:var(--ac);line-height:1;margin-top:12vh}
+.f1{fill:var(--ac)}.f2{fill:var(--ro)}.f3{fill:var(--mu)}.bd{fill:var(--bg);opacity:.35}
+.shelf{stroke:var(--fa);stroke-width:3;stroke-linecap:round}
+.card{fill:var(--p);stroke:var(--ln);stroke-width:2}
+.ln{fill:none;stroke:var(--tx);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.bk{transform-box:fill-box;transform-origin:50% 100%}.bk.lean{transform-origin:0 100%;transform:rotate(-10deg)}
+.ti{line-height:1;vertical-align:-.12em}
+.nud{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+html.tr *{transition:background-color .45s,color .45s,border-color .45s,fill .45s,stroke .45s!important}
+/* entrance motion: only when the view changes */
+.anim .stg>*{animation:in .55s var(--e) both;animation-delay:calc(var(--k,0)*60ms)}
+.anim .rw{animation:rowIn .5s var(--e) both;animation-delay:calc(var(--i,0)*55ms + 150ms)}
+.anim .bk{animation:drop .75s var(--e) both;animation-delay:calc(var(--d,0)*.12s + .1s)}
+.anim .bk.lean{animation-name:dropLean}
+.anim .ln{animation:draw .9s var(--e) .5s both}
+.anim .cv.l{animation:coverIn .9s var(--e) .1s both}
+.anim .bigi{animation:popIn .7s var(--e) both}
+.cv.l.pop{animation:popc .45s var(--e)}.stt.pop{animation:pop .4s var(--e)}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes rowIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+@keyframes drop{0%{opacity:0;transform:translateY(-46px) rotate(-6deg)}60%{opacity:1;transform:translateY(3px)}100%{opacity:1;transform:none}}
+@keyframes dropLean{0%{opacity:0;transform:translateY(-46px)}55%{opacity:1;transform:translateY(0)}100%{opacity:1;transform:rotate(-10deg)}}
+@keyframes draw{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes coverIn{from{opacity:0;transform:rotateY(-80deg) rotate(-3deg) translateY(10px)}to{opacity:1;transform:rotateY(0) rotate(-3deg)}}
+@keyframes popc{50%{transform:scale(1.08) rotate(-3deg)}}
+@keyframes pop{50%{transform:scale(1.12)}}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes bars{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+@keyframes nudge{50%{transform:translateX(5px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){html *,html.tr *{animation:none!important;transition:none!important}}
+</style></head><body><div id="app"></div><div id="toast" role="status" aria-live="polite"></div>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import {getAuth,onIdTokenChanged,signInWithEmailAndPassword,signOut,createUserWithEmailAndPassword,deleteUser,sendEmailVerification,sendPasswordResetEmail,EmailAuthProvider,reauthenticateWithCredential,updatePassword} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,onSnapshot,collection,deleteDoc,query,where} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",
-  authDomain: "kitapligim55.firebaseapp.com",
-  projectId: "kitapligim55",
-  storageBucket: "kitapligim55.firebasestorage.app",
-  messagingSenderId: "930194490379",
-  appId: "1:930194490379:web:b3c6a1c8d1f755a2db730e"
-};
-const fapp=initializeApp(firebaseConfig);
-const auth=getAuth(fapp);
-auth.languageCode='tr';
-let fdb;
-try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
-
-let nph=[],nphFor='',unsub3=null,curP=null,covers={},unsub2=null,qd=null,qerr=false,pend='',books=[],set={},ref=null,unsub=null,nav={v:'home',f:'all'},sortBy='ad',qtext='',purged=false,scanMsg='',isbnScan={active:false,cancel:false,message:''},coverScan={active:false,cancel:false,message:''},target=null,saving=Promise.resolve(),profile={uid:null},scannedBookInfo=null,scannedBookIsbn='',isbnLookupTimer=null,isbnLookupRun=0,isbnLookupPromise=null,isbnLookupPromiseValue='',isbnLookupPromiseRun=0,barcodeControls=null,barcodeRun=0,barcodeActive=false,settingsOpen=new Set();
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+import {getAuth,onIdTokenChanged,signInWithEmailAndPassword,signOut,createUserWithEmailAndPassword,updateProfile,deleteUser,sendEmailVerification,sendPasswordResetEmail,EmailAuthProvider,reauthenticateWithCredential} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,doc,setDoc,deleteDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const fapp=initializeApp({apiKey:"AIzaSyDXUBmcjysOB9-JEXDvJGQXLKJmdK9EmP0",authDomain:"kitapligim55.firebaseapp.com",projectId:"kitapligim55",storageBucket:"kitapligim55.firebasestorage.app",messagingSenderId:"930194490379",appId:"1:930194490379:web:b3c6a1c8d1f755a2db730e"});
+const auth=getAuth(fapp);auth.languageCode='tr';
+let fdb;try{fdb=initializeFirestore(fapp,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){fdb=getFirestore(fapp)}
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'''}[c]));
 const fold=s=>String(s||'').replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase().replace(/ı/g,'i').replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c');
-const validPassword=password=>password.length>=6&&/\p{L}/u.test(password)&&/\p{N}/u.test(password)&&/\p{P}/u.test(password);
-const fmt=d=>d?d.split('-').reverse().join('.'):'';
-const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const F={all:()=>true,read:b=>b.r,unread:b=>!b.r,reading:b=>b.k&&!b.r,loan:b=>b.l,notes:b=>b.n||b.np};
-const L={all:'Tüm kitaplar',read:'Okunan',unread:'Okunmayan',reading:'Şu an okuyorum',loan:'Ödünçte',notes:'Notlu kitaplar'};
-const act=()=>books.filter(b=>!b.x);
-const busy=new Set();
-const normalizeIsbn13=value=>String(value||'').replace(/ISBN(?:-13)?[\s:]*/i,'').replace(/[-‐‑‒–—\s]/g,'');
-function validIsbn13(value){
-  const isbn=normalizeIsbn13(value);
-  if(!/^97[89]\d{10}$/.test(isbn))return false;
-  const sum=[...isbn.slice(0,12)].reduce((n,d,i)=>n+(+d)*(i%2?3:1),0);
-  return (10-sum%10)%10===Number(isbn[12]);
-}
-const okUrl=u=>{try{const x=new URL(u);return x.protocol==='https:'&&/(^|\.)1000kitap\.com$/.test(x.hostname)}catch(e){return false}};
-const hasU=b=>!!(b.u&&okUrl(b.u));
-const kLink=b=>hasU(b)?b.u:'https://1000kitap.com/ara?q='+encodeURIComponent((b.t+' '+(b.a||'')).trim())+'&bolum=kitaplar';
-const coverToolCode=`javascript:(()=>{const f=e=>{const i=e.target.closest&&e.target.closest("img");if(!i||i.naturalWidth<50||i.naturalHeight<70)return;const u=i.currentSrc||i.src;if(!u.startsWith("https://")&&!u.startsWith("http://"))return;e.preventDefault();e.stopImmediatePropagation();document.removeEventListener("click",f,true);Promise.resolve().then(()=>navigator.clipboard.writeText(u)).then(()=>alert("Kapak bağlantısı kopyalandı. Kitaplığım'a dönüp panodan yapıştır.")).catch(()=>prompt("Kapak bağlantısını kopyala:",u))};document.addEventListener("click",f,true);alert("Kapak seçimi hazır. Kitap kapağı görseline tıkla.")})()`;
-
-const GB_KEY='AIzaSyBLHvfYoMF5-2i9y5x_vRdxeO56BKZiM4c';
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const norm=x=>fold(x).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
-function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
-const tokEq=(x,y)=>x===y||(x.length>=5&&y.length>=5&&lev(x,y)<=2);
-function authorMatch(ours,theirs){
-  const ot=norm(ours).split(' ').filter(x=>x.length>=2);
-  if(!ot.length)return true;
-  const tt=norm((theirs||[]).join(' ')).split(' ').filter(Boolean);
-  const last=ot[ot.length-1];
-  const hits=ot.filter(x=>tt.some(y=>tokEq(x,y))).length;
-  return tt.some(y=>tokEq(last,y))||hits>=2;
-}
-function titleScore(ours,theirs){
-  const A=norm(ours),B=norm(theirs);if(!A||!B)return 0;
-  if(A===B)return 3;
-  const a=A.split(' '),b=B.split(' ');
-  const [sh,lo]=a.length<=b.length?[a,b]:[b,a];
-  const matches=sh.filter(x=>lo.some(y=>tokEq(x,y))).length;
-  if(matches===sh.length&&(sh.length>=2||lo.length<=3))return 2;
-  const inter=matches,uni=Math.max(a.length,b.length);
-  return inter/uni>=0.6?1:0;
-}
-function titleCaseTr(value){
-  return String(value||'').toLocaleLowerCase('tr-TR').replace(/(^|[\s([{"'“‘—–-])([\p{L}])/gu,(_,prefix,letter)=>prefix+letter.toLocaleUpperCase('tr-TR'));
-}
-function pick(items,b){
-  let best=null,bs=-1;
-  for(const it of items){
-    const v=it.volumeInfo||{};
-    const ts=titleScore(b.t,v.title||'');if(!ts)continue;
-    const am=authorMatch(b.a,v.authors);
-    const sc=ts*2+(am?4:0)+(v.imageLinks?1:0);
-    if(sc>bs){bs=sc;best={v,ts,am}}
-  }
-  if(!best)return null;
-  const il=best.v.imageLinks||{};
-  const img=(il.thumbnail||il.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
-  return {c:img,v:(best.am&&best.ts>=2)?'ok':'check',g:(best.v.title||'')+((best.v.authors||[]).length?' - '+best.v.authors.join(', '):'')};
-}
-async function gbFetch(q,retries=3){
-  const url='https://www.googleapis.com/books/v1/volumes?maxResults=10&q='+encodeURIComponent(q)+(GB_KEY?'&key='+GB_KEY:'');
-  let r;
-  for(let k=0;k<retries;k++){
-    r=await fetch(url);
-    if(r.status!==429&&r.status!==403)break;
-    if(k+1<retries)await sleep(1500*(k+1));
-  }
-  if(r.status===429||r.status===403)throw GB_KEY&&r.status===403?'key':'rate';
-  if(!r.ok)throw 'err';
-  const j=await r.json();
-  return j.items||[];
-}
-function pickGbIsbn(items,isbn){
-  for(const it of items){
-    const v=it.volumeInfo||{};
-    const match=(v.industryIdentifiers||[]).some(x=>normalizeIsbn13(x.identifier)===isbn);
-    if(!match)continue;
-    const il=v.imageLinks||{},img=(il.thumbnail||il.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
-    if(img)return {c:img,v:'ok',g:(v.title||'')+((v.authors||[]).length?' - '+v.authors.join(', '):''),src:'Google Books'};
-  }
-  return null;
-}
-async function gbLookup(b){
-  const isbn=normalizeIsbn13(b.isbn);
-  if(validIsbn13(isbn)){
-    const exact=pickGbIsbn(await gbFetch('isbn:'+isbn),isbn);
-    if(exact)return Object.assign({s:2},exact);
-  }
-  const qs=['intitle:'+b.t+(b.a?' inauthor:'+b.a:''),(b.t+' '+(b.a||'')).trim(),b.t];
-  let all=[],res=null;
-  for(let i=0;i<qs.length;i++){
-    if(i)await sleep(700);
-    try{all=all.concat(await gbFetch(qs[i]))}
-    catch(e){if(e==='err'&&i>0)break;throw e}
-    res=pick(all,b);
-    if(res&&res.v==='ok'&&res.c)return Object.assign({s:2,src:'Google Books'},res);
-  }
-  return res&&res.c?Object.assign({s:2,src:'Google Books'},res):null;
-}
-async function openLibraryLookup(b){
-  const isbn=normalizeIsbn13(b.isbn),params=new URLSearchParams({fields:'key,title,author_name,cover_i,isbn',limit:'10'});
-  if(validIsbn13(isbn))params.set('isbn',isbn);
-  else{
-    params.set('title',b.t);
-    if(b.a)params.set('author',b.a);
-  }
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-  let r;
-  try{r=await fetch('https://openlibrary.org/search.json?'+params,{signal:controller.signal})}
-  finally{clearTimeout(timeout)}
-  if(!r.ok)throw new Error('openlibrary-http-'+r.status);
-  const json=await r.json(),items=json.docs||[];
-  let best=null,bestScore=-1;
-  for(const item of items){
-    if(!item.cover_i)continue;
-    const exactIsbn=validIsbn13(isbn)&&(item.isbn||[]).some(x=>normalizeIsbn13(x)===isbn);
-    const ts=titleScore(b.t,item.title||'');
-    const am=authorMatch(b.a,item.author_name||[]);
-    if(validIsbn13(isbn)&&!exactIsbn)continue;
-    if(!validIsbn13(isbn)&&!ts)continue;
-    const score=(exactIsbn?100:0)+ts*2+(am?4:0);
-    if(score>bestScore){bestScore=score;best={item,exactIsbn,ts,am}}
-  }
-  if(!best)return null;
-  return {c:'https://covers.openlibrary.org/b/id/'+best.item.cover_i+'-L.jpg?default=false',v:(best.exactIsbn||(best.am&&best.ts>=2))?'ok':'check',g:(best.item.title||'')+((best.item.author_name||[]).length?' - '+best.item.author_name.join(', '):''),s:2,src:'Open Library'};
-}
-async function findBookCover(b){
-  try{const cover=await openLibraryLookup(b);if(cover)return cover}catch(e){}
-  try{const cover=await gbLookup(b);if(cover)return cover}catch(e){throw e}
-  return {c:'',v:'none',g:'',s:2};
-}
-async function findBookCoverForBatch(b){
-  if(validIsbn13(b.isbn)){
-    const isbn=normalizeIsbn13(b.isbn);
-    if(!coverScan.openLibraryPaused){
-      try{const openLibrary=await openLibraryLookup(b);if(openLibrary?.c)return openLibrary}
-      catch(error){if(String(error).includes('openlibrary-http-429'))coverScan.openLibraryPaused=true}
-    }
-    if(!coverScan.googleBooksPaused){
-      try{
-        const exact=pickGbIsbn(await gbFetch('isbn:'+isbn,1),isbn);
-        if(exact)return Object.assign({s:2},exact);
-      }catch(error){if(error==='rate'||error==='key')coverScan.googleBooksPaused=true}
-    }
-  }
-  if(!coverScan.openLibraryPaused){
-    const params=new URLSearchParams({title:b.t,fields:'title,author_name,cover_i,isbn',limit:'10'});
-    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-    let response;
-    try{response=await fetch('https://openlibrary.org/search.json?'+params,{signal:controller.signal})}
-    finally{clearTimeout(timeout)}
-    if(response.status===429)coverScan.openLibraryPaused=true;
-    else if(!response.ok)throw new Error('openlibrary-http-'+response.status);
-    else{
-      const docs=(await response.json()).docs||[];
-      const exact=docs.filter(item=>norm(item.title||'')===norm(b.t)&&item.cover_i)
-        .sort((x,y)=>Number(authorMatch(b.a,y.author_name||[]))-Number(authorMatch(b.a,x.author_name||[])))[0];
-      if(exact)return {c:'https://covers.openlibrary.org/b/id/'+exact.cover_i+'-L.jpg?default=false',v:'ok',g:(exact.title||'')+((exact.author_name||[]).length?' - '+exact.author_name.join(', '):''),s:2,src:'Open Library'};
-    }
-  }
-  if(!coverScan.googleBooksPaused){
-    const items=await gbFetch('intitle:'+b.t,1);
-    const cover=pick(items,b);
-    if(cover?.c)return Object.assign({s:2,src:'Google Books'},cover);
-  }
-  if(coverScan.openLibraryPaused&&coverScan.googleBooksPaused)throw new Error('catalogs-rate-limited');
-  return {c:'',v:'none',g:'',s:2};
-}
-async function isbnOpenLibrary(b){
-  if(!b.t)return null;
-  const params=new URLSearchParams({title:b.t,fields:'key,title,author_name,editions,editions.title,editions.isbn',limit:'10','editions.row':'10'});
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-  let response;
-  try{response=await fetch('https://openlibrary.org/search.json?'+params,{signal:controller.signal})}
-  finally{clearTimeout(timeout)}
-  if(!response.ok)throw new Error('openlibrary-http-'+response.status);
-  const json=await response.json();
-  const candidates=(json.docs||[])
-    .filter(item=>norm(item.title||'')===norm(b.t))
-    .map((item,index)=>({
-      index,
-      authorMatch:authorMatch(b.a,item.author_name||[]),
-      isbn:(item.editions?.docs||[])
-        .filter(edition=>norm(edition.title||'')===norm(b.t))
-        .flatMap(edition=>edition.isbn||[])
-        .map(isbn13Candidate)
-        .find(Boolean)
-    }))
-    .filter(candidate=>candidate.isbn)
-    .sort((a,b)=>(Number(b.authorMatch)-Number(a.authorMatch))||a.index-b.index);
-  return candidates[0]?.isbn||null;
-}
-async function isbnGoogleBooks(b){
-  if(!b.t)return null;
-  const items=await gbFetch('intitle:'+b.t,1);
-  const candidates=items
-    .map((item,index)=>({info:item.volumeInfo||{},index}))
-    .filter(candidate=>norm(candidate.info.title||'')===norm(b.t))
-    .map(candidate=>Object.assign(candidate,{
-      authorMatch:authorMatch(b.a,candidate.info.authors||[]),
-      isbn:(candidate.info.industryIdentifiers||[]).map(identifier=>isbn13Candidate(identifier.identifier)).find(Boolean)
-    }))
-    .filter(candidate=>candidate.isbn)
-    .sort((a,b)=>(Number(b.authorMatch)-Number(a.authorMatch))||a.index-b.index);
-  return candidates[0]?.isbn||null;
-}
-function isbn13Candidate(value){
-  const isbn=normalizeIsbn13(value).toUpperCase();
-  if(validIsbn13(isbn))return isbn;
-  if(!/^\d{9}[\dX]$/.test(isbn))return null;
-  const payload='978'+isbn.slice(0,9);
-  const sum=[...payload].reduce((n,d,i)=>n+(+d)*(i%2?3:1),0);
-  const converted=payload+String((10-sum%10)%10);
-  return validIsbn13(converted)?converted:null;
-}
-const isbnLookupCache=new Map();
-async function findBookIsbn(b){
-  const key=norm(b.t)+'|'+norm(b.a||'');
-  if(isbnLookupCache.has(key))return isbnLookupCache.get(key);
-  const lookup=(async()=>{
-    const errors=[];
-    if(!isbnScan.openLibraryPaused){
-      try{const isbn=await isbnOpenLibrary(b);if(isbn)return isbn}
-      catch(error){
-        errors.push(error);
-        if(String(error).includes('openlibrary-http-429'))isbnScan.openLibraryPaused=true;
-      }
-    }
-    if(!isbnScan.googleBooksPaused){
-      try{const isbn=await isbnGoogleBooks(b);if(isbn)return isbn}
-      catch(error){
-        errors.push(error);
-        if(error==='rate'||error==='key')isbnScan.googleBooksPaused=true;
-      }
-    }
-    if(isbnScan.openLibraryPaused&&isbnScan.googleBooksPaused)throw new Error('catalogs-rate-limited');
-    if(errors.length)throw errors[0];
-    return null;
-  })();
-  isbnLookupCache.set(key,lookup);
-  try{return await lookup}catch(error){isbnLookupCache.delete(key);throw error}
-}
-function bookMetadata(info,source){
-  const description=typeof info.description==='string'?info.description:info.description?.value||'';
-  return {
-    publisher:String(info.publisher||'').slice(0,160),
-    publishedDate:String(info.publishedDate||info.publish_date||info.first_publish_year||'').slice(0,40),
-    pageCount:Number(info.pageCount||info.number_of_pages)||0,
-    description:description.slice(0,800),
-    categories:(Array.isArray(info.categories)?info.categories:Array.isArray(info.subject)?info.subject:[]).filter(x=>typeof x==='string').slice(0,4).map(x=>x.slice(0,80)),
-    language:String(info.language||'').slice(0,20),
-    source
-  };
-}
-async function openLibraryBookByIsbn(isbn){
-  const getJson=async url=>{
-    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-    try{
-      const response=await fetch(url,{signal:controller.signal});
-      if(response.status===404)return null;
-      if(!response.ok)throw new Error('Open Library HTTP '+response.status);
-      return await response.json();
-    }finally{clearTimeout(timeout)}
-  };
-  const edition=await getJson('https://openlibrary.org/isbn/'+encodeURIComponent(isbn)+'.json');
-  if(!edition||(edition.isbn_13||[]).map(normalizeIsbn13).indexOf(isbn)<0)return null;
-  const workKey=edition.works?.[0]?.key;
-  let work=null,authors=[];
-  if(workKey){
-    try{
-      work=await getJson('https://openlibrary.org'+workKey+'.json');
-      const keys=(work?.authors||[]).slice(0,4).map(x=>x.author?.key).filter(Boolean);
-      const authorRecords=await Promise.all(keys.map(key=>getJson('https://openlibrary.org'+key+'.json').catch(()=>null)));
-      authors=authorRecords.map(x=>x?.name).filter(Boolean);
-    }catch(error){work=null;authors=[]}
-  }
-  const coverId=(edition.covers||[]).find(x=>Number.isInteger(x)&&x>0);
-  return {
-    t:edition.title||'',
-    a:authors.join(', '),
-    isbn,
-    meta:bookMetadata({
-      publisher:(edition.publishers||[]).join(', '),
-      publish_date:edition.publish_date,
-      number_of_pages:Number(String(edition.pagination||'').match(/\d+/)?.[0])||0,
-      description:work?.description,
-      subject:work?.subjects,
-      language:(edition.languages||[]).map(x=>x.key?.split('/').pop()).filter(Boolean).join(', ')
-    },'Open Library'),
-    cover:coverId?'https://covers.openlibrary.org/b/id/'+coverId+'-L.jpg?default=false':''
-  };
-}
-async function googleBookByIsbn(isbn){
-  const items=await gbFetch('isbn:'+isbn);
-  for(const item of items){
-    const info=item.volumeInfo||{};
-    if(!(info.industryIdentifiers||[]).some(x=>normalizeIsbn13(x.identifier)===isbn))continue;
-    const imageLinks=info.imageLinks||{};
-    return {
-      t:info.title||'',
-      a:(info.authors||[]).join(', '),
-      isbn,
-      meta:bookMetadata(info,'Google Books'),
-      cover:(imageLinks.thumbnail||imageLinks.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','')
-    };
-  }
-  return null;
-}
-async function lookupBookByIsbn(isbn){
-  let googleError=null;
-  try{const result=await googleBookByIsbn(isbn);if(result)return result}catch(error){googleError=error}
-  try{const result=await openLibraryBookByIsbn(isbn);if(result)return result}catch(error){if(googleError)throw new Error('Google Books ve Open Library kaynaklarına ulaşılamadı.');throw error}
-  if(googleError)throw new Error('Google Books ve Open Library kaynaklarına ulaşılamadı.');
-  return null;
-}
-async function lookupBookByTitle(b){
-  const candidates=[],errors=[];
-  try{
-    const params=new URLSearchParams({title:b.t,fields:'title,author_name,cover_i,first_publish_year',limit:'10'});
-    if(b.a)params.set('author',b.a);
-    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
-    let response;
-    try{response=await fetch('https://openlibrary.org/search.json?'+params,{signal:controller.signal})}
-    finally{clearTimeout(timeout)}
-    if(!response.ok)throw new Error('openlibrary-http-'+response.status);
-    const docs=(await response.json()).docs||[];
-    for(const item of docs){
-      const ts=titleScore(b.t,item.title||''),authors=item.author_name||[],am=authorMatch(b.a,authors);
-      if(!ts)continue;
-      candidates.push({
-        t:item.title||'',a:authors.join(', '),meta:bookMetadata({first_publish_year:item.first_publish_year},'Open Library'),
-        cover:item.cover_i?'https://covers.openlibrary.org/b/id/'+item.cover_i+'-L.jpg?default=false':'',
-        src:item.cover_i?'Open Library':'',ts,am,score:ts*10+(am?12:0)+(item.cover_i?1:0)
-      });
-    }
-  }catch(error){errors.push(error)}
-  try{
-    const query='intitle:'+b.t+(b.a?' inauthor:'+b.a:''),items=await gbFetch(query,1);
-    for(const item of items){
-      const info=item.volumeInfo||{},ts=titleScore(b.t,info.title||''),authors=info.authors||[],am=authorMatch(b.a,authors);
-      if(!ts)continue;
-      const imageLinks=info.imageLinks||{},cover=(imageLinks.thumbnail||imageLinks.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
-      candidates.push({
-        t:info.title||'',a:authors.join(', '),meta:bookMetadata(info,'Google Books'),cover,
-        src:cover?'Google Books':'',ts,am,score:ts*10+(am?12:0)+(cover?1:0)
-      });
-    }
-  }catch(error){errors.push(error)}
-  candidates.sort((x,y)=>y.score-x.score);
-  const best=candidates[0];
-  if(best){
-    const uniqueTitle=!b.a&&new Set(candidates.filter(x=>x.ts>=2).map(x=>norm(x.t)+'|'+norm(x.a))).size===1;
-    best.confident=(!b.a||best.am)&&(best.ts===3||(best.ts===2&&(!!b.a||uniqueTitle)));
-    return best;
-  }
-  if(errors.length===2)throw new Error('Open Library ve Google Books kaynaklarına ulaşılamadı.');
-  return null;
-}
-function stopBookBarcodeScanner(){
-  barcodeActive=false;
-  barcodeRun++;
-  if(barcodeControls){barcodeControls.stop();barcodeControls=null}
-  const video=$('scanVideo');
-  if(video?.srcObject){
-    video.srcObject.getTracks().forEach(track=>track.stop());
-    video.pause();
-    video.srcObject=null;
-  }
-}
-async function runFormIsbnLookup(isbn,run){
-  const status=$('scanResult');
-  status.textContent='ISBN doğrulandı; kitap bilgileri Google Books ve Open Library kataloglarında aranıyor…';
-  try{
-    const info=await lookupBookByIsbn(isbn);
-    if(run!==isbnLookupRun||normalizeIsbn13($('addIsbn').value)!==isbn)return null;
-    scannedBookIsbn=isbn;
-    if(!info){
-      status.textContent='ISBN geçerli; bu baskı kataloglarda bulunamadı. Kitap adı ve yazarı elle girebilirsin.';
-      return;
-    }
-    scannedBookInfo=info;
-    if(info.t)$('addT').value=titleCaseTr(info.t);
-    if(info.a)$('addA').value=titleCaseTr(info.a);
-    const details=[info.meta.publisher,info.meta.publishedDate,info.meta.pageCount?info.meta.pageCount+' sayfa':''].filter(Boolean).join(' · ');
-    status.textContent='Kitap adı ve yazar '+(info.meta?.source||'katalog')+' kaynağından bulundu.'+(details?' '+details:'')+' Eklemeden önce bilgileri kontrol edebilirsin.';
-    return info;
-  }catch(error){
-    if(run===isbnLookupRun)status.textContent='ISBN geçerli ancak kataloglara ulaşılamadı. İnternet bağlantını kontrol et; istersen kitap bilgilerini elle gir.';
-    return null;
-  }
-}
-async function applyScannedIsbn(isbn){
-  clearTimeout(isbnLookupTimer);
-  const run=++isbnLookupRun;
-  scannedBookInfo=null;scannedBookIsbn='';
-  $('addIsbn').value=isbn;
-  await runFormIsbnLookup(isbn,run);
-}
-async function startBookBarcodeScanner(){
-  stopBookBarcodeScanner();
-  barcodeActive=true;
-  const run=barcodeRun;
-  const status=$('scanStatus');
-  const video=$('scanVideo');
-  status.textContent='Barkod tarayıcısı yükleniyor…';
-  try{
-    const [{BrowserMultiFormatReader},{BarcodeFormat}]=await Promise.all([
-      import('https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm'),
-      import('https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/+esm')
-    ]);
-    if(!barcodeActive||run!==barcodeRun)return;
-    status.textContent='Arka kamera açılıyor. Barkodu kadraja yaklaştırıp netleşmesini bekle; ekrandaki çizgiler barkodun üzerine gelsin.';
-    const reader=new BrowserMultiFormatReader();
-    reader.possibleFormats=[BarcodeFormat.EAN_13];
-    let lastInvalid='';
-    const controls=await reader.decodeFromConstraints({
-      audio:false,
-      video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}}
-    },video,(result)=>{
-      if(!result||!barcodeActive||run!==barcodeRun)return;
-      const value=String(result.getText()||'').replace(/\D/g,'');
-      if(!/^97[89]\d{10}$/.test(value)||!validIsbn13(value)){
-        if(lastInvalid!==value){
-          status.textContent='Barkod okundu ama bu bir ISBN-13 değil. Kitabın arka kapağındaki ISBN satırının üzerindeki uzun barkodu tara.';
-          lastInvalid=value;
-        }
-        return;
-      }
-      stopBookBarcodeScanner();
-      $('dScan').close();
-      applyScannedIsbn(value);
-    });
-    if(!barcodeActive||run!==barcodeRun)controls.stop();
-    else barcodeControls=controls;
-  }catch(error){
-    if(!barcodeActive||run!==barcodeRun)return;
-    stopBookBarcodeScanner();
-    status.textContent=error?.name==='NotAllowedError'
-      ?'Kamera izni verilmedi. Tarayıcı ayarlarından kamera erişimine izin verip tekrar dene.'
-      :error?.name==='NotFoundError'
-        ?'Bu cihazda kullanılabilir kamera bulunamadı.'
-        :'Kamera başlatılamadı. HTTPS bağlantısı ve tarayıcı kamera iznini kontrol et; ISBN’yi elle de girebilirsin.';
-  }
-}
-
-function vchip(b){
-  if(busy.has(b.id))return '<span class="chip">Aranıyor…</span>';
-  if((covers[b.id]||b.mc||b.c)&&validIsbn13(b.isbn))return '';
-  return '<span class="chip"><i class="cd"></i>Doğrulanmadı</span>';
-}
-function persist(){
-  if(!ref)return;const r=ref,b=books.slice(),st=Object.assign({},set);
-  saving=saving.then(()=>setDoc(r,{books:b,set:st})).catch(e=>{toast('Kayıt yapılamadı. Sayfayı yenileyip tekrar dene.')});
-}
-function change(fn){fn();persist();render()}
-let tt;
-function toast(msg,undo){
-  const t=$('toast');t.innerHTML=esc(msg)+(undo?' <button class="btn" id="tu">Geri al</button>':'');t.hidden=false;
-  if(undo)$('tu').onclick=()=>{undo();t.hidden=true};
-  clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true},8000);
-}
-const TH={
- 'acik-lavanta':{n:'Gül Kurusu',group:'light',bg:'#FFF3EE',card:'#FFFFFF',ink:'#3B1D2A',mute:'#94707C',line:'#F3D9D2',acc:'#D6336C',b2:'#FF9A62',b3:'#7A5AF8'},
- 'acik-yesil':{n:'Nane & Zeytin',group:'light',bg:'#F1F7EA',card:'#FFFFFF',ink:'#1F3320',mute:'#6F8B6A',line:'#D8E8CC',acc:'#2F9E62',b2:'#F2B134',b3:'#E8590C'},
- 'acik-krem':{n:'Bal Kâğıdı',group:'light',bg:'#FFF6DC',card:'#FFFDF4',ink:'#3A2808',mute:'#8C7440',line:'#F0DFAE',acc:'#E08A00',b2:'#C2410C',b3:'#0F8B8D'},
- 'gece-lavanta':{n:'Gece Lambası',group:'dark',bg:'#0E1024',card:'#191C3A',ink:'#FBF0DC',mute:'#A7A5C8',line:'#2A2E58',acc:'#FFB84D',b2:'#FF6B9A',b3:'#6EE7D0'},
- 'gece-okyanus':{n:'Deniz Feneri',group:'dark',bg:'#071720',card:'#0F2833',ink:'#E4FAF6',mute:'#84B4B4',line:'#1C4250',acc:'#2DD4BF',b2:'#60A5FA',b3:'#FDBA74'},
- 'gece-orman':{n:'Gül Gecesi',group:'dark',bg:'#1B0E1C',card:'#2A1629',ink:'#FFEAF2',mute:'#C99BB5',line:'#452645',acc:'#FF6F9F',b2:'#C084FC',b3:'#FCD34D'}
+const okPw=p=>p.length>=6&&/\p{L}/u.test(p)&&/\p{N}/u.test(p)&&/\p{P}/u.test(p);
+const iso=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmt=t=>new Date(t).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+const FL={all:['Tüm kitaplar',()=>1],read:['Okunan',b=>b.r],unread:['Okunmayan',b=>!b.r],loan:['Ödünçte',b=>b.l],notes:['Notlu',b=>b.n]};
+let pend='',user=null,ref=null,unsub=null,books=[],set={},v='boot',f='all',q='',cur=null,sl=0,err='',sent=0,qs=0,lastV='',force=0,popSel='',pn=0,lo=false,errF='';
+const NAVS=['home','all','prof'];
+const act=()=>books.filter(b=>!b.x),get=id=>books.find(b=>b.id===id);
+const hasC=b=>b.c&&/^https:\/\//.test(b.c);
+const cvs=b=>hasC(b)?`background:url('${esc(encodeURI(b.c).replace(/['()]/g,c=>'%'+c.charCodeAt(0).toString(16)))}') center/cover`:`background:${b.r?'var(--ac)':'var(--ro)'}`;
+const cv=(b,c='')=>`<span class="cv ${c}" style="${cvs(b)}">${hasC(b)?'':esc((b.t||'?').trim().charAt(0).toUpperCase())}</span>`;
+const dl=(bl,n)=>{const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=n;a.click()};
+async function find(b){const q=b.isbn?'isbn:'+b.isbn:'intitle:'+b.t+(b.a?'+inauthor:'+b.a:'');try{const r=await(await fetch('https://www.googleapis.com/books/v1/volumes?maxResults=1&q='+encodeURIComponent(q).replace(/%2B/g,'+'))).json();const i=r.items?.[0]?.volumeInfo;return i?{t:i.title,a:(i.authors||[]).join(', '),c:(i.imageLinks?.thumbnail||'').replace('http:','https:')}:null}catch(e){return null}}
+const parse=t=>{const o=[];let r=[],c='',q=0;for(let i=0;i<t.length;i++){const h=t[i];if(q){if(h=='"'){t[i+1]=='"'?(c+='"',i++):q=0}else c+=h}else if(h=='"')q=1;else if(h==','||h==';'){r.push(c);c=''}else if(h=='\n'||h=='\r'){if(h=='\r'&&t[i+1]=='\n')i++;r.push(c);c='';o.push(r);r=[]}else c+=h}if(c||r.length){r.push(c);o.push(r)}return o};
+const theme=t=>{document.documentElement.dataset.t=t||'gece';localStorage.th=t||'gece';const m=document.querySelector('meta[name=theme-color]');if(m)m.content=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#1a1310'};theme(localStorage.th);document.documentElement.style.fontSize=localStorage.fs||'16px';
+const persist=()=>ref&&setDoc(ref,{books,set}).catch(()=>toast('Kaydedilemedi. İnternetini kontrol et.'));
+function toast(m,u){const t=$('toast');t.innerHTML=`<span>${esc(m)}</span>${u?'<b class="und" data-a="undo" role="button" tabindex="0">Geri al</b>':''}`;t.style.display='flex';t.classList.remove('in');void t.offsetWidth;t.classList.add('in');clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',u?6000:3000);toast.u=u}
+const rows=l=>l.map((b,i)=>`<div class="rw" role="button" tabindex="0" data-a="open" data-v="${esc(b.id)}" style="--i:${Math.min(i,10)}">${cv(b)}<div class="rwt"><div class="tt">${esc(b.t)}</div><div class="fa sm">${esc(b.a)}${b.l?' · '+esc(b.l.to)+'\'de':''}</div></div><i class="ti ti-chevron-right ch"></i></div>`).join('');
+const NV=()=>{const ix=NAVS.indexOf(v);return `<nav><div class="ni"><span class="ind" style="transform:translateX(${Math.max(pn,0)*100}%)"></span>${[['home','home','Ana sayfa'],['all','search','Ara'],['prof','user','Profil']].map(x=>`<button data-a="go" data-v="${x[0]}" class="${v===x[0]?'on':''}"><i class="ti ti-${x[1]}"></i>${x[2]}</button>`).join('')}</div></nav>`};
+const hd=(t,r='')=>`<div class="hd"><button class="ib" data-a="back" aria-label="Geri"><i class="ti ti-arrow-left"></i></button><h2>${t}</h2><span class="sp">${r}</span></div>`;
+const fi=(id,l,val='',type='text',x='')=>`<label>${l}<input id="${id}" type="${type}" value="${esc(val)}" ${errF===id?'class="er" aria-invalid="true"':''} ${x}></label>`;
+const lr=(a,i,t,vv='',c='')=>`<button class="lr ${c}" data-a="${a}"${vv?` data-v="${vv}"`:''}><i class="ti ti-${i}"></i>${t}<i class="ti ti-chevron-right ch"></i></button>`;
+const PRIV='Ad, e-posta, kullanıcı kimliği, hesap oluşturma zamanı, kitap bilgilerin, notların ve ayarların Firebase (Google) üzerinde senin hesabına bağlı saklanır. Kapak/bilgi aramalarında kitap başlığı, yazar veya ISBN, Google Books servisine gönderilir. Verilerini Profil\'den yedekleyebilir, hesabını sildiğinde kitaplığın ve hesap kaydın silinir.';
+const OB=[['Kitaplığın cebinde','Okuduklarını, ödünç verdiklerini ve notlarını tek yerde tut.'],['Ödünç takibi','Kime hangi kitabı verdiğini ve ne zaman verdiğini kaydet.'],['Notlar ve bağlantılar','Düşüncelerini yaz, kitabı 1000kitap\'ta bul ve bağlantısını sakla.']];
+/* illustrations */
+const bkg=(c,x,y,w,h,d,x2='')=>`<g class="bk ${x2}" style="--d:${d}"><rect class="${c}" x="${x}" y="${y}" width="${w}" height="${h}"/><rect class="bd" x="${x}" y="${y+12}" width="${w}" height="5"/></g>`;
+const shelfArt=()=>`<svg class="art" viewBox="0 0 220 140" role="img" aria-label="Rafta duran kitaplar">${bkg('f1',34,44,24,76,0)}${bkg('f2',62,30,28,90,1)}${bkg('f3',94,52,22,68,2)}${bkg('f1',128,38,24,82,3,'lean')}${bkg('f2',160,48,24,72,4)}<line class="shelf" x1="16" y1="122" x2="204" y2="122"/></svg>`;
+const swapArt=()=>`<svg class="art" viewBox="0 0 220 140" role="img" aria-label="Kitap ödünç takibi">${bkg('f1',30,50,34,70,0)}<path class="ln" pathLength="1" d="M82 66H140"/><path class="ln" pathLength="1" d="M131 57L141 66L131 75" style="animation-delay:.8s"/><path class="ln" pathLength="1" d="M140 98H82" style="animation-delay:.7s"/><path class="ln" pathLength="1" d="M91 89L81 98L91 107" style="animation-delay:1.3s"/>${bkg('f2',156,50,34,70,2)}<line class="shelf" x1="16" y1="122" x2="204" y2="122"/></svg>`;
+const noteArt=()=>`<svg class="art" viewBox="0 0 220 140" role="img" aria-label="Not defteri"><g class="bk" style="--d:0"><rect class="card" x="56" y="16" width="108" height="108"/></g><path class="ln" pathLength="1" d="M76 50H132" style="animation-delay:.5s"/><path class="ln" pathLength="1" d="M76 72H146" style="animation-delay:.8s"/><path class="ln" pathLength="1" d="M76 94H118" style="animation-delay:1.1s"/><g class="bk" style="--d:3"><rect class="f1" x="136" y="16" width="16" height="34"/></g></svg>`;
+const V={
+boot:()=>`<div class="pg nonav ctr"><div class="ld"><span></span><span></span><span></span></div><h1 class="ttl">Kitaplığım</h1><p class="mu">Yükleniyor…</p></div>`,
+ob:()=>{const o=OB[sl];return `<div class="pg nonav ob stg"><div class="obart">${[shelfArt,swapArt,noteArt][sl]()}</div><div class="obtx"><p class="eb" style="margin-top:0">${sl+1} / 3</p><h1 class="ttl">${o[0]}</h1><p class="mu">${o[1]}</p></div><div class="dts">${OB.map((_,i)=>`<span class="${i===sl?'on':''}"></span>`).join('')}</div><button class="b p" data-a="obn">${sl<2?'Devam et':'Başla'}</button>${sl<2?'<button class="b g" data-a="obs">Atla</button>':''}</div>`},
+login:()=>`<div class="pg nonav stg"><div class="mast" style="margin-top:2.4rem"><p class="eb">Kitaplığım</p><h1 class="ttl">Giriş yap</h1></div><div style="height:.8rem"></div>${fi('em','E-posta','','email','autocomplete=email')}${fi('pw','Parola','','password','autocomplete=current-password')}${err?`<div class="er-t">${esc(err)}</div>`:''}<button class="b p" data-a="login">Giriş yap</button><p class="c"><a class="lk" href="#" data-a="to" data-v="reset">Parolamı unuttum</a></p><p class="c mu">Hesabın yok mu? <a class="lk" href="#" data-a="to" data-v="reg">Kayıt ol</a></p></div>`,
+reg:()=>`<div class="pg nonav stg"><div class="mast" style="margin-top:1rem"><p class="eb">Kitaplığım</p><h1 class="ttl">Hesap oluştur</h1></div><div style="height:.8rem"></div>${fi('nm','Ad','','text','autocomplete=name')}${fi('em','E-posta','','email','autocomplete=email')}${fi('pw','Parola','','password','autocomplete=new-password')}${fi('pw2','Parola tekrar','','password','autocomplete=new-password')}<p class="hint">En az 6 karakter; harf, rakam ve noktalama işareti içermeli.</p>${err?`<div class="er-t">${esc(err)}</div>`:''}<label class="chk"><input id="kv" type="checkbox">Gizlilik politikasını kabul ediyorum.</label><details class="priv"><summary>Gizlilik politikasını oku</summary><div style="margin-top:.5rem">${PRIV}</div></details><button class="b p" data-a="reg">Hesap oluştur</button><p class="c mu">Zaten hesabın var mı? <a class="lk" href="#" data-a="to" data-v="login">Giriş yap</a></p></div>`,
+reset:()=>`<div class="pg nonav stg"><div class="mast" style="margin-top:2.4rem"><p class="eb">Kitaplığım</p><h1 class="ttl">Parolanı sıfırla</h1></div><p class="mu">Kayıtlı e-postanı gir, sıfırlama bağlantısı gönderelim.</p>${fi('em','E-posta','','email')}${err?`<div class="er-t">${esc(err)}</div>`:''}<button class="b p" data-a="reset">Bağlantı gönder</button><p class="c"><a class="lk" href="#" data-a="to" data-v="login">Girişe dön</a></p></div>`,
+verify:()=>`<div class="pg nonav c stg"><span class="bigi"><i class="ti ti-mail"></i></span><h1 class="ttl" style="margin-top:1rem">E-postanı doğrula</h1><p class="mu">${esc(user?.email)} adresine doğrulama bağlantısı gönderdik.</p><div class="hn" style="text-align:left">Mail gelmediyse <b>spam</b> (gereksiz) klasörünü kontrol et.</div><button class="b p" data-a="chk">Doğruladım, devam et</button><button class="b" data-a="resend">Tekrar gönder</button><button class="b g" data-a="out">Çıkış yap</button></div>`,
+home:()=>{const a=act();if(!a.length)return `<div class="pg emp stg">${shelfArt()}<h1 class="ttl" style="margin-top:1.4rem">Kitaplığın henüz boş</h1><p class="mu">İlk kitabını ekleyerek kendi kütüphaneni kurmaya başla.</p><button class="b p" data-a="add" style="max-width:340px">İlk kitabını ekle <i class="ti ti-arrow-right nud"></i></button></div>${NV()}`;
+const cn=k=>a.filter(FL[k][1]).length;
+return `<div class="pg stg"><div class="mast"><p class="eb">Kişisel kütüphane</p><h1 class="ttl">Kitaplığım</h1><p class="mu tot">Toplam <b data-count="${a.length}">${a.length}</b> kitap</p></div><div class="sr"><input placeholder="Kitap veya yazar ara" data-a="hq" aria-label="Ara"><button class="add" data-a="add" aria-label="Kitap ekle"><i class="ti ti-plus"></i></button></div><div class="strip">${[['read','check','Okunan'],['unread','book-2','Okunmayan'],['loan','arrows-exchange','Ödünçte'],['notes','note','Notlu']].map(x=>`<button data-a="flt" data-v="${x[0]}"><i class="ti ti-${x[1]}"></i><b class="n" data-count="${cn(x[0])}">${cn(x[0])}</b><span class="l">${x[2]}</span></button>`).join('')}</div><p class="eb">Son eklenenler</p><div class="list">${rows(a.slice().sort((x,y)=>y.ad-x.ad).slice(0,5))}</div></div>${NV()}`},
+all:()=>{const a=act().filter(FL[f][1]).filter(b=>!q||fold(b.t+' '+b.a).includes(fold(q))).sort((x,y)=>fold(x.t).localeCompare(fold(y.t),'tr'));return `<div class="pg stg"><div class="hd"><span class="sp"></span><h2>${FL[f][0]==='Tüm kitaplar'?'Ara':FL[f][0]}</h2><span class="sp"></span></div><input id="qq" placeholder="Kitap veya yazar ara" aria-label="Ara" value="${esc(q)}" data-a="sq" style="margin:0 0 .8rem"><div class="seg">${Object.keys(FL).map(k=>`<button class="${k===f?'on':''}" data-a="flt" data-v="${k}">${FL[k][0]==='Tüm kitaplar'?'Tümü':FL[k][0]}</button>`).join('')}</div><p class="fa sm">${a.length} kitap</p>${a.length?`<div class="list">${rows(a)}</div>`:`<div class="c" style="margin-top:2.5rem"><i class="ti ti-search-off" style="font-size:2.8rem;color:var(--ac)"></i><h2 style="margin:.6rem 0 .3rem">Sonuç bulunamadı</h2><p class="mu">Başlığı ya da yazarı değiştirmeyi dene.</p><button class="b p" data-a="add">Yeni kitap ekle</button></div>`}</div>${NV()}`},
+add:()=>{const b=cur?get(cur):null;return `<div class="pg nonav stg">${hd(b?'Kitabı düzenle':'Kitap ekle')}${fi('t','Başlık',b?.t,'text','autofocus')}${fi('a','Yazar',b?.a)}${fi('i','ISBN-13 (isteğe bağlı)',b?.isbn,'text','inputmode=numeric')}${fi('d','Eklenme tarihi',iso(b?.ad||Date.now()),'date')}<p class="hint">Tarih otomatik eklendi. İstersen değiştirebilirsin.</p>${err?`<div class="er-t">${esc(err)}</div>`:''}<button class="b" data-a="scan"><i class="ti ti-barcode"></i>ISBN tara</button><button class="b p" data-a="save">Kaydet</button><button class="b g" data-a="back">Vazgeç</button></div>`},
+det:()=>{const b=get(cur);if(!b)return V.home();return `<div class="pg nonav stg dt"><div class="tp"><button class="ib" data-a="back" aria-label="Geri"><i class="ti ti-arrow-left"></i></button>${cv(b,'l')}<p class="stt"><span class="dot ${b.r?'r':b.k?'k':''}"></span>${b.r?'Okundu':b.k?'Şu an okuyorum':'Okunmadı'}</p><div class="row2"><button class="b p" data-a="rd" style="margin:0">${b.r?'Okunmadı yap':'Okundu yap'}</button><button class="b o" data-a="rk" style="margin:0">Şu an okuyorum</button></div></div><div><h1>${esc(b.t)}</h1><p class="mu" style="margin:.3rem 0 .6rem">${esc(b.a)}</p>${b.isbn?`<code class="fa sm">ISBN-13 ${esc(b.isbn)}</code>`:''}<p class="fa sm">Eklenme: ${fmt(b.ad)}</p></div>
+<div class="sec">${b.l?`<h2>${esc(b.l.to)}'de</h2><p class="mu sm">${fmt(b.l.d)}'ten beri</p><button class="b p" data-a="back2">Geri aldım</button>`:`<h2>Ödünç takibi</h2><p class="mu sm">Bu kitabı birine verdiğinde takibe al.</p><div id="ln" ${lo?'':'hidden'}>${fi('lt','Kime')}${fi('ld','Tarih',iso(Date.now()),'date')}<button class="b p" data-a="ln">Kaydet</button></div><button class="b" id="lb" data-a="lopen" ${lo?'hidden':''}>Ödünç ver</button>`}</div>
+<div class="sec"><h2>Notlarım</h2><p class="mu sm">Düşüncelerini burada sakla.</p><textarea id="nt" rows="4" placeholder="Bu kitap hakkında ne düşünüyorsun?">${esc(b.n)}</textarea><button class="b p" style="margin-top:.7rem" data-a="nsave">Notu kaydet</button></div>
+${b.u?'':`<div class="hn">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<br><button class="sbtn" data-a="paste">Panodan ekle</button></div>`}
+<div class="sec"><h2>Kitap işlemleri</h2><p class="mu sm">Düzenleme ve dış bağlantılar.</p><div class="row2"><button class="b" data-a="edit">Düzenle</button><button class="b" data-a="k1">${b.u?'1000kitap\'ta aç':'1000kitap\'ta ara'}</button></div><button class="b" data-a="cover">Kapağı yeniden ara</button><button class="b r" data-a="del">Kitabı kitaplığımdan çıkar</button></div></div>`},
+bin:()=>`<div class="pg nonav stg">${hd('Silinen kitaplar')}<p class="mu sm">Silinen kitaplar 7 gün saklanır.</p><div class="list">${books.filter(b=>b.x).map((b,i)=>`<div class="rw" style="--i:${Math.min(i,10)};cursor:default"><div class="rwt"><div class="tt">${esc(b.t)}</div><div class="fa sm">${Math.max(0,7-Math.floor((Date.now()-b.x)/864e5))} gün kaldı</div></div><button class="sbtn" style="margin:0" data-a="rest" data-v="${esc(b.id)}">Geri al</button></div>`).join('')}</div>${books.some(b=>b.x)?'':'<p class="c mu" style="margin-top:2.5rem">Silinen kitap yok.</p>'}</div>`,
+prof:()=>`<div class="pg stg"><div class="prh"><div class="av">${esc((user?.displayName||user?.email||'?').trim().charAt(0).toUpperCase())}</div><div style="min-width:0"><h2>${esc(user?.displayName||'Profil')}</h2><p class="mu sm brk">${esc(user?.email||'')}</p></div></div><p class="eb">Renk teması</p><div class="lst">${[['gece','Gece Kütüphanesi','#1a1310','#e8a23a'],['orman','Orman','#111a14','#9bc46b'],['okyanus','Okyanus','#0e1a24','#5fb8c9'],['kagit','Kağıt','#f6f0e6','#b5651d']].map(x=>`<button class="tc ${document.documentElement.dataset.t===x[0]?'on':''}" data-a="th" data-v="${x[0]}">${x[1]}<span><i style="background:${x[2]}"></i><i style="background:${x[3]}"></i></span></button>`).join('')}</div><p class="eb">Yazı boyutu</p><div class="seg">${[['14px','Küçük'],['16px','Orta'],['18px','Büyük']].map(x=>`<button class="${(localStorage.fs||'16px')===x[0]?'on':''}" style="flex:1" data-a="fs" data-v="${x[0]}">${x[1]}</button>`).join('')}</div><p class="eb">Veriler</p><div class="lst">${lr('bak','download','Yedekle (JSON indir)')}${lr('csv','file-spreadsheet','CSV olarak dışa aktar')}${lr('imp','upload','CSV içe aktar')}<input id="fi" type="file" accept=".csv,text/csv" hidden>${lr('bulk','photo-search','Eksik kapakları bul')}${lr('to','trash','Silinen kitaplar ('+books.filter(b=>b.x).length+')','bin')}</div><p class="eb">Hesap</p><div class="note">Gizlilik: ${PRIV}</div><button class="b" data-a="out"><i class="ti ti-logout"></i>Çıkış yap</button><button class="b r" data-a="delacc">Hesabımı sil</button></div>${NV()}`
 };
-const THEME_ALIASES={auto:'acik-lavanta',light:'acik-lavanta',dark:'gece-lavanta',lavanta:'acik-lavanta',yesil:'acik-yesil',krem:'acik-krem',turuncu:'acik-krem',pembe:'acik-lavanta',mavi:'gece-okyanus'};
-const themeKey=()=>TH[set.th]?set.th:(set.th==='auto'||!set.th?(matchMedia('(prefers-color-scheme: dark)').matches?'gece-lavanta':'acik-lavanta'):(THEME_ALIASES[set.th]||'acik-lavanta'));
-function applyTheme(){
-  const r=document.documentElement,t=TH[themeKey()],acc=t.acc;
-  r.dataset.theme=t.group;
-  ['bg','card','ink','mute','line','acc','b2','b3'].forEach(k=>r.style.setProperty('--'+k,t[k]));
-  const n=parseInt(acc.slice(1),16),lum=(0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255;
-  r.style.setProperty('--acc-ink',lum>0.6?'#111':'#fff');
-  r.style.fontSize={k:'14px',o:'16px',b:'19px'}[set.fs||'o'];
-}
-function go(v,x){nav=Object.assign({v},x||{});qtext='';history.pushState(nav,'');render();scrollTo(0,0)}
-addEventListener('popstate',e=>{nav=e.state||{v:'home',f:'all'};qtext='';render()});
-const cov=(b,sz)=>{const src=covers[b.id]||b.mc||b.c;return src?`<img class="cov ${sz||''}" src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;cov ${sz||''} ph&quot;></div>'">`:`<div class="cov ${sz||''} ph"></div>`};
-const bookMetadataHTML=meta=>{
-  if(!meta)return '';
-  const rows=[];
-  if(meta.publisher)rows.push('<div class="metarow"><b>Yayınevi:</b> '+esc(meta.publisher)+'</div>');
-  if(meta.publishedDate)rows.push('<div class="metarow"><b>Yayın tarihi:</b> '+esc(meta.publishedDate)+'</div>');
-  if(meta.pageCount)rows.push('<div class="metarow"><b>Sayfa:</b> '+esc(meta.pageCount)+'</div>');
-  if(meta.language)rows.push('<div class="metarow"><b>Dil:</b> '+esc(meta.language)+'</div>');
-  if(meta.categories?.length)rows.push('<div class="metarow"><b>Kategoriler:</b> '+esc(meta.categories.join(', '))+'</div>');
-  if(meta.description)rows.push('<div class="metarow bookdesc">'+esc(meta.description)+'</div>');
-  if(!rows.length)return '';
-  return '<section class="section-card"><div class="section-head"><div><h3>Kitap bilgileri</h3><p>Katalogdan bulunan baskı bilgileri.</p></div><span class="section-mark" aria-hidden="true">i</span></div>'+rows.join('')+'<div class="a">Bilgi kaynağı: '+esc(meta.source||'kitap kataloğu')+'</div></section>';
+function countUp(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-count]').forEach(el=>{const n=+el.dataset.count;if(!n)return;const t0=performance.now();(function s(t){const p=Math.min(1,(t-t0)/750);el.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(s)})(t0)})}
+function render(){const ch=v!==lastV||force;force=0;const keep={};
+if(!ch)document.querySelectorAll('#app input[id],#app textarea[id]').forEach(el=>{if(el.id==='qq'||el.type==='file')return;keep[el.id]=el.type==='checkbox'?el.checked:el.value});
+const off=navigator.onLine?'':'<div class="off">Çevrimdışısın. Değişiklikler bağlantı gelince eşitlenecek.</div>';const app=$('app');app.classList.toggle('anim',ch);app.innerHTML=off+(V[v]||V.home)();
+for(const id in keep){const el=$(id);if(!el)continue;if(el.type==='checkbox')el.checked=keep[id];else el.value=keep[id]}
+if(v==='all'&&qs){const e=$('qq');e&&(e.focus(),e.setSelectionRange(99,99));qs=0}
+if(ch){document.querySelectorAll('.stg>*').forEach((el,i)=>el.style.setProperty('--k',Math.min(i,12)));countUp();if(v==='add'){const t=$('t');t&&t.focus({preventScroll:true})}}
+const ix=NAVS.indexOf(v),ind=app.querySelector('.ind');if(ind){if(ix<0)ind.style.opacity=0;else requestAnimationFrame(()=>requestAnimationFrame(()=>{ind.style.transform=`translateX(${ix*100}%)`;pn=ix}))}
+if(popSel){document.querySelectorAll(popSel).forEach(el=>el.classList.add('pop'));popSel=''}
+lastV=v}
+const val=id=>($(id)?.value||'').trim(),fail=(m,fid='')=>{err=m;errF=fid;render()},go=(n)=>{v=n;err='';errF='';lo=false;render();scrollTo(0,0)};
+const A={
+obn(){sl<2?(sl++,force=1,render()):A.obs()},obs(){localStorage.ob=1;go(user?'home':'login')},
+to:x=>go(x),go:x=>{if(x==='all'){f='all';q=''}go(x)},back(){go(v==='bin'?'prof':cur&&v==='add'&&get(cur)?'det':'home')},
+async login(){try{await signInWithEmailAndPassword(auth,val('em'),$('pw').value)}catch(e){fail('E-posta veya parola hatalı.','pw')}},
+async reg(){const p=$('pw').value,e=val('em');if(!val('nm')||!e)return fail('Ad ve e-posta gerekli.');if(!okPw(p))return fail('Parola kuralına uymuyor.','pw');if(p!==$('pw2').value)return fail('Parolalar eşleşmiyor. Tekrar kontrol et.','pw2');if(!$('kv').checked)return fail('Gizlilik politikasını kabul etmelisin.');
+try{const c=await createUserWithEmailAndPassword(auth,e,p);await updateProfile(c.user,{displayName:val('nm')});await setDoc(doc(fdb,'users',c.user.uid),{uid:c.user.uid,createdAt:Date.now()});await sendEmailVerification(c.user);v='verify';render()}catch(x){fail(x.code==='auth/email-already-in-use'?'Bu e-posta zaten kayıtlı.':'Hesap oluşturulamadı.')}},
+async reset(){try{await sendPasswordResetEmail(auth,val('em'));go('login');toast('Bağlantı gönderildi. Spam klasörünü de kontrol et.')}catch(e){fail('Bağlantı gönderilemedi.')}},
+async chk(){await user.reload();await user.getIdToken(true);start(auth.currentUser)},
+async resend(){if(Date.now()-sent<30000)return toast('Biraz bekle, sonra tekrar dene.');sent=Date.now();try{await sendEmailVerification(user);toast('Bağlantı tekrar gönderildi.')}catch(e){toast('Gönderilemedi.')}},
+out(){signOut(auth)},
+add(){cur=null;go('add')},open(x){cur=x;go('det')},edit(){go('add')},
+flt(x){f=x;q='';go('all')},hq(){},sq(x,el){q=el.value;qs=1;render()},
+save(){const t=val('t');if(!t)return fail('Başlık gerekli.','t');const ad=new Date($('d').value+'T12:00:00').getTime()||Date.now();let b=cur&&get(cur);if(b)Object.assign(b,{t,a:val('a'),isbn:val('i'),ad});else{b={id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t,a:val('a'),isbn:val('i'),n:'',r:false,l:null,ad};books.unshift(b)}if(pend){b.c=pend;pend=''}cur=b.id;persist();go('det')},
+rd(){const b=get(cur);b.r=!b.r;if(b.r)b.k=false;persist();popSel='.cv.l,.stt';render()},rk(){const b=get(cur);b.k=!b.k;if(b.k)b.r=false;persist();popSel='.stt';render()},
+lopen(){lo=true;$('ln').hidden=false;$('lb').hidden=true;$('lt')?.focus()},ln(){const t=val('lt');if(!t)return toast('Kime verdiğini yaz.');get(cur).l={to:t,d:new Date($('ld').value+'T12:00:00').getTime()||Date.now()};lo=false;persist();render()},back2(){get(cur).l=null;persist();render()},
+nsave(){get(cur).n=$('nt').value.trim();persist();toast('Not kaydedildi.')},
+k1(){const b=get(cur);open(b.u||'https://1000kitap.com/ara?q='+encodeURIComponent(b.t+' '+b.a),'_blank','noopener')},
+async paste(){try{const s=(await navigator.clipboard.readText()).trim();if(!/^https:\/\/(www\.)?1000kitap\.com\//.test(s))return toast('Panoda 1000kitap adresi yok.');get(cur).u=s;persist();render();toast('Bağlantı kaydedildi.')}catch(e){toast('Panoya erişim izni gerekli.')}},
+del(){const b=get(cur);b.x=Date.now();persist();go('home');toast('Kitap silindi.',1);toast.id=b.id},
+undo(){const b=get(toast.id);if(b){delete b.x;persist();render()}$('toast').style.display='none'},
+th(x){const h=document.documentElement;h.classList.add('tr');theme(x);set.th=x;persist();document.querySelectorAll('.tc').forEach(el=>el.classList.toggle('on',el.dataset.v===x));setTimeout(()=>h.classList.remove('tr'),600)},
+bak(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({books,set},null,1)],{type:'application/json'}));a.download='kitaplik-yedek-'+iso(Date.now())+'.json';a.click()},
+fs(x){localStorage.fs=x;set.fs=x;persist();document.documentElement.style.fontSize=x;render()},
+rest(x){delete get(x).x;persist();render()},
+async cover(){const b=get(cur);toast('Kapak aranıyor…');const i=await find(b);if(i&&i.c){b.c=i.c;persist();render();toast('Kapak bulundu.')}else toast('Kapak bulunamadı.')},
+async bulk(){const l=act().filter(b=>!b.c);if(!l.length)return toast('Tüm kitapların kapağı var.');let n=0;for(const b of l){toast('Taranıyor '+(++n)+' / '+l.length);const i=await find(b);if(i&&i.c)b.c=i.c;if(n%10==0)persist()}persist();render();toast('Tarama bitti.')},
+csv(){const q=s=>'"'+String(s??'').replace(/"/g,'""')+'"';dl(new Blob(['\ufeff'+['Başlık,Yazar,Okundu,Not,ISBN',...act().map(b=>[b.t,b.a,b.r?'evet':'hayır',b.n,b.isbn].map(q).join(','))].join('\r\n')],{type:'text/csv'}),'kitaplik-'+iso(Date.now())+'.csv')},
+imp(){$('fi').click()},
+async scan(){if(!('BarcodeDetector' in window))return toast('Bu cihaz barkod okumayı desteklemiyor. ISBN\'yi elle yaz.');let s;try{s=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})}catch(e){return toast('Kamera izni gerekli.')}
+const m=document.createElement('div');m.style.cssText='position:fixed;inset:0;background:#000;z-index:20;display:flex;flex-direction:column';m.innerHTML='<video autoplay playsinline muted style="flex:1;width:100%;object-fit:cover"></video><button class="b" style="margin:16px;width:auto">Vazgeç</button>';document.body.append(m);const vd=m.querySelector('video');vd.srcObject=s;const stop=()=>{s.getTracks().forEach(t=>t.stop());m.remove()};m.querySelector('button').onclick=stop;const d=new BarcodeDetector({formats:['ean_13']});
+(async function lp(){if(!m.isConnected)return;try{const r=await d.detect(vd);const c=r[0]?.rawValue;if(c){stop();$('i').value=c;toast('ISBN okundu, bilgiler aranıyor…');const i=await find({isbn:c});if(i){if(!val('t'))$('t').value=i.t||'';if(!val('a'))$('a').value=i.a||'';pend=i.c||''}return}}catch(e){}setTimeout(lp,300)})()},
+async delacc(){const p=prompt('Hesabını silmek için parolanı yaz. Tüm kitapların ve notların kalıcı olarak silinir.');if(!p)return;try{await reauthenticateWithCredential(user,EmailAuthProvider.credential(user.email,p))}catch(e){return toast('Parola hatalı, hesap silinmedi.')}
+const u=user,lim=(pr)=>Promise.race([pr,new Promise((_,j)=>setTimeout(()=>j(new Error('t')),10000))]);
+try{if(unsub){unsub();unsub=null}ref=null;await lim(deleteDoc(doc(fdb,'users',u.uid,'library','main')));await lim(deleteDoc(doc(fdb,'users',u.uid)))}catch(e){start(u);return toast('Veriler silinemedi, hesap silinmedi. Bağlantını kontrol edip tekrar dene.')}
+try{await deleteUser(u);toast('Hesap ve tüm verilerin silindi.')}catch(e){start(u);toast('Hesap silinemedi. Çıkış yapıp tekrar giriş yaparak dene.')}}
 };
-const chips=b=>`${b.r?'<span class="chip ok"><i class="cd ok"></i>Okundu</span>':b.k?'<span class="chip loan"><i class="cd rd"></i>Okuyorum</span>':'<span class="chip"><i class="cd"></i>Okunmadı</span>'}${b.np?`<span class="chip">${IC('photo','xs')}${esc(b.np)}</span>`:''}${b.l?`<span class="chip loan"><i class="cd ln"></i>Ödünçte: ${esc(b.l.to)}</span>`:''}${vchip(b)}`;
-const card=b=>`<div class="row" data-a="det" data-id="${esc(b.id)}">${cov(b)}<div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)||'Yazar yok'}</div><div class="acts">${chips(b)}</div></div></div>`;
-const topbar=(t,sticky=false)=>`<div class="top${sticky?' sticky-top':''}"><button class="btn back-icon" data-a="back" aria-label="Geri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.75 6.5 9.25 12l5.5 5.5"/></svg></button><h2>${t}</h2><span style="width:46px"></span></div>`;
-const searchBox=()=>`<input class="inp" id="q" type="search" placeholder="Kitap veya yazar ara" autocomplete="off" aria-label="Kitap veya yazar ara" value="${esc(qtext)}">`;
-
-const LOGO=`<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc)"/><stop offset="1" style="stop-color:var(--b2)"/></linearGradient></defs><rect x="2" y="2" width="44" height="44" rx="14" fill="url(#lgG)"/><rect x="10" y="15" width="7" height="22" rx="2" fill="#fff" fill-opacity=".95"/><rect x="19" y="10" width="7" height="27" rx="2" fill="#fff" fill-opacity=".78"/><rect x="29" y="14" width="7" height="23" rx="2" fill="#fff" fill-opacity=".6" transform="rotate(14 32 37)"/><path d="M8 39.5h32" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M37 5l1.4 3.6L42 10l-3.6 1.4L37 15l-1.4-3.6L32 10l3.6-1.4z" fill="#fff"/></svg>`;
-const IC=(n,c)=>'<svg class="ic '+(c||'')+'" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+n+'"/></svg>';
-function homeV(){
-  const A=act();
-  return `<div class="home-screen"><div class="top home-top"><span class="tsp" aria-hidden="true"></span><div class="brand">${LOGO}<h1>Kitaplığım</h1></div><button class="rbtn g" data-a="prof" aria-label="Ayarlar ve profil"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M19.44 10.01 L22.27 10.37 L22.27 13.63 L19.44 13.99 L18.67 15.85 L20.41 18.11 L18.11 20.41 L15.85 18.67 L13.99 19.44 L13.63 22.27 L10.37 22.27 L10.01 19.44 L8.15 18.67 L5.89 20.41 L3.59 18.11 L5.33 15.85 L4.56 13.99 L1.73 13.63 L1.73 10.37 L4.56 10.01 L5.33 8.15 L3.59 5.89 L5.89 3.59 L8.15 5.33 L10.01 4.56 L10.37 1.73 L13.63 1.73 L13.99 4.56 L15.85 5.33 L18.11 3.59 L20.41 5.89 L18.67 8.15Z M15.3 12 a3.3 3.3 0 1 0 -6.6 0 a3.3 3.3 0 1 0 6.6 0Z"/></svg></button></div>
-  <div class="srow">${searchBox()}<button class="rbtn" data-a="add" aria-label="Kitap ekle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
-  <div id="tiles" class="fl" style="flex:1">
-  ${A.length?'':'<div class="empty"><i class="eb">'+IC('moon','xl')+'</i>Kitaplık boş. Kitap ekleyebilir ya da Profil sayfasından CSV dosyası yükleyebilirsin.</div>'}
-  <div class="bento">${Object.keys(F).map(f=>`<button class="tile" data-a="list" data-f="${f}"><i class="te">${IC(f)}</i><span>${L[f]}</span><b>${A.filter(F[f]).length}</b></button>`).join('')}</div><div class="quote"><div class="qc" id="qbox">${quoteHTML()}</div></div></div>
-  <div id="res"></div></div>`;
-}
-function listV(){
-  let sum='';
-  if(nav.f==='loan'){
-    const g={};act().filter(F.loan).forEach(b=>{g[b.l.to]=(g[b.l.to]||0)+1});
-    const e=Object.entries(g);if(e.length)sum=`<div class="card2">${e.map(([k,v])=>esc(k)+': '+v+' kitap').join(', ')}</div>`;
-  }
-  return `${topbar(L[nav.f])}${searchBox()}
-  <select class="inp" id="so" aria-label="Sırala"><option value="ad"${sortBy==='ad'?' selected':''}>Ada göre</option><option value="ya"${sortBy==='ya'?' selected':''}>Yazara göre</option><option value="son"${sortBy==='son'?' selected':''}>Son eklenen</option></select>
-  ${sum}<div id="res"></div>`;
-}
-function detV(){
-  const b=books.find(x=>x.id===nav.id&&!x.x);
-  if(!b)return topbar('Kitap')+'<div class="empty">Kitap bulunamadı.</div>';
-  const days=b.l?Math.max(0,Math.floor((Date.now()-new Date(b.l.d))/864e5)):0;
-  const hasCover=!!(covers[b.id]||b.mc||b.c);
-  return `${topbar('Kitap')}
-  <div class="book-spread">
-   <aside class="book-page book-left-page" aria-label="Kapak ve okuma durumu">
-    <div class="detail-cover">${cov(b,'lg')}<button class="cvb" data-a="${hasCover?'mcover':'coverSearch'}">${hasCover?'Kapağı değiştir':'Kapak ekle'}</button></div>
-     <div class="reading-controls">
-      <div class="reading-label"><span class="reading-state-dot ${b.r?'is-read':b.k?'is-reading':''}"></span>${b.r?'Okundu':b.k?'Şu an okuyorum':'Okunmadı'}</div>
-      <div class="reading-actions"><button class="reading-action ${b.r?'':'primary'}" data-a="rd">${b.r?'Okunmadı yap':'Okundu yap'}</button>${b.r?'':`<button class="reading-action" data-a="rg">${b.k?'Okumayı bırak':'Şu an okuyorum'}</button>`}</div>
-      ${b.r?`<div class="reading-date"><label for="rdate">Okunma tarihi</label><input class="inp" type="date" id="rdate" value="${esc(b.rd||'')}"></div>`:''}
-     </div>
-   </aside>
-   <main class="book-page book-right-page">
-    <header class="book-heading"><div class="t big">${esc(b.t)}</div><div class="a detail-author">${esc(b.a)||'Yazar belirtilmemiş'}</div>${b.isbn?`<div class="detail-isbn">ISBN-13&nbsp; ${esc(b.isbn)}</div>`:''}${b.v==='check'&&b.g?`<div class="a" style="margin-top:8px">Eşleşen kayıt: ${esc(b.g)}</div>`:''}${b.src?`<div class="a" style="margin-top:6px">Kapak kaynağı: ${esc(b.src)}</div>`:''}</header>
-    ${b.l?`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Kitap şu anda ödünçte.</p></div><span class="section-mark" aria-hidden="true">${IC('loan')}</span></div><div class="book-loan-content"><div><b>${esc(b.l.to)}</b><p>${fmt(b.l.d)} tarihinden beri · ${days} gündür</p></div><button class="btn" data-a="loan">Geri aldım</button></div></section>`:`<section class="book-detail-block book-loan"><div class="section-head"><div><h3>Ödünç takibi</h3><p>Bu kitabı birine verdiğinde takibe al.</p></div><span class="section-mark" aria-hidden="true">${IC('loan')}</span></div><button class="btn" data-a="loan">Ödünç ver</button></section>`}
-    ${pend===b.id&&!hasU(b)?'<div class="banner">1000kitap sayfasında doğru kitabı açıp adresini kopyaladıysan bağlantıyı kaydedebilirsin.<div class="btns"><button class="btn pri" data-a="paste">Panodan ekle</button></div></div>':''}
-    <section class="book-detail-block book-notes"><div class="section-head"><div><h3>Notlarım</h3><p>Düşüncelerini ve kitaba ait fotoğrafları burada sakla.</p></div><button class="note-edit-btn" type="button" data-a="noteEdit" aria-label="Notu ekle veya düzenle" title="Notu ekle veya düzenle">${IC('notes')}</button></div><div class="note ${b.n?'':'empty-note'}">${b.n?esc(b.n):'Henüz not eklenmemiş.'}</div><div class="pgrid" id="nph">${photosHTML()}</div><div class="btns"><button class="btn sm" data-a="npadd">Fotoğraf ekle</button></div></section>
-    ${bookMetadataHTML(b.meta)}
-    <section class="book-detail-block"><div class="section-head"><div><h3>Kitap işlemleri</h3><p>Düzenleme ve dış bağlantılar.</p></div></div><div class="detail-links"><button class="btn" data-a="edit">Düzenle</button><a class="btn" href="${esc(kLink(b))}" ${hasU(b)?'':'data-k="1" '}target="_blank" rel="noopener noreferrer">${hasU(b)?"1000kitap'ta aç":"1000kitap'ta ara"}</a><button class="btn" data-a="cover">Kapağı yeniden ara</button></div><button class="btn del detail-delete" data-a="del">Kitabı kitaplığımdan çıkar</button></section>
-   </main>
-  </div>`;
-}
-function profV(){
-  const del=books.filter(b=>b.x),noIsbn=act().filter(b=>!validIsbn13(b.isbn)).length,noCover=act().filter(b=>!(covers[b.id]||b.mc||b.c)).length,missingBookInfo=act().filter(b=>!validIsbn13(b.isbn)&&!(covers[b.id]||b.mc||b.c)).length,selected=themeKey();
-  const themeButton=([key,theme])=>`<button class="theme-choice" data-a="th" data-th="${key}" aria-pressed="${selected===key}"><span class="theme-swatch" style="--swatch:${theme.bg};--swatch-line:${theme.line};--swatch-inner:${theme.acc}"></span><span>${theme.n}</span></button>`;
-  const themeGroup=(group,title)=>`<div class="theme-group"><span class="theme-label">${title}</span><div class="theme-grid">${Object.entries(TH).filter(([,theme])=>theme.group===group).map(themeButton).join('')}</div></div>`;
-  const section=(key,title,description,icon,content)=>`<details class="settings-accordion" data-section="${key}"${settingsOpen.has(key)?' open':''}><summary><span class="section-mark" aria-hidden="true">${icon}</span><span><h3>${esc(title)}</h3>${description?`<p>${esc(description)}</p>`:''}</span></summary><div class="settings-accordion-content">${content}</div></details>`;
-  const howTo=`<ol class="howto-list">
-   <li><b>Kitap ekle:</b> Ana sayfadaki + düğmesine dokun. Kitap adını ve yazarı gir; ISBN-13 biliyorsan yaz, bilmiyorsan arka kapaktaki barkodu kamera düğmesiyle tara. Geçerli ISBN tamamlanınca katalog araması başlar. Bulunan başlık ve yazarı eklemeden önce kontrol et.</li>
-   <li><b>Kapak bul:</b> Kitap detayında kapak alanına dokun. Katalogda bulunamazsa 1000kitap araması, görsel bağlantısı ekleme veya cihazından kapak fotoğrafı yükleme seçeneklerini kullan.</li>
-   <li><b>Kitaplarını düzenle:</b> Ana sayfadaki arama alanıyla kitap veya yazar ara. Durum kutularından tüm kitapları, okunanları, okunmayanları, okumakta olduklarını, ödünç verilenleri veya not eklediklerini aç.</li>
-   <li><b>Okuma ve ödünç bilgisi:</b> Bir kitabı okundu ya da şu an okunuyor olarak işaretle. Kitabı birine verdiğinde ödünç takibine al; geri aldığında kaydı kapat.</li>
-   <li><b>Not ve fotoğraf ekle:</b> Kitap detayındaki Notlarım bölümünde kalem simgesine dokunup not ekle veya düzenle; Fotoğraf ekle düğmesiyle kitaba ait görselleri sakla.</li>
-   <li><b>Başka cihazda kullan:</b> Aynı hesapla giriş yap ve internet bağlantısı kullan. Kitapların ve hesapta saklanan kapak/not fotoğrafların eşitlenir.</li>
-   <li><b>Yedek al:</b> Buradaki Kitaplık verileri bölümünden JSON yedeği alabilir veya CSV içe/dışa aktarabilirsin. Yedeklerini güvenli bir yerde sakla.</li>
-   <li><b>Görünümü değiştir:</b> Görünüm bölümünden açık/koyu tema ve yazı boyutunu seç.</li>
-  </ol>`;
-  return `${topbar('Ayarlar',true)}
-  <main class="profile-page">
-   ${section('guide','Nasıl kullanılır?','İlk kez kullananlar için kısa başlangıç rehberi.',IC('guide'),howTo)}
-   ${section('data','Kitaplık verileri','Yedekleme ve dosya aktarımı.',IC('save'),'<div class="settings-actions"><button class="btn" data-a="backup">JSON yedeği al</button><button class="btn" data-a="restore">Yedekten geri yükle</button><button class="btn" data-a="csvin">CSV içe aktar</button><button class="btn" data-a="csvout">CSV dışa aktar</button></div>')}
-   ${section('appearance','Görünüm','Tema ve yazı boyutu.',IC('palette'),`${themeGroup('light','Açık temalar')}${themeGroup('dark','Koyu temalar')}<div class="setting-control"><label for="fs">Yazı boyutu</label><select class="inp" id="fs"><option value="k"${set.fs==='k'?' selected':''}>Küçük</option><option value="o"${(set.fs||'o')==='o'?' selected':''}>Orta</option><option value="b"${set.fs==='b'?' selected':''}>Büyük</option></select></div>`)}
-   ${section('isbn','ISBN bulma',`${noIsbn} kitapta ISBN yok. Başlığa göre kataloglarda arar; bulunan ISBN farklı bir baskıya ait olabilir.`,IC('isbn'),`<div class="settings-actions"><button class="btn pri" data-a="isbnScan"${isbnScan.active?' disabled':''}>${isbnScan.active?'ISBN aranıyor…':'Eksik ISBN’leri bul'}</button><button class="btn" data-a="missingBooksExport"${missingBookInfo?'':' disabled'}>Kapak ve ISBN’si eksik ${missingBookInfo} kitabı Excel’e aktar</button>${isbnScan.active?'<button class="btn del" data-a="isbnStop">Aramayı durdur</button>':''}</div><div id="isbnInfo" class="settings-message">${isbnScan.message}</div>`)}
-   ${section('covers', 'Kapak bulma ve eşitleme',`${noCover} kitapta kapak yok. Kapaklar hesabın ve cihazların arasında eşitlenir.`,IC('photo'),`<div class="settings-actions"><button class="btn pri" data-a="covers"${coverScan.active?' disabled':''}>${coverScan.active?'Kapaklar aranıyor…':'Eksik kapakları bul'}</button>${coverScan.active?'<button class="btn del" data-a="coverStop">Aramayı durdur</button>':''}</div><div id="info" class="settings-message">${coverScan.message||scanMsg}</div>`)}
-   ${del.length?section('deleted','Silinen kitaplar','7 gün sonra kalıcı olarak kaldırılır.',IC('trash'),del.map(b=>`<div class="row"><div class="grow"><div class="t">${esc(b.t)}</div><div class="a">${esc(b.a)}</div><button class="btn sm" data-a="undel" data-id="${esc(b.id)}">Kitabı geri al</button></div></div>`).join('')):''}
-   ${section('account','Hesap','E-posta ve parola',IC('user'),`<div class="account-email">E-posta: ${esc(auth.currentUser?.email||'')}</div><div class="account-password"><h4>Şifreyi değiştir</h4><label for="currentPassword">Mevcut şifre</label><input class="inp" id="currentPassword" type="password" autocomplete="current-password"><label for="newPassword">Yeni şifre</label><input class="inp" id="newPassword" type="password" autocomplete="new-password" minlength="6" aria-describedby="passwordRules"><label for="confirmPassword">Yeni şifreyi tekrar yaz</label><input class="inp" id="confirmPassword" type="password" autocomplete="new-password" minlength="6"><p class="account-hint" id="passwordRules">En az 6 karakter; en az bir harf, bir rakam ve bir noktalama işareti kullan.</p><button class="btn pri wide" type="button" data-a="passwordSave">Şifreyi değiştir</button><div id="passwordStatus" class="account-status" role="status" aria-live="polite"></div></div><button class="btn del wide profile-signout" type="button" data-a="out">Oturumu kapat</button>`)}
-  </main>`;
-}
-function render(){
-  applyTheme();
-  if(!$('main')||$('main').hidden)return;
-  $('main').classList.toggle('home-layout',nav.v==='home');
-  $('view').className=nav.v==='home'?'fl home-view':'';
-  $('view').innerHTML={home:homeV,list:listV,detail:detV,profile:profV}[nav.v]();
-  if(nav.v==='profile')$('view').querySelectorAll('.settings-accordion').forEach(item=>item.addEventListener('toggle',()=>{if(item.open)settingsOpen.add(item.dataset.section);else settingsOpen.delete(item.dataset.section)}));
-  if(nav.v==='detail'&&ref)watchPhotos(nav.id);else if(nphFor){if(unsub3)unsub3();unsub3=null;nphFor='';nph=[]}
-  fill();
-}
-function fill(){
-  const res=$('res');if(!res||!['home','list'].includes(nav.v))return;
-  const q=fold(qtext).trim();
-  if(nav.v==='home')$('tiles').hidden=!!q;
-  if(nav.v==='home'&&!q){res.innerHTML='';return}
-  let l=act().filter(nav.v==='home'?F.all:F[nav.f]);
-  if(q)l=l.filter(b=>fold(b.t).includes(q)||fold(b.a).includes(q)||fold(b.n).includes(q)||fold(b.isbn).includes(q));
-  const cmp=(x,y)=>String(x||'').localeCompare(String(y||''),'tr');
-  l.sort(sortBy==='son'?(x,y)=>(y.ad||0)-(x.ad||0):sortBy==='ya'?(x,y)=>cmp(x.a,y.a)||cmp(x.t,y.t):(x,y)=>cmp(x.t,y.t));
-  res.innerHTML=l.length?l.map(card).join(''):'<div class="empty"><i class="eb">'+IC('search','xl')+'</i>Sonuç bulunamadı.</div>';
-}
-const photosHTML=()=>nph.map(x=>`<img src="${x.d}" data-a="pho" data-pid="${esc(x.id)}" alt="Not fotoğrafı" loading="lazy">`).join('');
-const paintPhotos=()=>{const e=$('nph');if(e)e.innerHTML=photosHTML()};
-function watchPhotos(id){
-  if(nphFor===id)return;
-  if(unsub3)unsub3();
-  nphFor=id;nph=[];
-  if(!profile.uid) return;
-  unsub3=onSnapshot(query(collection(fdb,'users',profile.uid,'notePhotos'),where('b','==',id)),snap=>{
-    nph=snap.docs.map(x=>({id:x.id,d:x.data().d,t:x.data().t||0})).sort((a,b)=>a.t-b.t);paintPhotos();
-  },()=>toast('Not fotoğrafları alınamadı. İnternetini ve güvenlik kurallarını kontrol et.'));
-}
-function shrinkMax(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{let M=1000,q=0.7,out='';for(let k=0;k<4;k++){const r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;M=Math.round(M*0.75);q=Math.max(0.45,q-0.1)}URL.revokeObjectURL(u);out.length<900000?res(out):rej(new Error('big'))};im.onerror=()=>rej(new Error('img'));im.src=u})}
-const dayNo=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
-function quoteHTML(){
-  if(!qd)return qerr?'<div class="a">Günün sözü alınamadı.</div><div class="qrow"><button class="ol" data-a="qnew">Tekrar dene</button></div>':'<div class="a">Günün sözü yükleniyor…</div>';
-  return `<div class="qm">“</div><div class="qt">${esc(qd.q)}</div>${qd.tr?`<div class="qt tr">${esc(qd.tr)}</div>`:''}<div class="qrow"><span class="a">${esc(qd.a)}</span>${qd.tr?'':'<button class="ol" data-a="qtr">Türkçeye çevir</button>'}<button class="ol" data-a="qnew">Başka söz</button></div>`;
-}
-const paintQuote=()=>{const e=$('qbox');if(e)e.innerHTML=quoteHTML()};
-const saveQuote=()=>{try{if(qd&&!qd.r)localStorage.setItem('qd',JSON.stringify(qd))}catch(e){}};
-async function loadQuote(random){
-  if(!random){try{const c=JSON.parse(localStorage.getItem('qd')||'null');if(c&&c.day===dayNo()){qd=c;paintQuote();return}}catch(e){}}
-  try{
-    const r=await fetch(random?'https://dummyjson.com/quotes/random':'https://dummyjson.com/quotes?limit=1&skip='+(dayNo()%1400));
-    if(!r.ok)throw 0;
-    const j=await r.json(),it=random?j:(j.quotes||[])[0];
-    if(!it||!it.quote)throw 0;
-    qd={q:it.quote,a:it.author||'',day:dayNo()};if(random)qd.r=1;
-    qerr=false;saveQuote();
-  }catch(e){if(random)toast('Söz alınamadı. İnternet bağlantını kontrol et.');else qerr=true}
-  paintQuote();
-}
-async function trQuote(){
-  if(!qd||qd.tr)return;
-  try{
-    const r=await fetch('https://api.mymemory.translated.net/get?langpair=en|tr&q='+encodeURIComponent(qd.q));
-    const j=await r.json(),t=j.responseData&&j.responseData.translatedText;
-    if(!t||j.responseStatus!=200)throw 0;
-    qd.tr=t.replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&');saveQuote();paintQuote();
-  }catch(e){toast('Çeviri yapılamadı. Biraz sonra tekrar dene.')}
-}
-async function enrich(id,manual){
-  const b0=books.find(x=>x.id===id);if(!b0||busy.has(id))return;
-  busy.add(id);render();
-  try{const res=await findBookCover(b0);change(()=>{const c=books.find(x=>x.id===id);if(c)Object.assign(c,res)})}
-  catch(e){if(manual)toast(e==='rate'?'Google Books arama sınırına ulaşıldı. Biraz bekleyip tekrar dene.':e==='key'?'Google Books anahtarı kabul edilmedi.':'Kapak aranamadı. İnternet bağlantını kontrol et.')}
-  finally{busy.delete(id);render()}
-}
-const msg=h=>{scanMsg=h;const e=$('info');if(e)e.innerHTML=h};
-async function scanMissingCovers(){
-  if(coverScan.active)return;
-  const todo=act().filter(b=>!(covers[b.id]||b.mc||b.c));
-  if(!todo.length){toast('Kapağı eksik kitap kalmamış.');return}
-  if(!confirm(todo.length+' kitabın kapağı ISBN varsa önce ISBN ile, yoksa kitap adıyla Open Library ve Google Books’ta aranacak. Her 10 kitapta bulunanlar buluta kaydedilir. Başlayalım mı?'))return;
-  coverScan={active:true,cancel:false,message:'',openLibraryPaused:false,googleBooksPaused:false};
-  render();
-  const results=new Map();let checked=0,found=0,missing=0,errors=0;
-  const updateProgress=()=>{
-    const notes=[];
-    if(coverScan.openLibraryPaused)notes.push('Open Library kota sınırı');
-    if(coverScan.googleBooksPaused)notes.push('Google Books kota/anahtar sınırı');
-    coverScan.message='<div class="banner">Kontrol edilen: '+checked+' / '+todo.length+' · bulunan: '+found+' · sonuç yok: '+missing+' · hata: '+errors+(notes.length?' · '+notes.join(', ')+' nedeniyle duraklatıldı':'')+'.</div>';
-    const info=$('info');if(info)info.innerHTML=coverScan.message;
-  };
-  const saveResults=async()=>{
-    if(!results.size)return;
-    change(()=>{for(const [id,result] of results){const current=bk(id);if(current&&!(covers[id]||current.mc||current.c))Object.assign(current,result)}});
-    results.clear();
-    await saving;
-  };
-  for(const book of todo){
-    if(coverScan.cancel||(coverScan.openLibraryPaused&&coverScan.googleBooksPaused))break;
-    checked++;
-    updateProgress();
-    try{
-      const result=await findBookCoverForBatch(book);
-      results.set(book.id,result);
-      if(result.c)found++;else missing++;
-    }catch(error){
-      errors++;
-      if(error==='rate'||error==='key')coverScan.googleBooksPaused=true;
-      if(String(error).includes('openlibrary-http-429'))coverScan.openLibraryPaused=true;
-      if(error?.message==='catalogs-rate-limited')break;
-    }
-    if(checked%10===0)await saveResults();
-    updateProgress();
-    if(checked<todo.length&&!coverScan.cancel&&!(coverScan.openLibraryPaused&&coverScan.googleBooksPaused))await sleep(800);
-  }
-  await saveResults();
-  await saving;
-  const cancelled=coverScan.cancel;
-  const stopped=coverScan.openLibraryPaused&&coverScan.googleBooksPaused;
-  const remaining=act().filter(b=>!(covers[b.id]||b.mc||b.c)).length;
-  const note=stopped?' Arama, katalogların kota sınırına ulaştığı için durdu.':coverScan.openLibraryPaused?' Open Library hız sınırı nedeniyle kalan kitaplar Google Books’ta arandı.':coverScan.googleBooksPaused?' Google Books kotası nedeniyle kalan kitaplar Open Library’de arandı.':'';
-  coverScan={active:false,cancel:false,message:'<div class="banner">'+(cancelled?'Arama durduruldu. ':'')+checked+' kitap kontrol edildi: '+found+' kapak bulundu, '+missing+' kapak bulunamadı, '+errors+' hata. Kalan kapaksız kitap: '+remaining+'.'+note+'</div>'};
-  render();
-}
-async function scanMissingIsbns(){
-  if(isbnScan.active)return;
-  const todo=act().filter(b=>!validIsbn13(b.isbn));
-  if(!todo.length){toast('ISBN’i eksik kitap kalmamış.');return}
-  if(!confirm(todo.length+' kitabın ISBN’i önce Open Library’de, bulunamazsa Google Books’ta kitap adına göre aranacak. Katalogdaki ISBN kullandığın baskıya ait olmayabilir; sonuçları kitap barkoduyla karşılaştır. İşlem sırasında ilerleme ve API hataları gösterilecek. Başlayalım mı?'))return;
-  isbnLookupCache.clear();
-  isbnScan={active:true,cancel:false,message:'',openLibraryPaused:false,googleBooksPaused:false};
-  render();
-  const found=new Map();let checked=0,foundTotal=0,notFound=0,errors=0;
-  const updateProgress=()=>{
-    const warning=isbnScan.googleBooksPaused?' Google Books kota/anahtar sınırı nedeniyle duraklatıldı.':'';
-    isbnScan.message='<div class="banner">Kontrol edilen: '+checked+' / '+todo.length+' · bulunan: '+foundTotal+' · sonuç yok: '+notFound+' · API hatası: '+errors+'.'+warning+'</div>';
-    const info=$('isbnInfo');if(info)info.innerHTML=isbnScan.message;
-  };
-  const saveFound=async()=>{
-    if(!found.size)return;
-    change(()=>{for(const [id,value] of found){const current=bk(id);if(current&&!validIsbn13(current.isbn))current.isbn=value}});
-    found.clear();
-    await saving;
-  };
-  for(const book of todo){
-    if(isbnScan.cancel)break;
-    if(isbnScan.openLibraryPaused&&isbnScan.googleBooksPaused)break;
-    checked++;
-    updateProgress();
-    try{
-      const isbn=await findBookIsbn(book);
-      if(isbn){found.set(book.id,isbn);foundTotal++}
-      else notFound++;
-    }catch(error){
-      if(error?.message==='catalogs-rate-limited'){checked--;break}
-      errors++;
-    }
-    if(checked%10===0)await saveFound();
-    updateProgress();
-    const next=todo[checked];
-    const nextKey=next&&norm(next.t)+'|'+norm(next.a||'');
-    if(checked<todo.length&&!isbnScan.cancel&&!isbnLookupCache.has(nextKey))await sleep(1000);
-  }
-  await saveFound();
-  await saving;
-  const cancelled=isbnScan.cancel;
-  const interrupted=isbnScan.openLibraryPaused&&isbnScan.googleBooksPaused;
-  const remaining=act().filter(b=>!validIsbn13(b.isbn)).length;
-  const note=interrupted?' Katalog API sınırı nedeniyle tarama erken durdu.':isbnScan.googleBooksPaused?' Google Books API sınırı nedeniyle bazı kitaplar yalnızca Open Library’de arandı.':'';
-  isbnScan={active:false,cancel:false,message:'<div class="banner">'+(cancelled?'Arama durduruldu. ':'')+checked+' kitap kontrol edildi: '+foundTotal+' ISBN bulundu, '+notFound+' sonuç bulunamadı, '+errors+' API hatası. Kalan eksik ISBN: '+remaining+'.'+note+' Bulunan ISBN kullandığın baskıyla eşleşmeyebilir; barkodla karşılaştır.</div>'};
-  render();
-}
-
-function parseCSV(text){
-  text=text.replace(/^\uFEFF/,'');
-  const first=text.split(/\r?\n/)[0]||'';
-  const d=first.split(';').length>first.split(',').length?';':',';
-  const rows=[];let row=[],cur='',q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++} else q=false } else cur+=c }
-    else if(c==='"')q=true;
-    else if(c===d){row.push(cur);cur=''}
-    else if(c==='\n'||c==='\r'){ if(c==='\r'&&text[i+1]==='\n')i++; row.push(cur);rows.push(row);row=[];cur='' }
-    else cur+=c;
-  }
-  if(cur!==''||row.length){row.push(cur);rows.push(row)}
-  return rows.map(r=>r.map(x=>x.trim())).filter(r=>r.some(x=>x));
-}
-
-function dl(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()}
-function exportMissingBooks(){
-  const missing=act().filter(b=>!validIsbn13(b.isbn)&&!(covers[b.id]||b.mc||b.c));
-  if(!missing.length){toast('Eksik kapak ve ISBN bilgisi olan kitap bulunamadı.');return}
-  const cell=value=>{const text=String(value??'');return '"'+(/[=+\-@\t\r]/.test(text[0]||'')?"'"+text:text).replace(/"/g,'""')+'"'};
-  const rows=[['Kitap','Yazar','ISBN-13','Kapak adresi','1000kitap bağlantısı'],...missing.map(b=>[b.t,b.a||'',b.isbn||'',b.mc||b.c||'',b.u||''])];
-  dl('kapaksiz-isbnsiz-kitaplar.csv','\uFEFF'+rows.map(row=>row.map(cell).join(';')).join('\r\n'),'text/csv;charset=utf-8');
-  toast(missing.length+' kitap Excel uyumlu CSV olarak indirildi.');
-}
-const bk=id=>books.find(x=>x.id===id);
-
-document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-a]');if(!el)return;
-  const a=el.dataset.a,id=el.dataset.id||nav.id,b=bk(id);
-  switch(a){
-    case 'prof':go('profile');break;
-    case 'back':(nav.v!=='home'&&history.length>1)?history.back():go('home');break;
-    case 'list':go('list',{f:el.dataset.f});break;
-    case 'det':go('detail',{id});break;
-    case 'add':clearTimeout(isbnLookupTimer);isbnLookupRun++;scannedBookInfo=null;scannedBookIsbn='';$('addT').value='';$('addA').value='';$('addIsbn').value='';$('scanResult').textContent='';$('dAdd').showModal();$('addT').focus();break;
-    case 'rd':if(b)change(()=>{b.r=!b.r;if(b.r){b.rd=today();b.k=false}else b.rd=''});break;
-    case 'rg':if(b)change(()=>{b.k=!b.k});break;
-    case 'loan':if(!b)break;target=b;if(b.l)change(()=>{b.l=null});else{$('loanBook').textContent=b.t;$('loanTo').value='';$('loanD').value=today();$('dLoan').showModal()}break;
-    case 'edit':if(!b)break;target=b;$('edT').value=b.t;$('edA').value=b.a||'';$('edIsbn').value=b.isbn||'';$('edU').value=b.u||'';$('edN').value=b.n||'';$('dEdit').showModal();break;
-    case 'noteEdit':if(!b)break;$('noteText').value=b.n||'';$('dNote').showModal();$('noteText').focus();break;
-    case 'npadd':$('npFile').click();break;
-    case 'pho':curP=nph.find(x=>x.id===el.dataset.pid)||null;if(curP){$('ppImg').src=curP.d;$('dPhoto').showModal()}break;
-    case 'mcover':if(!b)break;target=b;$('mcUrl').value=b.mc||'';$('mcRm').hidden=!(b.mc||covers[b.id]);$('dCover').showModal();break;
-    case 'coverSearch':if(!b)break;target=b;$('mcUrl').value='';$('mcRm').hidden=true;$('coverToolCode').value=coverToolCode;window.open(kLink(b),'_blank','noopener,noreferrer');$('dCover').showModal();break;
-    case 'cover':enrich(id,true);break;
-    case 'paste':(async()=>{try{const tx=await navigator.clipboard.readText();const m=(tx||'').match(/https?:\/\/[^\s]+/);const u=m?m[0].replace(/^http:/,'https:'):'';if(b&&okUrl(u)){change(()=>{b.u=u});pend='';toast('Bağlantı kaydedildi.')}else toast('Panoda 1000kitap bağlantısı bulamadım.')}catch(err){toast('Panoya erişilemedi. Düzenle penceresine yapıştırabilirsin.')}})();break;
-    case 'del':if(b){change(()=>{b.x=Date.now()});toast('Kitap çıkarıldı.',()=>change(()=>{b.x=0}));(history.length>1)?history.back():go('home')}break;
-    case 'undel':if(b)change(()=>{b.x=0});break;
-    case 'th':change(()=>{set.th=el.dataset.th;delete set.acc});break;
-    case 'sw':change(()=>{set.acc=el.dataset.c});break;
-    case 'backup':dl('kitaplik-yedek.json',JSON.stringify(books,null,1),'application/json');break;
-    case 'restore':$('file').click();break;
-    case 'csvin':$('csv').click();break;
-    case 'csvout':{const q=x=>'"'+String(x||'').replace(/"/g,'""')+'"';
-        dl('kitaplik.csv','\uFEFF'+['Kitap;Yazar;Okundu;Not;ISBN-13'].concat(act().map(b=>[q(b.t),q(b.a),b.r?'okundu':'',q(b.n),q(b.isbn)].join(';'))).join('\r\n'),'text/csv');break}
-    case 'qnew':loadQuote(true);break;
-    case 'qtr':trQuote();break;
-    case 'covers':scanMissingCovers();break;
-    case 'coverStop':coverScan.cancel=true;break;
-    case 'isbnScan':scanMissingIsbns();break;
-    case 'isbnStop':isbnScan.cancel=true;break;
-    case 'missingBooksExport':exportMissingBooks();break;
-    case 'passwordSave':changeAccountPassword();break;
-    case 'out':signOut(auth);break;
-  }
-});
-document.addEventListener('click',e=>{const k=e.target.closest('a[data-k]');if(k&&nav.v==='detail')pend=nav.id},true);
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&pend&&nav.v==='detail')render()});
-document.addEventListener('input',e=>{if(e.target.id==='q'){qtext=e.target.value;fill()}});
-document.addEventListener('change',e=>{
-  const t=e.target,id=t.id;
-  if(id==='so'){sortBy=t.value;fill()}
-  else if(id==='rdate'){const b=bk(nav.id);if(b)change(()=>{b.rd=t.value})}
-  else if(id==='acc')change(()=>{set.acc=t.value});
-  else if(id==='fs')change(()=>{set.fs=t.value});
-});
-document.querySelectorAll('[data-close]').forEach(x=>x.addEventListener('click',e=>e.target.closest('dialog').close()));
-$('scanBarcode').onclick=()=>{$('dScan').showModal();startBookBarcodeScanner()};
-$('scanClose').onclick=()=> $('dScan').close();
-$('dScan').addEventListener('close',stopBookBarcodeScanner);
-$('addIsbn').addEventListener('input',()=>{
-  scannedBookInfo=null;scannedBookIsbn='';
-  clearTimeout(isbnLookupTimer);
-  const run=++isbnLookupRun,isbn=normalizeIsbn13($('addIsbn').value),status=$('scanResult');
-  status.textContent='';
-  if(!isbn)return;
-  if(isbn.length===13&&!validIsbn13(isbn)){
-    status.textContent='ISBN-13 kontrol basamağı geçersiz. Numarayı kontrol et.';
-    return;
-  }
-  if(isbn.length>13){
-    status.textContent='ISBN-13 en fazla 13 rakam olmalı.';
-    return;
-  }
-  if(validIsbn13(isbn)){
-    status.textContent='ISBN tamamlandı; katalog araması başlatılıyor…';
-    isbnLookupTimer=setTimeout(()=>{
-      const pending=runFormIsbnLookup(isbn,run);
-      isbnLookupPromise=pending;isbnLookupPromiseValue=isbn;isbnLookupPromiseRun=run;
-      pending.finally(()=>{if(isbnLookupPromise===pending){isbnLookupPromise=null;isbnLookupPromiseValue='';isbnLookupPromiseRun=0}});
-    },350);
-  }
-});
-$('addOk').onclick=async()=>{
-  const rawIsbn=$('addIsbn').value;
-  const isbn=normalizeIsbn13(rawIsbn);
-  if(rawIsbn.trim()&&!validIsbn13(isbn)){alert('ISBN-13 hatalı. 13 rakamlı ve kontrol basamağı geçerli bir ISBN gir.');$('addIsbn').focus();return}
-  const typedTitle=$('addT').value.trim();
-  const button=$('addOk');button.disabled=true;
-  try{
-    clearTimeout(isbnLookupTimer);
-    let info=null;
-    if(validIsbn13(isbn)){
-      if(scannedBookIsbn===isbn)info=scannedBookInfo;
-      else if(isbnLookupPromise&&isbnLookupPromiseValue===isbn&&isbnLookupPromiseRun===isbnLookupRun)info=await isbnLookupPromise;
-      else info=await runFormIsbnLookup(isbn,++isbnLookupRun);
-    }else{
-      if(!typedTitle){$('addT').focus();return}
-      $('scanResult').textContent='Kitap adı ve yazar kataloglarda aranıyor…';
-      try{
-        const found=await lookupBookByTitle({t:typedTitle,a:$('addA').value.trim()});
-        if(found?.confident){
-          info={t:found.t,a:found.a,meta:found.meta,cover:found.cover};
-          if(found.t)$('addT').value=titleCaseTr(found.t);
-          if(found.a)$('addA').value=titleCaseTr(found.a);
-        }
-        if(found&&!found.confident)$('scanResult').textContent='Benzer katalog kaydı bulundu ancak eşleşme kesin değil; girdiğin başlık ve yazar korunacak.';
-      }catch(error){
-        $('scanResult').textContent='Kataloglara ulaşılamadı; kitap yine de elle eklenebilir.';
-      }
-    }
-    const titleValue=$('addT').value.trim()||info?.t||typedTitle;
-    if(!titleValue){$('addT').focus();return}
-    const authorValue=$('addA').value.trim()||info?.a||'';
-    const correctedTitle=titleCaseTr(titleValue);
-    const correctedAuthor=titleCaseTr(authorValue);
-    const nb={id:'n'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),t:correctedTitle,a:correctedAuthor,isbn,n:'',r:false,l:null,ad:Date.now(),meta:info?.meta||null,c:info?.cover||'',src:info?.cover?info.meta?.source||'':'' ,v:info?.cover?'ok':'',s:info?.cover?2:0};
-  change(()=>{books.push(nb)});$('dAdd').close();if(!nb.c)enrich(nb.id);
-  }finally{button.disabled=false}
-};
-$('loanOk').onclick=()=>{const to=$('loanTo').value.trim();if(!to){$('loanTo').focus();return}change(()=>{target.l={to,d:$('loanD').value||today()}});$('dLoan').close()};
-$('edOk').onclick=()=>{
-  const t=$('edT').value.trim();if(!t){$('edT').focus();return}
-  const a2=$('edA').value.trim(),u2=$('edU').value.trim(),rawIsbn=$('edIsbn').value,isbn=normalizeIsbn13(rawIsbn);
-  if(rawIsbn.trim()&&!validIsbn13(isbn)){alert('ISBN-13 hatalı. 13 rakamlı ve kontrol basamağı geçerli bir ISBN gir.');$('edIsbn').focus();return}
-  if(u2&&!okUrl(u2)){alert('Bağlantı https://1000kitap.com ile başlayan bir adres olmalı.');return}
-  const ch=t!==target.t||a2!==(target.a||'')||isbn!==(target.isbn||'');
-  change(()=>{target.t=t;target.a=a2;target.isbn=isbn;target.n=$('edN').value.trim();target.u=u2;if(ch){target.c='';target.v='';target.g='';target.src='';target.s=0}});
-  $('dEdit').close();if(ch)enrich(target.id);
-};
-$('noteSave').onclick=()=>{
-  const b=bk(nav.id);if(!b)return;
-  change(()=>{b.n=$('noteText').value.trim()});
-  $('dNote').close();
-};
-$('npFile').onchange=async e=>{
-  const fs=[...e.target.files];e.target.value='';const b=bk(nav.id);if(!b||!fs.length)return;
-  let n=0;
-  for(const f of fs){
-    try{const d=await shrinkMax(f);await setDoc(doc(fdb,'users',profile.uid,'notePhotos',b.id+'_'+Date.now().toString(36)+n),{b:b.id,d,t:Date.now()+n});n++}
-    catch(err){alert('Bir fotoğraf işlenemedi. Başka bir resim dene.')}
-  }
-  if(n)change(()=>{b.np=(b.np||0)+n});
-};
-$('ppDel').onclick=()=>{
-  const b=bk(nav.id);if(!curP||!b)return;
-  if(!confirm('Bu fotoğraf silinsin mi?'))return;
-  (async()=>{
-    try{
-      if(profile.uid)await deleteDoc(doc(fdb,'users',profile.uid,'notePhotos',curP.id));
-      change(()=>{b.np=Math.max(0,(b.np||1)-1)});$('dPhoto').close();curP=null;
-    }catch(e){toast('Fotoğraf silinemedi. Tekrar dene.')}
-  })();
-};
-const rmPhoto=async id=>{if(profile.uid)await deleteDoc(doc(fdb,'users',profile.uid,'covers',id));delete covers[id]};
-function shrink(f){return new Promise((res,rej)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const W=200,H=300,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');const r=Math.max(W/im.width,H/im.height),w=im.width*r,h=im.height*r;x.drawImage(im,(W-w)/2,(H-h)/2,w,h);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',0.8))};im.onerror=()=>rej(new Error('img'));im.src=u})}
-$('mcSave').onclick=async()=>{const u=$('mcUrl').value.trim();if(!/^https:\/\/\S+$/.test(u)){alert('Geçerli bir https:// ile başlayan resim adresi gir.');return}try{await rmPhoto(target.id);change(()=>{target.mc=u});$('dCover').close()}catch(err){toast('Eski kapak silinemedi. Tekrar dene.')}};
-$('mcSearch').onclick=()=>{if(!target)return;window.open(kLink(target),'_blank','noopener,noreferrer')};
-$('copyCoverTool').onclick=async()=>{try{await navigator.clipboard.writeText(coverToolCode);toast('Kopyalama aracı kopyalandı. Bir yer iminin adresine yapıştır.')}catch(err){$('coverToolCode').focus();$('coverToolCode').select();toast('Kod seçildi. Kopyalayıp bir yer iminin adresine yapıştır.')}};
-$('mcPaste').onclick=async()=>{try{const u=(await navigator.clipboard.readText()).trim();if(!/^https:\/\/\S+$/.test(u))throw new Error('invalid-url');$('mcUrl').value=u;toast('Kapak bağlantısı yapıştırıldı.')}catch(err){toast(err.message==='invalid-url'?'Panoda https:// ile başlayan bir görsel bağlantısı yok.':'Panoya erişilemedi. Bağlantıyı resim alanına yapıştır.')}};
-$('mcPhoto').onclick=()=>$('mcFile').click();
-$('mcFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{if(!profile.uid)throw new Error('no-auth');const d=await shrink(f);await setDoc(doc(fdb,'users',profile.uid,'covers',target.id),{d});covers[target.id]=d;change(()=>{target.mc=''});$('dCover').close()}catch(err){alert(err.message==='no-auth'?'Kapağı buluta kaydetmek için hesabına giriş yap.':'Kapak buluta kaydedilemedi. İnternet bağlantını kontrol edip tekrar dene.')}};
-$('mcRm').onclick=async()=>{try{await rmPhoto(target.id);change(()=>{target.mc=''});$('dCover').close()}catch(err){toast('Kapak kaldırılamadı. Tekrar dene.')}};
-$('csv').onchange=async e=>{
-  const f=e.target.files[0];e.target.value='';if(!f)return;
-  const rows=parseCSV(await f.text());
-  if(rows.length&&fold(rows[0][0]).startsWith('kitap'))rows.shift();
-  const key=(t,a)=>fold(t).trim()+'|'+fold(a).trim();
-  const have=new Set(books.map(b=>key(b.t,b.a)));const add=[];let skipped=0,badIsbn=0;
-  rows.forEach((r,i)=>{
-    const t=r[0]||'',a=r[1]||'';if(!t)return;
-    const k=key(t,a);if(have.has(k)){skipped++;return}
-    have.add(k);
-    const rawIsbn=r[4]||'',isbn=normalizeIsbn13(rawIsbn);
-    if(rawIsbn.trim()&&!validIsbn13(isbn))badIsbn++;
-    add.push({id:'c'+Date.now().toString(36)+i,t,a,isbn:validIsbn13(isbn)?isbn:'',n:r[3]||'',r:['okundu','evet','1','true'].includes(fold(r[2]||'')),l:null,ad:Date.now()});
-  });
-  if(!add.length&&!skipped){alert('Dosyada kitap bulunamadı. İlk sütun kitap adı, ikinci sütun yazar olmalı.');return}
-  if(add.length)change(()=>{books=books.concat(add)});
-  alert(add.length+' kitap eklendi'+(skipped?', '+skipped+' kitap zaten kayıtlıydı.':'.')+(badIsbn?' '+badIsbn+' geçersiz ISBN-13 boş bırakıldı.':''));
-};
-$('file').onchange=async e=>{
-  const f=e.target.files[0];e.target.value='';if(!f)return;
-  try{
-    const arr=JSON.parse(await f.text());
-    if(!Array.isArray(arr)||!arr.every(b=>b&&typeof b.t==='string'&&(b.np===undefined||Number.isSafeInteger(b.np)&&b.np>=0)))throw 0;
-    if(confirm('Kitaplığındaki '+act().length+' kitabın yerine yedekteki '+arr.length+' kayıt yüklensin mi?'))change(()=>{books=arr});
-  }catch(err){alert('Bu dosya bir kitaplık yedeği gibi görünmüyor.')}
-};
-const errTxt={'auth/invalid-credential':'Mevcut şifre doğru değil.','auth/invalid-email':'E-posta adresi geçersiz.','auth/too-many-requests':'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.','auth/network-request-failed':'İnternet bağlantısı yok.','auth/email-already-in-use':'Bu e-posta adresi zaten kullanılıyor.','auth/weak-password':'Şifre en az 6 karakter olmalı; harf, rakam ve noktalama işareti içermeli.','auth/operation-not-allowed':'Firebase Console’da e-posta/parola ile girişi etkinleştir.','auth/wrong-password':'Mevcut şifre doğru değil.','auth/requires-recent-login':'Güvenlik için yeniden giriş yapıp tekrar dene.'};
-
-function setAccountStatus(id,message,kind=''){
-  const element=$(id);if(!element)return;
-  element.textContent=message;
-  element.className='account-status'+(kind?' '+kind:'');
-}
-
-async function changeAccountPassword(){
-  const user=auth.currentUser,currentPassword=$('currentPassword').value,newPassword=$('newPassword').value,confirmPassword=$('confirmPassword').value;
-  setAccountStatus('passwordStatus','');
-  if(!user?.email){setAccountStatus('passwordStatus','Hesabına yeniden giriş yap.','error');return}
-  if(!currentPassword){setAccountStatus('passwordStatus','Önce mevcut şifreni gir.','error');$('currentPassword').focus();return}
-  if(!validPassword(newPassword)){setAccountStatus('passwordStatus','Yeni şifre en az 6 karakter olmalı; en az bir harf, bir rakam ve bir noktalama işareti içermeli.','error');$('newPassword').focus();return}
-  if(newPassword!==confirmPassword){setAccountStatus('passwordStatus','Yeni şifreler eşleşmiyor.','error');$('confirmPassword').focus();return}
-  if(newPassword===currentPassword){setAccountStatus('passwordStatus','Yeni şifren mevcut şifreden farklı olmalı.','error');$('newPassword').focus();return}
-  try{
-    const credential=EmailAuthProvider.credential(user.email,currentPassword);
-    await reauthenticateWithCredential(user,credential);
-    await updatePassword(user,newPassword);
-    $('currentPassword').value='';$('newPassword').value='';$('confirmPassword').value='';
-    setAccountStatus('passwordStatus','Şifren başarıyla değiştirildi.','success');
-  }catch(error){
-    const message=errTxt[error.code]||'Şifre değiştirilemedi. İnternet bağlantını kontrol edip tekrar dene.';
-    setAccountStatus('passwordStatus',message,'error');
-  }
-}
-
-function setAuthMode(mode){
-  const loginPanel=$('loginPanel');
-  const signupPanel=$('signupPanel');
-  const loginBtn=document.querySelector('[data-auth="login"]');
-  const signupBtn=document.querySelector('[data-auth="signup"]');
-  const onLogin=mode==='login';
-  loginPanel.hidden=!onLogin;
-  signupPanel.hidden=onLogin;
-  loginBtn.classList.toggle('pri',onLogin);
-  signupBtn.classList.toggle('pri',!onLogin);
-  loginBtn.setAttribute('aria-pressed',String(onLogin));
-  signupBtn.setAttribute('aria-pressed',String(!onLogin));
-  if(onLogin){$('lgE').focus();}
-  else{$('suE').focus();}
-}
-
-document.addEventListener('click',e=>{
-  const btn=e.target.closest('[data-auth]');
-  if(btn){setAuthMode(btn.dataset.auth);}
-});
-
-async function login(){
-  $('lgErr').hidden=true;
-  try{await signInWithEmailAndPassword(auth,$('lgE').value.trim(),$('lgP').value)}
-  catch(e){$('lgErr').textContent=e.code==='auth/invalid-credential'?'E-posta veya şifre hatalı.':errTxt[e.code]||'Giriş yapılamadı ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
-}
-
-async function resetPassword(){
-  const email=$('lgE').value.trim();
-  if(!email){$('lgErr').textContent='Önce e-posta adresini gir.';$('lgErr').hidden=false;$('lgE').focus();return}
-  $('lgErr').hidden=true;
-  try{await sendPasswordResetEmail(auth,email);$('lgErr').textContent='Parola sıfırlama bağlantısı e-posta adresine gönderildi.';$('lgErr').hidden=false}
-  catch(e){$('lgErr').textContent=errTxt[e.code]||'Sıfırlama e-postası gönderilemedi ('+(e.code||'bilinmeyen hata')+').';$('lgErr').hidden=false}
-}
-
-async function signup(){
-  $('suErr').hidden=true;
-  const email=$('suE').value.trim();
-  const password=$('suP').value;
-  if(!validPassword($('suP').value)){$('suErr').textContent='Şifre en az 6 karakter olmalı; en az bir harf, bir rakam ve bir noktalama işareti içermeli.';$('suErr').hidden=false;$('suP').focus();return}
-  let createdUser=null,provisioned=false;
-  try{
-    const result=await createUserWithEmailAndPassword(auth,email,password);
-    createdUser=result.user;
-    const uid=result.user.uid;
-    await setDoc(doc(fdb,'users',uid),{uid,createdAt:Date.now()});
-    provisioned=true;
-    await sendEmailVerification(result.user);
-    $('verifyInfo').textContent='Doğrulama bağlantısını '+email+' adresine gönderdik.';
-  }catch(e){
-    let cleanupFailed=false;
-    if(createdUser&&!provisioned){
-      try{await deleteUser(createdUser)}catch(cleanupError){cleanupFailed=true;await signOut(auth)}
-    }
-    if(provisioned){
-      $('verifyInfo').textContent='Hesap oluşturuldu ('+email+'), ancak doğrulama e-postası gönderilemedi.';
-      $('verifyErr').textContent='E-posta gönderilemedi ('+(e.code||'bilinmeyen hata')+'). Yeniden gönder düğmesini kullan.';
-      $('verifyErr').hidden=false;$('login').hidden=true;$('main').hidden=true;$('verify').hidden=false;
-    }else{
-      $('login').hidden=false;$('main').hidden=true;$('verify').hidden=true;setAuthMode('signup');
-      $('suErr').textContent=cleanupFailed?'Kayıt tamamlanamadı ve geçici hesap kapatılamadı. Bu e-posta ile giriş yapıp tekrar deneyebilirsin.':errTxt[e.code]||'Hesap oluşturulamadı ('+(e.code||'bilinmeyen hata')+').';
-      $('suErr').hidden=false;
-    }
-  }
-}
-
-async function checkVerification(){
-  const user=auth.currentUser;
-  if(!user)return;
-  $('verifyErr').hidden=true;
-  try{
-    await user.reload();
-    await user.getIdToken(true);
-    if(!user.emailVerified)throw new Error('not-verified');
-  }catch(e){
-    $('verifyErr').textContent=e.message==='not-verified'?'E-posta henüz doğrulanmamış görünüyor. E-postandaki bağlantıyı açıp tekrar dene.':'Doğrulama kontrol edilemedi. İnternet bağlantını kontrol et.';
-    $('verifyErr').hidden=false;
-  }
-}
-
-async function resendVerification(){
-  const user=auth.currentUser;
-  if(!user)return;
-  $('verifyErr').hidden=true;
-  try{await sendEmailVerification(user);$('verifyErr').textContent='Doğrulama e-postası yeniden gönderildi.';$('verifyErr').hidden=false}
-  catch(e){$('verifyErr').textContent='E-posta gönderilemedi ('+(e.code||'bilinmeyen hata')+'). Biraz sonra tekrar dene.';$('verifyErr').hidden=false}
-}
-
-$('lgGo').onclick=login;
-$('resetPassword').onclick=resetPassword;
-$('suGo').onclick=signup;
-$('verifyCheck').onclick=checkVerification;
-$('verifyResend').onclick=resendVerification;
-$('verifyOut').onclick=()=>signOut(auth);
-$('lgP').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
-$('suP').addEventListener('keydown',e=>{if(e.key==='Enter')signup()});
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>applyTheme());
-
-history.replaceState(nav,'');
-let authEpoch=0;
-onIdTokenChanged(auth,async user=>{
-  const epoch=++authEpoch;
-  if(unsub){unsub();unsub=null}
-  if(unsub2){unsub2();unsub2=null}
-  if(unsub3){unsub3();unsub3=null;nphFor='';nph=[]}
-  books=[];set={};covers={};ref=null;profile={uid:null};purged=false;
-  if(!user){$('main').hidden=true;$('verify').hidden=true;$('login').hidden=false;setAuthMode('login');applyTheme();return}
-  $('login').hidden=true;
-  if(!user.emailVerified){
-    $('main').hidden=true;$('verify').hidden=false;$('verifyInfo').textContent='Doğrulama bağlantısını '+(user.email||'e-posta adresine')+' gönderdik.';
-    return;
-  }
-  $('verify').hidden=true;
-  profile={uid:user.uid};
-  $('main').hidden=false;$('lgP').value='';$('suP').value='';
-  try{
-    if(epoch!==authEpoch)return;
-    ref=doc(fdb,'users',user.uid,'library','main');
-    if(!qd)loadQuote();
-    unsub=onSnapshot(ref,snap=>{
-      const d=snap.exists()?snap.data():null;
-      books=d&&Array.isArray(d.books)?d.books:[];set=(d&&d.set)||{};
-      if(!purged){purged=true;const old=books.filter(b=>b.x&&Date.now()-b.x>6048e5);if(old.length){books=books.filter(b=>!old.includes(b));persist()}}
-      render();
-    },()=>{toast('Kitaplığa erişilemedi. İnternetini ve güvenlik kuralını kontrol et.')});
-    unsub2=onSnapshot(collection(fdb,'users',user.uid,'covers'),snap=>{const m={};snap.forEach(x=>{m[x.id]=x.data().d});covers=m;render()},()=>toast('Kapaklar alınamadı. İnternetini ve güvenlik kurallarını kontrol et.'));
-  }catch(e){
-    if(epoch===authEpoch)toast('Hesap bilgileri alınamadı. İnternetini ve Firestore güvenlik kurallarını kontrol et.');
-  }
-});
-applyTheme();
-if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-</script>
-<script>
-(function(){var d0=null;function out(d,e){var r=d.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom}
-document.addEventListener('pointerdown',function(e){var d=e.target;d0=(d&&d.tagName==='DIALOG'&&d.open&&out(d,e))?d:null},true);
-document.addEventListener('click',function(e){var d=e.target;if(!d0||d!==d0)return;d0=null;if(d.open&&out(d,e))d.close()},true)})();
-</script>
-</body>
-</html>
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||t.tagName==='INPUT')return;e.preventDefault();A[t.dataset.a]?.(t.dataset.v,t)});
+document.addEventListener('keydown',e=>{const t=e.target;if((e.key==='Enter'||e.key===' ')&&t.matches?.('.rw[data-a],.und')){e.preventDefault();t.click();return}
+const m={login:'login',reg:'reg',reset:'reset',add:'save'};if(e.key==='Enter'&&t.tagName==='INPUT'&&t.type!=='checkbox'&&m[v]){e.preventDefault();A[m[v]]()}});
+document.addEventListener('input',e=>{if(e.target.dataset.a==='sq')A.sq(0,e.target);else if(e.target.dataset.a==='hq'){q=e.target.value;f='all';v='all';qs=1;render()}});
+document.addEventListener('change',async e=>{if(e.target.id!=='fi'||!e.target.files[0])return;const inp=e.target;const all=parse((await inp.files[0].text()).replace(/^\ufeff/,''));inp.value='';
+if(!['baslik','title','kitap','kitap adi'].includes(fold((all[0]||[])[0]).trim()))return toast('İlk sütun "Başlık" olmalı (sıra: Başlık, Yazar, Okundu, Not, ISBN).');
+const rs=all.slice(1).filter(r=>r[0]&&r[0].trim());const have=new Set(books.map(b=>fold(b.t+b.a)));let n=0,dup=0,lim=0;
+rs.forEach((r,i)=>{const k=fold(r[0]+(r[1]||''));if(have.has(k)){dup++;return}if(books.length>=500){lim++;return}have.add(k);const is=(r[4]||'').replace(/\D/g,'');books.push({id:'c'+Date.now().toString(36)+i,t:r[0].trim(),a:(r[1]||'').trim(),isbn:is.length==13?is:'',n:r[3]||'',r:['okundu','evet','1','true'].includes(fold(r[2]||'')),l:null,ad:Date.now()});n++});
+persist();render();toast(n+' kitap eklendi'+(dup?', '+dup+' yinelenen atlandı':'')+(lim?', '+lim+' kayıt 500 sınırı nedeniyle atlandı':'')+'.')});
+addEventListener('online',render);addEventListener('offline',render);
+function start(u){if(unsub){unsub();unsub=null}user=u;if(!u){if(!['reg','reset','login','ob'].includes(v))v=localStorage.ob?'login':'ob';return render()}
+if(!u.emailVerified){v='verify';return render()}
+ref=doc(fdb,'users',u.uid,'library','main');unsub=onSnapshot(ref,s=>{const d=s.exists()?s.data():{};books=Array.isArray(d.books)?d.books:[];set=d.set||{};if(set.th)theme(set.th);if(set.fs){localStorage.fs=set.fs;document.documentElement.style.fontSize=set.fs}const old=books.filter(b=>b.x&&Date.now()-b.x>6048e5);if(old.length){books=books.filter(b=>!old.includes(b));persist()}if(['boot','login','reg','reset','verify','ob'].includes(v))v='home';render()},()=>toast('Kitaplığa erişilemedi.'))}
+onIdTokenChanged(auth,start);render();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script></body></html>
