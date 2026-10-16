@@ -20,12 +20,13 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın
 
 ### 🎨 Tema ve Kişiselleştirme
-- **Üç Tema Seçeneği**:
-  - 🌙 **Gece Kütüphanesi** - Koyu, göz dostu tema
-  - 📄 **Kağıt** - Açık, minimalist tema
-  - 🔄 **Sistem (Otomatik)** - Telefonunuzun tema ayarına göre otomatik geçiş yapar
-- **Yazı Boyutu**: Küçük, Orta, Büyük seçenekleriyle özelleştirin
-- **Kişiselleştirilmiş Başlık**: "(Adınız) Kütüphanesi" şeklinde özel karşılama
+- **Uygulama Görünümü** (Profil'de açılır bölüm):
+  - 🌙 **Koyu** - Sıcak koyu tema (varsayılan koyu)
+  - 📄 **Açık** - Sıcak kağıt tonlu açık tema
+  - ❄️ **Buz** - Serin, mavi-gri açık tema
+  - 🌲 **Orman** - Yeşil tonlu koyu tema
+  - 🔄 **Sistem (cihaz)** - Telefonunuzun tema ayarını otomatik izler
+- **Kişiselleştirilmiş Başlık**: "Kullanıcı adı + Kütüphanesi" şeklinde özel karşılama (vitrin ve kütüphane başlıklarında)
 
 ### 🔍 Arama ve Filtreleme
 - **Akıllı Arama**: Kitap adı veya yazar ile hızlı arama
@@ -38,7 +39,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Türkçe Karakter Desteği**: Büyük/küçük harf ve Türkçe karakter duyarlı olmayan arama
 
 ### 📱 Mobil Deneyim
-- **Kaydırılabilir Tanıtım**: İlk açılışta parmakla kaydırılabilen 3 ekranlık tanıtım
+- **Kaydırılabilir Tanıtım**: İlk açılışta parmakla kaydırılabilen veya "Devam et" ile ilerlenen 4 ekranlık tanıtım (animasyonlu simgeler). Giriş yapıldıysa tanıtım atlanıp doğrudan ana sayfa açılır; tanıtım renkleri cihazın tema ayarına uyar.
 - **Akıllı Geri Tuşu**:
   - Ara ve Profil sayfalarından Ana Sayfa'ya döner
   - Ana Sayfa'da çıkmak için 2 kez geri tuşuna basın (uyarı verir)
@@ -55,9 +56,19 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 
 ### 🔐 Güvenlik
 - **E-posta Doğrulama**: Hesap güvenliği için e-posta doğrulaması zorunludur
-- **Güçlü Şifre Politikası**: En az 6 karakter, harf, rakam ve noktalama işareti
+- **Kullanıcı Adı**: Kayıtta zorunludur ve kütüphane başlıklarında gösterilir
+- **Şifre Politikası**: En az 6 karakter, harf ve rakam içermeli
 - **Parola Sıfırlama**: E-posta ile güvenli parola sıfırlama
 - **Kişisel Veri**: Her kullanıcının verisi tamamen ayrı ve gizlidir
+
+### 👤 Hesabım ve Güvenlik (Profil)
+Profil sayfasındaki **Hesabım ve güvenlik** bölümünde:
+- **Kullanıcı adı değiştirme** - şifre doğrulaması ister; şifre bilinmiyorsa "Şifremi unuttum" ile sıfırlama bağlantısı gönderilir
+- **Şifre değiştirme** - mevcut şifre + yeni şifre (iki kez) doğrulaması
+- **Çıkış yap** - "Evet / Vazgeç" onayı ile
+- **Hesabımı sil** - şifre doğrulaması sonrası kitaplık, notlar, kapaklar ve hesap kalıcı olarak silinir
+
+Ayrıca aynı sayfada **Veriler**, **Hakkımızda ve iletişim** (geri bildirim) ve **Gizlilik politikası / kullanım şartları / uygulama izinleri** bölümleri bulunur.
 
 ## 🚀 Kurulum
 
