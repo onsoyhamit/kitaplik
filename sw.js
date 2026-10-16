@@ -1,12 +1,15 @@
-const C = 'kitaplik-v20';
+const C = 'kitaplik-v21';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(C)
       .then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => {}))))
-      .then(() => self.skipWaiting())
   );
+});
+
+self.addEventListener('message', e => {
+  if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
@@ -23,9 +26,10 @@ self.addEventListener('fetch', e => {
   const u = new URL(r.url);
   const same = u.origin === location.origin;
   const sdk = u.hostname === 'www.gstatic.com' && u.pathname.startsWith('/firebasejs/');
-  if (!same && !sdk) return;
-  if (sdk) {
-    // Firebase kütüphanesi sürümlü adreslerden gelir: önce önbellek
+  const asset = ['fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'esm.sh'].includes(u.hostname);
+  if (!same && !sdk && !asset) return;
+  if (sdk || asset) {
+    // Sürümlü / değişmeyen dış kaynaklar: önce önbellek
     e.respondWith(caches.match(r).then(h => h || fetch(r).then(res => {
       const cp = res.clone(); caches.open(C).then(c => c.put(r, cp)); return res;
     })));
