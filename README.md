@@ -13,9 +13,11 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **ISBN Barkod Tarama**: Kamera ile ISBN-13 barkodunu tarayın, kitap bilgileri otomatik gelsin
   - Animasyonlu barkod tarama çerçevesi
   - Gerçek zamanlı tarama göstergesi
-  - Google Books ve Open Library entegrasyonu
+  - ISBN okununca başlık, yazar, yayınevi ve kapak otomatik doldurulur
+- **Bilgi Getir**: ISBN veya başlık+yazar yazıp bilgileri elle de aratabilirsiniz
+- **Çoklu Kaynak Arama**: Önce Google Books, bulunamazsa Open Library (ISBN ve başlık araması) denenir; sonuç yoksa uygulama sizi elle girmeye yönlendirir (uydurma bilgi göstermez)
 - **Kapak Görselleri**: Katalogdan otomatik kapak bulma veya kendi fotoğrafınızı yükleyin
-- **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını işaretleyin
+- **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını tek parça durum kontrolüyle işaretleyin; kapak çevresindeki neon çerçeve ve kapak altındaki durum satırı anında güncellenir, kapak fotoğrafına dokununca animasyonlu büyütülür
 - **Ödünç Takibi**: Kitabı kime, ne zaman verdiğinizi kaydedin
 - **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın
 
@@ -259,8 +261,9 @@ service cloud.firestore {
 - Samsung Internet 14+
 
 ### API Entegrasyonları
-- **Google Books API**: Kitap bilgisi ve kapak arama
-- **BarcodeDetector API**: ISBN tarama (Chrome/Edge)
+- **Google Books API**: Kitap bilgisi ve kapak arama (birincil kaynak)
+- **Open Library API**: ISBN ve başlık araması (Google Books sonuç vermezse yedek kaynak)
+- **ZXing (@zxing/library)**: ISBN barkod çözümleme (kamera)
 
 ## 📖 Kullanım Kılavuzu
 
@@ -275,8 +278,8 @@ service cloud.firestore {
 2. **Yöntem 2: Manuel Giriş**
    - Ana sayfada "+" butonuna tıklayın
    - Başlık ve yazar girin
-   - İsterseniz ISBN girin (otomatik arama yapılır)
-   - "Kaydet" deyin
+   - İsterseniz ISBN girin, ardından "Bilgi getir" ile başlık/yazar/yayınevi/kapağı otomatik doldurun
+   - Arama sonuç vermezse bilgileri elle doldurun; "Kaydet" deyin
 
 ### Kitap Düzenleme
 - Kitaba tıklayın
