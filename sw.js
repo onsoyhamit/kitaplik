@@ -1,4 +1,4 @@
-const C = 'kitaplik-v33';
+const C = 'kitaplik-v34';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
