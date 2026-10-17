@@ -19,7 +19,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Kapak Görselleri**: Katalogdan otomatik kapak bulma veya kendi fotoğrafınızı yükleyin
 - **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını tek parça durum kontrolüyle işaretleyin; kapak çevresindeki neon çerçeve ve kapak altındaki durum satırı anında güncellenir, kapak fotoğrafına dokununca animasyonlu büyütülür
 - **Ödünç Takibi**: Kitabı kime, ne zaman verdiğinizi kaydedin
-- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın
+- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın; yanına **Fotoğraf çek** (kamera) veya **Galeriden seç** ile fotoğraf ekleyin
 
 ### 🎨 Tema ve Kişiselleştirme
 - **Uygulama Görünümü** (Profil'de açılır bölüm):
@@ -28,7 +28,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
   - ❄️ **Buz** - Serin, mavi-gri açık tema
   - 🌲 **Orman** - Yeşil tonlu koyu tema
   - 🔄 **Sistem (cihaz)** - Telefonunuzun tema ayarını otomatik izler
-- **Kişiselleştirilmiş Başlık**: "Kullanıcı adı + Kütüphanesi" şeklinde özel karşılama (vitrin ve kütüphane başlıklarında)
+- **Kişiselleştirilmiş Başlık**: Kullanıcı adına Türkçe iyelik eki otomatik uygulanır (örn. "Hamit'in Kütüphanesi", "Ayşe'nin Kütüphanesi", "Oğuz'un Kütüphanesi") — vitrin ve kütüphane başlıklarında görünür
 
 ### 🔍 Arama ve Filtreleme
 - **Akıllı Arama**: Kitap adı veya yazar ile hızlı arama
@@ -81,7 +81,7 @@ Ayrıca aynı sayfada **Veriler**, **Hakkımızda ve iletişim** (geri bildirim)
    - **Android**: Chrome → ⋮ → "Ana ekrana ekle"
    - **iOS**: Safari → Paylaş → "Ana Ekrana Ekle"
 3. **Hesap Oluştur**: Ad, e-posta ve güçlü bir parola ile kayıt olun
-4. **E-posta Doğrula**: Gelen kutunuza gelen doğrulama linkine tıklayın
+4. **E-posta Doğrula**: Gelen kutunuza gelen doğrulama linkine tıklayın; bağlantı sayfasındaki **Devam et**'e bastığınızda uygulamaya dönün — uygulama açıkken doğrulama kendiliğinden algılanır ve ana ekrana geçilir
 5. **Kitap Eklemeye Başlayın**: İlk kitabınızı ekleyin!
 
 ### Geliştirici Olarak Kurulum
@@ -291,15 +291,17 @@ service cloud.firestore {
 - "Kitabı sil" butonuna basın
 - Onaylayın (silinen kitaplar "Çöp Kutusu"na gider)
 
-### Veri Yedekleme
-1. Profil sayfasına gidin
-2. "Yedekle (JSON indir)" seçeneğine tıklayın
-3. Dosya indirilecek, güvenli bir yerde saklayın
+### Veri Yedekleme / Dışa Aktarma
+1. Profil → "Veriler" → **Dışa aktar**
+2. Biçim seçin:
+   - **JSON yedeği (.json)** → tam veri yedeği (kitaplar + ayarlar), güvenli bir yerde saklayın
+   - **CSV tablosu (.csv)** → Excel veya Google Sheets ile açın; sütunlar: Başlık, Yazar, Okundu, Not, ISBN
 
-### CSV Dışa Aktarma
-1. Profil → "CSV olarak dışa aktar"
-2. Excel veya Google Sheets ile açın
-3. Sütunlar: Başlık, Yazar, Okundu, Not, ISBN
+### Veri Geri Yükleme / İçe Aktarma
+1. Profil → "Veriler" → **İçe aktar**
+2. Biçim seçin:
+   - **JSON yedeğinden geri yükle** → daha önce indirdiğiniz `.json` dosyasını seçin
+   - **CSV dosyasından aktar** → `.csv` dosyasını seçin (yinelenen kayıtlar atlanır)
 
 ## 🐛 Sorun Giderme
 

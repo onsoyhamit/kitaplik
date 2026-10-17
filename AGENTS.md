@@ -58,7 +58,7 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 ## 5. Veri Modeli (özet)
 
 Kitap anahtarları **kasıtlı kısa**: `id, t, a, y, isbn, c, u, r, k, l, n, ad, x`.
-`set`: `th, fs, sh, sa, lh`.
+`set`: `th, fs, sh, sa, lh, un`.
 Tam tablo, şema değiştirme ve güvenlik detayları → `veri-ve-guvenlik` skill'i.
 
 ## 6. Arayüz Kuralları (özet)
