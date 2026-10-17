@@ -19,7 +19,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Kapak Görselleri**: Katalogdan otomatik kapak bulma veya kendi fotoğrafınızı yükleyin
 - **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını tek parça durum kontrolüyle işaretleyin; kapak çevresindeki neon çerçeve ve kapak altındaki durum satırı anında güncellenir, kapak fotoğrafına dokununca animasyonlu büyütülür
 - **Ödünç Takibi**: Kitabı kime, ne zaman verdiğinizi kaydedin
-- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın; yanına **Fotoğraf çek** (kamera) veya **Galeriden seç** ile fotoğraf ekleyin
+- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın; yanına **Fotoğraf çek** (kamera) veya **Galeriden seç** ile fotoğraf ekleyin. Eklenen sayfa fotoğrafları film rulosu şeridinde saklanır, dokununca tam ekranda açılır; **iki parmakla yakınlaştırma (pinch)**, çift dokunuşla zoom, sürükleyerek gezinme desteklenir. Silme yalnızca tam ekranda ve onay sorularak yapılır
 
 ### 🎨 Tema ve Kişiselleştirme
 - **Uygulama Görünümü** (Profil'de açılır bölüm):
