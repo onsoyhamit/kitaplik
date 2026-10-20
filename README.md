@@ -173,6 +173,23 @@ node tools/ver-bump.mjs         # VERS'i artırır, CSP hash'ini ve sw.js C sür
 node tools/ver-bump.mjs --dry   # sadece yeni sürümü gösterir
 ```
 
+#### Simgeler (yerel, alt küme)
+
+Buton simgeleri **Tabler Icons**'tan gelir ama CDN'den yüklenmez: `vendor/tabler-icons.css` ve `vendor/fonts/tabler-icons.woff2` yereldir ve yalnız kullanılan simgeleri içerir (~12 KB). Böylece CDN engeli/kesintisi veya çevrimdışı durumda ikonlar kaybolmaz.
+
+Daha önce kullanılmayan bir `ti-*` simgesi eklediyseniz:
+
+```bash
+node tools/icons.mjs --build   # CSS + font alt kümesini yeniler (python + fonttools gerekir)
+node tools/icons.mjs --check   # eksik simge var mı denetler
+```
+
+Font kırpma için bir kez: `python -m pip install fonttools brotli`.
+
+#### Kapak görselleri
+
+Kapaklar Open Library / Google Books'tan gelir. Open Library'nin büyük kapakları `archive.org` adresine yönlendiği için CSP `img-src` bu alan adlarını da içerir; yeni bir kapak kaynağı eklerken `firebase.json` içindeki `img-src` listesini iki hosting girdisinde de güncelleyin.
+
 Canlı adresler:
 
 - **https://kitapligim55.web.app** (birincil)
@@ -365,7 +382,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit  
-**Versiyon**: 1.3.12  
+**Versiyon**: 1.4.2  
 **Son Güncelleme**: Ekim 2026
 
 ---

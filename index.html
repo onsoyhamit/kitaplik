@@ -1,5 +1,5 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Kitaplığım</title><meta name="description" content="Kitaplarını, okuma durumunu, notlarını ve ödünç verdiklerini tek yerden takip et."><meta property="og:title" content="Kitaplığım"><meta property="og:description" content="Kişisel kitaplığını yönet: okuma durumu, notlar, ödünç takibi ve ISBN ile kolay ekleme."><meta property="og:type" content="website"><meta property="og:image" content="icon-512.png"><meta name="twitter:card" content="summary"><link rel="icon" type="image/x-icon" href="favicon.ico"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1a1310"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap"><link rel="stylesheet" href="vendor/tabler-icons.css">
 <style>
 :root,[data-t=gece]{--bg:#1a1310;--p:#2a201a;--ac:#e8a23a;--ro:#d38a93;--tx:#f3e9dc;--mu:#cdbdab;--fa:#a39080;--on:#1a1310;--ln:#43352a;color-scheme:dark}
 [data-t=kagit]{--bg:#f6f0e6;--p:#ece3d4;--ac:#b5651d;--ro:#9a4651;--tx:#2a201a;--mu:#5f4f40;--fa:#7d6d5b;--on:#fff;--ln:#d2c5b0;color-scheme:light}
@@ -416,7 +416,7 @@ const DPM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos'
 const dFmt=v=>fmt(new Date(v+'T12:00:00').getTime());
 const dfld=(id,l,isoVal)=>{const v=isoVal||iso(Date.now());return `<label>${l}<span class="dtf" data-a="dpick" data-v="${id}" aria-haspopup="dialog"><input id="${id}" type="text" readonly value="${esc(dFmt(v))}" aria-label="${esc(l)}" inputmode="none"><i class="ti ti-calendar dtfi" aria-hidden="true"></i></span><input id="${id}v" type="hidden" value="${v}"></label>`};
 /* TODO (yayın öncesi): sürüm ve iletişim adresini güncelle */
-const VERS='1.4.1',APPMAIL='onsoyhamit@gmail.com';
+const VERS='1.4.4',APPMAIL='onsoyhamit@gmail.com';
 const SITE=(location.protocol==='https:'&&!/^(localhost|127\.0\.0\.1)$/.test(location.hostname))?'https://kitapligim55.web.app/':(location.protocol.startsWith('http')?location.origin+'/':'https://kitapligim55.web.app/'); /* doğrulama bağlantısı her zaman uygulamanın kullanıldığı adrese dönsün */
 const ACS=()=>({url:SITE,handleCodeInApp:false});
 const sendVerify=async u=>{try{await sendEmailVerification(u,ACS())}catch(e){await sendEmailVerification(u)}};

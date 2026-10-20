@@ -36,6 +36,7 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 9. **Renkleri sabit yazma.** Yalnızca CSS değişkenleri (`--bg, --ac, --tx`...).
 10. **`sw.js` `C` sürümünü artırmadan statik dosya değiştirme.**
 11. **Her commit'te sürümü artır.** `index.html` içindeki `VERS` üç parçalıdır (`A.B.C`) ve `node tools/ver-bump.mjs` ile artırılır. Kural: `C` 0–9 arası artar; `C=9` iken sonraki artışta `B+1` ve `C=0`; `B=9` iken `A+1`, `B=0`, `C=0`. Örnek: `1.4.7 → 1.4.8 → 1.4.9 → 1.5.0`, `1.9.9 → 2.0.0`. Araç ayrıca CSP hash'ini ve `sw.js` `C` sürümünü günceller. Sürüm commit mesajında da yazılır.
+12. **Simge fontu yereldir ve alt kümedir.** `vendor/tabler-icons.css` + `vendor/fonts/tabler-icons.woff2` yalnız kullanılan simgeleri içerir; CDN'den yüklenmez (engel/kesinti olunca ikonlar kayboluyordu). Yeni bir `ti-*` sınıfı kullanacaksan `node tools/icons.mjs --build` çalıştır; `--check` ile doğrula. Font kırpma `python -m fonttools` ister (`python -m pip install fonttools brotli`).
 
 ## 3. Dosya Sorumlulukları
 
@@ -49,8 +50,11 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 | `README.md` | Kullanıcı dokümanı | Özellik/veri değişince güncelle. |
 | `index1.html` | Eski/alternatif tasarım | **Kullanılmıyor.** Dokunma. |
 | `vendor/zxing.min.js` | Barkod okuyucu (üçüncü taraf, yerel) | Sürüm yükseltirken dosyayı değiştir; CSP'de ek alan gerekmez. |
+| `vendor/tabler-icons.css` | Simge fontu CSS'i (üretilmiş **alt küme**) | Elle düzenleme. Yeni simge için `node tools/icons.mjs`. |
+| `vendor/fonts/tabler-icons.woff2` | Simge fontu (alt küme, ~12 KB) | Yeni simge eklenince yeniden üret (aşağıdaki komut). |
 | `tools/csp-hash.mjs` | CSP hash doğrulama/güncelleme (çok site) | `index.html` betiği değişince `--write`; CI `--check` çalıştırır. |
 | `tools/ver-bump.mjs` | Sürüm artırma (`VERS` + CSP hash + `sw.js` `C`) | Commit öncesi çalıştır. |
+| `tools/icons.mjs` | Simge CSS'i alt kümesini üretir/denetler | Yeni `ti-*` sınıfı kullanınca çalıştır. |
 
 ## 4. Mimari Çekirdek (en sık kırılan yer)
 

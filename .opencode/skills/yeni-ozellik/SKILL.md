@@ -62,7 +62,7 @@ Not: `click` yakalayıcı `data-a` olan en yakın elementi bulur ve `preventDefa
 
 - Tema `document.documentElement.dataset.t` ile uygulanır (`gece`, `kagit`, `sistem`).
 - Font boyutu `html{font-size}` + `localStorage.fs` ile yönetilir.
-- İkonlar **Tabler Icons** webfont'undan: `<i class="ti ti-ikon-adi">`.
+- İkonlar **Tabler Icons**'tan, yerel ve **alt küme** fontla: `<i class="ti ti-ikon-adi">`. Daha önce kullanılmayan bir simge eklersen `node tools/icons.mjs --build` çalıştır (CSS + woff2 yenilenir, ~12 KB). CDN'den ikon yükleme.
 - Yazı tipleri: başlıklar **Fraunces**, gövde **DM Sans**. Yeni font ekleme.
 - Sınıf adları kısa ve mevcut kalıba uygun olmalı (`.b`, `.pg`, `.rw`, `.cv`, `.shf`...).
 - Tüm kullanıcı metinleri **Türkçe**.
