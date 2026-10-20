@@ -24,7 +24,8 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 
 ## 2. 🔴 Kırmızı Çizgiler
 
-1. **Tek dosya:** Tüm uygulama `index.html` içinde. Yeni `.js`/`.css` dosyası açma (tek istisna: `sw.js`).
+1. **Tek dosya:** Tüm uygulama kodu `index.html` içinde. Yeni uygulama `.js`/`.css` dosyası açma (istisnalar: `sw.js`, yerel üçüncü taraf varlığı `vendor/zxing.min.js`, geliştirme aracı `tools/csp-hash.mjs`).
+2. **CSP hash'i kodla senkron tut.** `index.html` içindeki satır içi modülün SHA-256 özeti `firebase.json` CSP'sindedir. Satır içi betiği değiştirdikten sonra `node tools/csp-hash.mjs --write` çalıştır; aksi hâlde uygulama boş açılır. `hosting` iki site içerir (`kitapligim55` + `kitapligim`); CSP/başlık değişikliğini **iki girdiye birden** uygula (iki girdi birebir aynı olmalı, `--check` doğrular).
 2. **`index1.html` uygulamanın parçası değildir.** Hata düzeltmek için onu düzenleme; sadece tasarım referansıdır.
 3. **Firebase yapılandırmasını (`fapp`) değiştirme.** Proje kimlikleri sabittir.
 4. **`render()`'ı veya mimariyi değiştirme.** Uygulama baştan çizim üzerine kuruludur; framework'e geçiş teklif etme.
@@ -34,7 +35,7 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 8. **Kullanıcı verisini `esc()` olmadan HTML'e basma.** (XSS)
 9. **Renkleri sabit yazma.** Yalnızca CSS değişkenleri (`--bg, --ac, --tx`...).
 10. **`sw.js` `C` sürümünü artırmadan statik dosya değiştirme.**
-11. **Her commit'te sürümü artır.** `index.html` içindeki `VERS` son hanesi her commit'te +1 olur (örn. `1.3.8` → `1.3.9`). Sürüm commit mesajında da yazılır.
+11. **Her commit'te sürümü artır.** `index.html` içindeki `VERS` üç parçalıdır (`A.B.C`) ve `node tools/ver-bump.mjs` ile artırılır. Kural: `C` 0–9 arası artar; `C=9` iken sonraki artışta `B+1` ve `C=0`; `B=9` iken `A+1`, `B=0`, `C=0`. Örnek: `1.4.7 → 1.4.8 → 1.4.9 → 1.5.0`, `1.9.9 → 2.0.0`. Araç ayrıca CSP hash'ini ve `sw.js` `C` sürümünü günceller. Sürüm commit mesajında da yazılır.
 
 ## 3. Dosya Sorumlulukları
 
@@ -44,9 +45,12 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 | `sw.js` | Service worker, çevrimdışı önbellek | `C` sürümünü **artır**. |
 | `manifest.webmanifest` | PWA meta | Ad/ikon değişirse güncelle. |
 | `firestore.rules` | Veri erişimi + şema doğrulama | Alan eklersen kuralı güncelle + deploy. |
-| `firebase.json` | Hosting + header/cache | Genelde dokunma. |
+| `firebase.json` | Hosting (iki site) + header/cache | Genelde dokunma. İki hosting girdisinin `ignore`/`headers` blokları birebir aynı kalmalı. |
 | `README.md` | Kullanıcı dokümanı | Özellik/veri değişince güncelle. |
 | `index1.html` | Eski/alternatif tasarım | **Kullanılmıyor.** Dokunma. |
+| `vendor/zxing.min.js` | Barkod okuyucu (üçüncü taraf, yerel) | Sürüm yükseltirken dosyayı değiştir; CSP'de ek alan gerekmez. |
+| `tools/csp-hash.mjs` | CSP hash doğrulama/güncelleme (çok site) | `index.html` betiği değişince `--write`; CI `--check` çalıştırır. |
+| `tools/ver-bump.mjs` | Sürüm artırma (`VERS` + CSP hash + `sw.js` `C`) | Commit öncesi çalıştır. |
 
 ## 4. Mimari Çekirdek (en sık kırılan yer)
 
@@ -55,6 +59,7 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 - **Çizim → `render()`:** `#app.innerHTML` baştan yazılır. Görünüm değişmediyse form alanları `keep` ile korunur (`#qq` ve `type=file` hariç).
 - **Yönlendirme:** URL hash tabanlıdır ve **3 yerde** tekrar eder — `updateURL()`, `popstate`, `DOMContentLoaded`. Birini güncelleyip diğerini unutmak en sık yapılan hatadır.
 - **Kalıcı veri:** `persist()` yazar (`setDoc({books,set})`), `onSnapshot` okur. Değişiklik sonrası `persist()` çağır.
+- **Çıkış / hesap silme:** Çıkış `signOut(auth)` yerine `hardOut()` ile yapılır (yerel Firestore önbelleğini de temizler). Yeni çıkış noktası eklerken `hardOut()` kullan.
 
 ## 5. Veri Modeli (özet)
 

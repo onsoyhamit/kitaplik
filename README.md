@@ -53,17 +53,20 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 ### 💾 Veri Yönetimi
 - **Otomatik Senkronizasyon**: Kitaplarınız bulutta saklanır ve cihazlar arası senkronize olur
 - **CSV İçe/Dışa Aktarma**: Kitap listenizi Excel ile paylaşın
-- **JSON Yedekleme**: Tam veri yedeği alın
+- **JSON Yedekleme**: Kitaplar ve ayarlar için yedek alın (kapaklar ve not fotoğrafları boyutu nedeniyle yedeğe dahil edilmez)
 - **Çevrimdışı Çalışma**: İnternet olmadan da kitaplarınıza erişin
 
 ### 🔐 Güvenlik
 - **E-posta Doğrulama**: Hesap güvenliği için e-posta doğrulaması zorunludur
 - **Kullanıcı Adı**: Kayıtta zorunludur ve kütüphane başlıklarında gösterilir
-- **Şifre Politikası**: En az 6 karakter, harf ve rakam içermeli
+- **Şifre Politikası**: En az 10 karakter; harf ve rakam içermeli; yaygın/zayıf şifreler reddedilir
 - **Parola Sıfırlama**: E-posta ile güvenli parola sıfırlama
+- **Deneme Sınırı**: Art arda hatalı girişlerde artan bekleme; sıfırlama/doğrulama e-postalarında 60 sn bekleme
 - **Kişisel Veri**: Her kullanıcının verisi tamamen ayrı ve gizlidir
 - **App Check**: reCAPTCHA Enterprise ile Firebase istekleri doğrulanır; botlar ve uygulama dışı istemciler engellenir
-- **Güvenlik Başlıkları**: CSP, HSTS, `X-Frame-Options` ve `Permissions-Policy` ile sıkılaştırılmıştır
+- **Güvenlik Başlıkları**: CSP (`script-src` hash tabanlı, `script-src-attr 'none'`), HSTS, `X-Frame-Options`, COOP/CORP ve `Permissions-Policy` ile sıkılaştırılmıştır
+- **XSS Koruması**: Kullanıcı kaynaklı tüm değerler `esc()` ile kaçırılır; bağlantı/görsel alanları şema ve boyut doğrulamasından geçer
+- **Çıkışta Yerel Temizlik**: Çıkış yapınca cihazdaki çevrimdışı Firestore önbelleği temizlenir
 - **Hesap Silme**: Şifre doğrulaması sonrası kitaplık, kapaklar, not fotoğrafları ve kullanıcı belgesi kalıcı olarak silinir
 
 ### 👤 Hesabım ve Güvenlik (Profil)
@@ -150,7 +153,34 @@ Tarayıcınızda `http://localhost:5000` adresine gidin.
 firebase deploy --only firestore:rules,hosting
 ```
 
-Canlı adres **https://kitapligim55.web.app**'tir. Bu adres `kitapligim55` projesinin varsayılan Hosting sitesidir; `firebase.json` ve GitHub Actions doğrudan bu siteye yayınlar. `https://kitapligim.web.app` adresi eski/alternatif site olarak açık kalır ancak yeni sürümler buraya gönderilmez; doğrulama e-postalarındaki dönüş adresi de `https://kitapligim55.web.app/` olur.
+#### CSP hash (önemli)
+
+`index.html` içindeki satır içi modülün SHA-256 özeti `firebase.json` içindeki CSP'de yazılıdır. Satır içi betiği değiştirdikten sonra hash'i güncelleyin:
+
+```bash
+node tools/csp-hash.mjs --write   # firebase.json'daki sha256-... değerini günceller
+node tools/csp-hash.mjs --check   # deploy öncesi doğrulama
+```
+
+Hash uyuşmazsa tarayıcı betiği çalıştırmaz (boş ekran). GitHub Actions her deploy öncesi `--check` adımını çalıştırır.
+
+#### Sürüm artırma
+
+`index.html` içindeki `VERS` üç parçalıdır (`A.B.C`). Her commit'te `C` bir artar; `C=9` iken sonraki artışta `B` bir artar ve `C` sıfırlanır; `B=9` iken `A` artar (`1.9.9 → 2.0.0`). Örnek: `1.4.7 → 1.4.8 → 1.4.9 → 1.5.0`.
+
+```bash
+node tools/ver-bump.mjs         # VERS'i artırır, CSP hash'ini ve sw.js C sürümünü yeniler
+node tools/ver-bump.mjs --dry   # sadece yeni sürümü gösterir
+```
+
+Canlı adresler:
+
+- **https://kitapligim55.web.app** (birincil)
+- **https://kitapligim.web.app** (eski adres)
+
+`firebase.json` içindeki `hosting` **iki site** tanımlar (`site` alanları `kitapligim55` ve `kitapligim`); `firebase deploy --only hosting` ve GitHub Actions her ikisine de aynı sürümü yayınlar. Eski adres de güvenli sürümü sunar, böylece eski sürümün zayıf CSP'si (`'unsafe-inline'`, `esm.sh`) hiçbir adreste açık kalmaz.
+
+İki hosting girdisinin `ignore` ve `headers` blokları **birebir aynı olmalıdır**. Başlık/CSP değiştirirken her iki girdiye de uygula; `node tools/csp-hash.mjs --check` hem hash'i hem de iki girdinin aynılığını doğrular (uyuşmazsa çıkış kodu 1 verir). Doğrulama e-postalarındaki dönüş adresi `https://kitapligim55.web.app/` olur.
 
 ## 📂 Proje Yapısı
 
@@ -159,6 +189,8 @@ kitaplik-pwa/
 ├── index.html              # Ana uygulama (HTML + CSS + JS)
 ├── manifest.webmanifest    # PWA manifest
 ├── sw.js                   # Service Worker (çevrimdışı destek)
+├── vendor/zxing.min.js     # Barkod okuyucu (yerel kopya, CDN'e bağımlı değil)
+├── tools/csp-hash.mjs      # CSP hash doğrulama/güncelleme yardımcısı
 ├── firestore.rules         # Firestore güvenlik kuralları
 ├── firebase.json           # Firebase yapılandırması
 ├── icon-192.png           # PWA ikonu (192×192)
@@ -176,8 +208,9 @@ kitaplik-pwa/
 Kuralların tamamı `firestore.rules` dosyasındadır. Özet:
 
 - **Erişim**: yalnızca giriş yapmış ve e-posta adresi doğrulanmış kullanıcı kendi `users/{uid}` ağacına erişebilir; `list` kapalıdır.
-- **Doğrulama**: `library/main` yalnızca `{books, set}` alanlarını kabul eder; en fazla 500 kitap; `set` yalnızca `th, fs, sh, sa, lh, un` anahtarlarını taşıyabilir.
-- **Boyut**: kapak ve not fotoğrafları en fazla 900.000 karakter (base64) olabilir.
+- **Doğrulama**: `library/main` yalnızca `{books, set}` alanlarını kabul eder; en fazla 500 kitap; `set` yalnızca `th, fs, sh, sa, lh, un` anahtarlarını taşıyabilir ve her alan tip/boyut doğrulamasından geçer (raflar ≤ 20, ödünç geçmişi ≤ 500, kullanıcı adı ≤ 30).
+- **Boyut ve biçim**: kapak görselleri `data:image/(jpeg|png|webp);base64,...` biçiminde ve ≤ 500.000 karakter; not fotoğrafları aynı biçimde ≤ 700.000 karakterdir. Kapak kimliği ve not fotoğrafının bağlı olduğu kitap kimliği yalnızca `[A-Za-z0-9_-]` karakterlerini içerebilir.
+- **Kitaplık içeriği**: Firestore kuralları dizi elemanlarını tek tek doğrulayamadığı için `books` içeriği istemcide (`A.save`, `restoreJSON`, CSV içe aktarma) doğrulanır ve alan uzunlukları sınırlandırılır.
 - **Silme**: yalnızca sahibi ve e-posta doğrulaması yapılmış kullanıcı silebilir (hesap silme akışı).
 - **Varsayılan**: eşleşmeyen tüm yollar reddedilir (`allow read, write: if false`).
 
@@ -254,7 +287,7 @@ Kuralların tamamı `firestore.rules` dosyasındadır. Özet:
 ### API Entegrasyonları
 - **Google Books API**: Kitap bilgisi ve kapak arama (birincil kaynak)
 - **Open Library API**: ISBN ve başlık araması (Google Books sonuç vermezse yedek kaynak)
-- **ZXing (@zxing/library)**: ISBN barkod çözümleme (kamera)
+- **ZXing (@zxing/library)**: ISBN barkod çözümleme (kamera) — `vendor/zxing.min.js` olarak yerel barındırılır (üçüncü taraf CDN'e çalışma anında bağımlılık yok)
 
 ## 📖 Kullanım Kılavuzu
 
@@ -285,7 +318,7 @@ Kuralların tamamı `firestore.rules` dosyasındadır. Özet:
 ### Veri Yedekleme / Dışa Aktarma
 1. Profil → "Veriler" → **Dışa aktar**
 2. Biçim seçin:
-   - **JSON yedeği (.json)** → tam veri yedeği (kitaplar + ayarlar), güvenli bir yerde saklayın
+   - **JSON yedeği (.json)** → kitaplar + ayarlar (kapaklar ve not fotoğrafları dahil değildir), güvenli bir yerde saklayın
    - **CSV tablosu (.csv)** → Excel veya Google Sheets ile açın; sütunlar: Başlık, Yazar, Okundu, Not, ISBN
 
 ### Veri Geri Yükleme / İçe Aktarma
@@ -332,7 +365,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit  
-**Versiyon**: 1.0.0  
+**Versiyon**: 1.3.12  
 **Son Güncelleme**: Ekim 2026
 
 ---

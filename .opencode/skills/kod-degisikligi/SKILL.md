@@ -9,13 +9,14 @@ description: Bu projede (Kitaplığım PWA) herhangi bir kod düzeltmesi veya de
 
 ---
 
-## Her değişiklikte 5 adım
+## Her değişiklikte 6 adım
 
 1. **Kapsamı sabitle.** Sadece istenen şeyi değiştir. "Bu arada şunu da düzelteyim" **yapma**. İstenmeyen ekstra değişiklik = yeni hata kaynağı.
 2. **Etki alanını bul.** Değiştireceğin fonksiyon/değişken nerede kullanılıyor? Anahtar ismini `grep` ile tüm dosyada ara.
 3. **Şablon + işlem birlikte.** HTML tarafını (`V`) değiştirdiysen ona bağlı işlemi (`A`) ve `data-a`/`data-v` eşleşmesini kontrol et. Biri olmadan diğeri çalışmaz.
 4. **Kalıcı veriyi düşün.** Veri değiştiyse: `persist()` çağrılıyor mu? `firestore.rules` uyumlu mu? Yedek/geri yükleme etkilenir mi?
-5. **Statik varlık değiştiyse** `sw.js` içindeki `C` sürümünü artır (örn. `kitaplik-v21` → `v22`).
+5. **Sürümü artır.** Commit öncesi `node tools/ver-bump.mjs` çalıştır: `VERS`'i kurala göre artırır (`C=9` → `B+1, C=0`; `B=9` → `A+1, B=0, C=0`; örn. `1.4.9 → 1.5.0`, `1.9.9 → 2.0.0`), CSP hash'ini ve `sw.js` `C` sürümünü yeniler.
+6. **CSP hash'ini doğrula.** `node tools/csp-hash.mjs --check` (iki hosting girdisini de kontrol eder; CI her deploy öncesi çalıştırır). Unutulursa uygulama boş açılır.
 
 ---
 
@@ -34,7 +35,8 @@ Bir şeyi düzelttikten sonra **mutlaka** bunları düşün (hepsi etkilenmiş o
 - [ ] **Çevrimdışı:** `offline` bandı ve önbellek davranışı bozulmadı mı?
 - [ ] **Silme/geri alma:** Çöp kutusu (7 gün) ve "Geri al" çalışıyor mu?
 - [ ] **Erişilebilirlik:** Klavye (Enter/Space) ile yeni etkileşim çalışıyor mu?
-- [ ] **Sınırlar:** 500 kitap ve 900.000 karakter kapak sınırları korunuyor mu?
+- [ ] **Sınırlar:** 500 kitap; kapak/not fotoğrafı boyut sınırları (kapak ≤ 500.000, fotoğraf ≤ 700.000) korunuyor mu?
+- [ ] **CSP hash:** `index.html` satır içi betiği değiştiyse `node tools/csp-hash.mjs --write` çalıştırıldı mı?
 
 ---
 
@@ -53,7 +55,7 @@ Bir şeyi düzelttikten sonra **mutlaka** bunları düşün (hepsi etkilenmiş o
 
 ## Yasaklar (anti-pattern)
 
-- İstenmeyen dosya oluşturmak (yeni `.js`, `.css`, `package.json`, bundler konfigürasyonu).
+- İstenmeyen dosya oluşturmak (yeni uygulama `.js`, `.css`, `package.json`, bundler konfigürasyonu). İstisnalar: `vendor/` altındaki üçüncü taraf varlıklar ve `tools/` altındaki geliştirme araçları.
 - Yazılı olmayan yerlere dokunmak / "iyileştirme" adı altında refactor yapmak.
 - Kısa veri anahtarlarını "okunaklı olsun diye" uzun isimlerle değiştirmek.
 - Sabit (hardcoded) renk veya tema-dışı stil yazmak.
@@ -68,3 +70,4 @@ Bir şeyi düzelttikten sonra **mutlaka** bunları düşün (hepsi etkilenmiş o
 
 - `main` dalına push → GitHub Actions otomatik deploy eder (`.github/workflows/firebase-hosting-merge.yml`).
 - Firestore kuralları değiştiyse ayrıca: `firebase deploy --only firestore:rules,hosting`.
+- `hosting` iki site içerir (`kitapligim55` + `kitapligim`); deploy her ikisine de gider. CSP/başlık değişikliğini iki girdiye birden uygula; `node tools/csp-hash.mjs --check` hash'i ve girdilerin aynılığını doğrular.

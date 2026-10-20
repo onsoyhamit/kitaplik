@@ -13,6 +13,19 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
+    // Kapak ve not fotoğrafları: data URL biçimi + boyut sınırı.
+    // Not: Firestore kuralları dizi elemanlarını tek tek dolaşamaz; bu yüzden
+    // kitaplık dokümanının `books` içeriği istemci tarafında doğrulanır.
+    function isImg(d, max) {
+      return d is string
+        && d.size() <= max
+        && d.matches('data:image/(jpeg|png|webp);base64,.*');
+    }
+
+    function hasKey(m, k) {
+      return m.keys().hasAny([k]);
+    }
+
     match /users/{uid} {
       allow get: if owner(uid);
       allow list: if false;
@@ -34,7 +47,19 @@ service cloud.firestore {
           && request.resource.data.books is list
           && request.resource.data.books.size() <= 500
           && request.resource.data.set is map
-          && request.resource.data.set.keys().hasOnly(['th', 'fs', 'sh', 'sa', 'lh', 'un']);
+          && request.resource.data.set.keys().hasOnly(['th', 'fs', 'sh', 'sa', 'lh', 'un'])
+          && (!hasKey(request.resource.data.set, 'th')
+              || (request.resource.data.set.th is string && request.resource.data.set.th.size() <= 10))
+          && (!hasKey(request.resource.data.set, 'fs')
+              || (request.resource.data.set.fs is string && request.resource.data.set.fs.size() <= 6))
+          && (!hasKey(request.resource.data.set, 'sh')
+              || (request.resource.data.set.sh is list && request.resource.data.set.sh.size() <= 20))
+          && (!hasKey(request.resource.data.set, 'sa')
+              || (request.resource.data.set.sa is map && request.resource.data.set.sa.size() <= 500))
+          && (!hasKey(request.resource.data.set, 'lh')
+              || (request.resource.data.set.lh is list && request.resource.data.set.lh.size() <= 500))
+          && (!hasKey(request.resource.data.set, 'un')
+              || (request.resource.data.set.un is string && request.resource.data.set.un.size() <= 30));
         allow delete: if owner(uid) && verified() && documentId == 'main';
       }
 
@@ -42,9 +67,10 @@ service cloud.firestore {
         allow read: if owner(uid) && verified();
         allow create, update: if owner(uid)
           && verified()
+          && coverId.matches('[A-Za-z0-9_-]{1,60}')
           && request.resource.data.keys().hasOnly(['d'])
-          && request.resource.data.d is string
-          && request.resource.data.d.size() <= 900000;
+          && request.resource.data.keys().hasAll(['d'])
+          && isImg(request.resource.data.d, 500000);
         allow delete: if owner(uid) && verified();
       }
 
@@ -52,12 +78,13 @@ service cloud.firestore {
         allow read: if owner(uid) && verified();
         allow create, update: if owner(uid)
           && verified()
+          && photoId.matches('[A-Za-z0-9_-]{1,64}')
           && request.resource.data.keys().hasOnly(['b', 'd', 't'])
           && request.resource.data.keys().hasAll(['b', 'd', 't'])
           && request.resource.data.b is string
           && request.resource.data.b.size() <= 100
-          && request.resource.data.d is string
-          && request.resource.data.d.size() <= 900000
+          && request.resource.data.b.matches('[A-Za-z0-9_-]{1,60}')
+          && isImg(request.resource.data.d, 700000)
           && request.resource.data.t is int;
         allow delete: if owner(uid) && verified();
       }
