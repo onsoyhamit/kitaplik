@@ -147,10 +147,10 @@ Tarayıcınızda `http://localhost:5000` adresine gidin.
 
 ```bash
 # Firestore kuralları ve hosting'i yayınlayın
-firebase deploy --only firestore:rules,hosting:kitapligim
+firebase deploy --only firestore:rules,hosting
 ```
 
-Canlı adres **https://kitapligim.web.app**'tir. `.firebaserc` içindeki `kitapligim` hedefi, `kitapligim55` projesine bağlı `kitapligim` Hosting sitesine işaret eder; `firebase.json` da bu hedefi kullanır. Eski `https://kitapligim55.web.app` adresi aynı Firestore/Auth verileriyle açık kalır ancak yeni sürümler yalnızca `kitapligim` sitesine gider.
+Canlı adres **https://kitapligim55.web.app**'tir. Bu adres `kitapligim55` projesinin varsayılan Hosting sitesidir; `firebase.json` ve GitHub Actions doğrudan bu siteye yayınlar. `https://kitapligim.web.app` adresi eski/alternatif site olarak açık kalır ancak yeni sürümler buraya gönderilmez; doğrulama e-postalarındaki dönüş adresi de `https://kitapligim55.web.app/` olur.
 
 ## 📂 Proje Yapısı
 

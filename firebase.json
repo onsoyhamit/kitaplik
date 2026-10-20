@@ -3,7 +3,6 @@
     "rules": "firestore.rules"
   },
   "hosting": {
-    "target": "kitapligim",
     "public": ".",
     "ignore": [
       "firebase.json",

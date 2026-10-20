@@ -401,8 +401,8 @@ const DPM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos'
 const dFmt=v=>fmt(new Date(v+'T12:00:00').getTime());
 const dfld=(id,l,isoVal)=>{const v=isoVal||iso(Date.now());return `<label>${l}<span class="dtf" data-a="dpick" data-v="${id}" aria-haspopup="dialog"><input id="${id}" type="text" readonly value="${esc(dFmt(v))}" aria-label="${esc(l)}" inputmode="none"><i class="ti ti-calendar dtfi" aria-hidden="true"></i></span><input id="${id}v" type="hidden" value="${v}"></label>`};
 /* TODO (yayın öncesi): sürüm ve iletişim adresini güncelle */
-const VERS='1.3.10',APPMAIL='onsoyhamit@gmail.com';
-const SITE='https://kitapligim.web.app/'; /* doğrulama bağlantısı her zaman canlı adrese dönsün (eski kitapligim55.web.app değil) */
+const VERS='1.3.11',APPMAIL='onsoyhamit@gmail.com';
+const SITE='https://kitapligim55.web.app/'; /* doğrulama bağlantısı her zaman uygulamanın kullanıldığı adrese dönsün */
 const ACS=()=>({url:SITE,handleCodeInApp:false});
 const sendVerify=async u=>{try{await sendEmailVerification(u,ACS())}catch(e){await sendEmailVerification(u)}};
 const LEGAL=`<h4>Gizlilik Politikası</h4>
