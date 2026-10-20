@@ -355,7 +355,7 @@ const STI={r:'<svg viewBox="0 0 24 24" class="sti" aria-hidden="true"><path d="M
 const stKey=b=>b.r?'r':b.k?'k':'n';const stCol=s=>s==='r'?'var(--ok)':s==='k'?'var(--rd)':'var(--no)';
 const stLbl={r:'Okundu',k:'Okuyorum',n:'Okunmadı'};
 const stLine=s=>`<div class="stline" id="stline" style="--c:${stCol(s)}">${STI[s]}<span>${stLbl[s]}</span></div>`;
-let pend='',user=null,ref=null,unsub=null,unsubC=null,unsubN=null,books=[],set={},v='boot',f='all',q='',cur=null,sl=0,err='',sent=0,qs=0,lastV='',force=0,popSel='',pn=0,lo=false,errF='',backPressed=0,covers={},notePhotos=[],ltp='ver',srt='t',sdir=1,stf=null;
+let pend='',user=null,ref=null,unsub=null,unsubC=null,unsubN=null,books=[],set={},v='boot',f='all',q='',cur=null,sl=0,err='',sent=0,qs=0,lastV='',force=0,popSel='',pn=0,lo=false,errF='',backPressed=0,covers={},notePhotos=[],ltp='ver',srt='t',sdir=1,stf=null,authReady=0;
 const NAVS=['home','all','prof'];const HASH={stats:'istatistik',lhist:'odunc-gecmisi',bin:'copluk'};
 let shOpen=null,shView='shelf',shQ='',shFocus=0,shNewOpen=false;
 const act=()=>books.filter(b=>!b.x),get=id=>books.find(b=>b.id===id);
@@ -401,7 +401,7 @@ const DPM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos'
 const dFmt=v=>fmt(new Date(v+'T12:00:00').getTime());
 const dfld=(id,l,isoVal)=>{const v=isoVal||iso(Date.now());return `<label>${l}<span class="dtf" data-a="dpick" data-v="${id}" aria-haspopup="dialog"><input id="${id}" type="text" readonly value="${esc(dFmt(v))}" aria-label="${esc(l)}" inputmode="none"><i class="ti ti-calendar dtfi" aria-hidden="true"></i></span><input id="${id}v" type="hidden" value="${v}"></label>`};
 /* TODO (yayın öncesi): sürüm ve iletişim adresini güncelle */
-const VERS='1.3.9',APPMAIL='onsoyhamit@gmail.com';
+const VERS='1.3.10',APPMAIL='onsoyhamit@gmail.com';
 const SITE='https://kitapligim.web.app/'; /* doğrulama bağlantısı her zaman canlı adrese dönsün (eski kitapligim55.web.app değil) */
 const ACS=()=>({url:SITE,handleCodeInApp:false});
 const sendVerify=async u=>{try{await sendEmailVerification(u,ACS())}catch(e){await sendEmailVerification(u)}};
@@ -493,7 +493,9 @@ function twRun(){const els=document.querySelectorAll('[data-tw]');if(!els.length
   if(TWn[key]>=full.length){clearInterval(tk);delete TWi[key];TWS[key]='done';el.classList.add('done')}},26+Math.random()*18);
  TWi[key]=tk})}
 function countUp(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('[data-count]').forEach(el=>{const n=+el.dataset.count;if(!n)return;const t0=performance.now();(function s(t){const p=Math.min(1,(t-t0)/750);el.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(s)})(t0)})}
-function render(){const ch=v!==lastV||force;force=0;const keep={};
+const GUESTV=['boot','ob','login','reg','reset','verify'];
+function guardAuth(){if(!authReady)return;if(!user){if(!GUESTV.includes(v)||v==='verify'){v=localStorage.ob?'login':'ob';cur=null}}else if(!user.emailVerified&&v!=='verify'){v='verify';cur=null}}
+function render(){guardAuth();const ch=v!==lastV||force;force=0;const keep={};
 if(!ch)document.querySelectorAll('#app input[id],#app textarea[id]').forEach(el=>{if(el.id==='qq'||el.type==='file')return;keep[el.id]=el.type==='checkbox'?el.checked:el.value});
 const off=navigator.onLine?'':'<div class="off">Çevrimdışısın. Değişiklikler bağlantı gelince eşitlenecek.</div>';const app=$('app');app.classList.toggle('anim',ch);app.innerHTML=off+(V[v]||V.home)()+shModal()+shNewModal();if(shFocus){const e=$('shq');e&&(e.focus(),e.setSelectionRange(99,99));shFocus=0}
 for(const id in keep){const el=$(id);if(!el)continue;if(el.type==='checkbox')el.checked=keep[id];else el.value=keep[id]}
@@ -618,7 +620,7 @@ persist();go('home');toast(books.length+' kitap geri yüklendi.')}
 addEventListener('online',render);addEventListener('offline',render);
 addEventListener('popstate',e=>{if(amOpen){closeAM(false);return}if(dpOpen){closeDP(false);return}if(zoomOpen){closeZoom(false);return}if(e.state&&e.state.v){v=e.state.v;if(e.state.cur!==undefined)cur=e.state.cur;render()}else{const h=location.hash.slice(1);if(h.startsWith('kitap/')){cur=h.slice(6);v='det'}else if(h.startsWith('duzenle/')){cur=h.slice(8);v='add'}else if(h==='ekle'){cur=null;v='add'}else if(h==='copluk')v='bin';else if(h==='istatistik')v='stats';else if(h==='odunc-gecmisi')v='lhist';else if(NAVS.includes(h))v=h;else v='home';render()}});
 addEventListener('DOMContentLoaded',()=>{const h=location.hash.slice(1);if(h.startsWith('kitap/')){cur=h.slice(6);v='det'}else if(h.startsWith('duzenle/')){cur=h.slice(8);v='add'}else if(h==='ekle'){cur=null;v='add'}else if(h==='copluk')v='bin';else if(h==='istatistik')v='stats';else if(h==='odunc-gecmisi')v='lhist';else if(NAVS.includes(h))v=h;render()});
-function start(u){if(unsub){unsub();unsub=null}if(unsubC){unsubC();unsubC=null}if(unsubN){unsubN();unsubN=null}user=u;if(!u){covers={};notePhotos=[];if(!['reg','reset','login','ob'].includes(v))v=localStorage.ob?'login':'ob';return render()}
+function start(u){authReady=1;if(unsub){unsub();unsub=null}if(unsubC){unsubC();unsubC=null}if(unsubN){unsubN();unsubN=null}user=u;if(!u){covers={};notePhotos=[];books=[];set={};cur=null;if(!['reg','reset','login','ob'].includes(v))v=localStorage.ob?'login':'ob';return render()}
 if(!u.emailVerified){v='verify';return render()}
 ref=doc(fdb,'users',u.uid,'library','main');unsubC=onSnapshot(collection(fdb,'users',u.uid,'covers'),s=>{covers={};s.forEach(d=>{if(d.data().d)covers[d.id]=d.data().d});render()},()=>{});unsubN=onSnapshot(collection(fdb,'users',u.uid,'notePhotos'),s=>{notePhotos=s.docs.map(d=>({id:d.id,...d.data()}));render()},()=>{});unsub=onSnapshot(ref,s=>{const d=s.exists()?s.data():{};books=Array.isArray(d.books)?d.books:[];set=d.set||{};if(!set.un&&u.displayName){set.un=u.displayName;persist()}if(set.th)theme(set.th);if(set.fs){localStorage.fs=set.fs;document.documentElement.style.fontSize=set.fs}const old=books.filter(b=>b.x&&Date.now()-b.x>6048e5);if(old.length){books=books.filter(b=>!old.includes(b));persist()}if(['boot','login','reg','reset','verify','ob'].includes(v))v='home';render()},()=>toast('Kitaplığa erişilemedi.'))}
 let dpOpen=false,dpId=null,dpVal='',dpY=0,dpM=0;
