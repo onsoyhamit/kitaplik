@@ -13,19 +13,22 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **ISBN Barkod Tarama**: Kamera ile ISBN-13 barkodunu tarayın, kitap bilgileri otomatik gelsin
   - Animasyonlu barkod tarama çerçevesi
   - Gerçek zamanlı tarama göstergesi
-  - Google Books ve Open Library entegrasyonu
+  - ISBN okununca başlık, yazar, yayınevi ve kapak otomatik doldurulur
+- **Bilgi Getir**: ISBN veya başlık+yazar yazıp bilgileri elle de aratabilirsiniz
+- **Çoklu Kaynak Arama**: Önce Google Books, bulunamazsa Open Library (ISBN ve başlık araması) denenir; sonuç yoksa uygulama sizi elle girmeye yönlendirir (uydurma bilgi göstermez)
 - **Kapak Görselleri**: Katalogdan otomatik kapak bulma veya kendi fotoğrafınızı yükleyin
-- **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını işaretleyin
+- **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını tek parça durum kontrolüyle işaretleyin; kapak çevresindeki neon çerçeve ve kapak altındaki durum satırı anında güncellenir, kapak fotoğrafına dokununca animasyonlu büyütülür
 - **Ödünç Takibi**: Kitabı kime, ne zaman verdiğinizi kaydedin
-- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın
+- **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın; yanına **Fotoğraf çek** (kamera) veya **Galeriden seç** ile fotoğraf ekleyin. Eklenen sayfa fotoğrafları film rulosu şeridinde saklanır, dokununca tam ekranda açılır; **iki parmakla yakınlaştırma (pinch)**, çift dokunuşla zoom, sürükleyerek gezinme desteklenir. Silme yalnızca tam ekranda ve onay sorularak yapılır
 
 ### 🎨 Tema ve Kişiselleştirme
-- **Üç Tema Seçeneği**:
-  - 🌙 **Gece Kütüphanesi** - Koyu, göz dostu tema
-  - 📄 **Kağıt** - Açık, minimalist tema
-  - 🔄 **Sistem (Otomatik)** - Telefonunuzun tema ayarına göre otomatik geçiş yapar
-- **Yazı Boyutu**: Küçük, Orta, Büyük seçenekleriyle özelleştirin
-- **Kişiselleştirilmiş Başlık**: "(Adınız) Kütüphanesi" şeklinde özel karşılama
+- **Uygulama Görünümü** (Profil'de açılır bölüm):
+  - 🌙 **Koyu** - Sıcak koyu tema (varsayılan koyu)
+  - 📄 **Açık** - Sıcak kağıt tonlu açık tema
+  - ❄️ **Buz** - Serin, mavi-gri açık tema
+  - 🌲 **Orman** - Yeşil tonlu koyu tema
+  - 🔄 **Sistem (cihaz)** - Telefonunuzun tema ayarını otomatik izler
+- **Kişiselleştirilmiş Başlık**: Kullanıcı adına Türkçe iyelik eki otomatik uygulanır (örn. "Hamit'in Kütüphanesi", "Ayşe'nin Kütüphanesi", "Oğuz'un Kütüphanesi") — vitrin ve kütüphane başlıklarında görünür
 
 ### 🔍 Arama ve Filtreleme
 - **Akıllı Arama**: Kitap adı veya yazar ile hızlı arama
@@ -38,7 +41,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Türkçe Karakter Desteği**: Büyük/küçük harf ve Türkçe karakter duyarlı olmayan arama
 
 ### 📱 Mobil Deneyim
-- **Kaydırılabilir Tanıtım**: İlk açılışta parmakla kaydırılabilen 3 ekranlık tanıtım
+- **Kaydırılabilir Tanıtım**: İlk açılışta parmakla kaydırılabilen veya "Devam et" ile ilerlenen 4 ekranlık tanıtım (animasyonlu simgeler). Giriş yapıldıysa tanıtım atlanıp doğrudan ana sayfa açılır; tanıtım renkleri cihazın tema ayarına uyar.
 - **Akıllı Geri Tuşu**:
   - Ara ve Profil sayfalarından Ana Sayfa'ya döner
   - Ana Sayfa'da çıkmak için 2 kez geri tuşuna basın (uyarı verir)
@@ -55,9 +58,22 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 
 ### 🔐 Güvenlik
 - **E-posta Doğrulama**: Hesap güvenliği için e-posta doğrulaması zorunludur
-- **Güçlü Şifre Politikası**: En az 6 karakter, harf, rakam ve noktalama işareti
+- **Kullanıcı Adı**: Kayıtta zorunludur ve kütüphane başlıklarında gösterilir
+- **Şifre Politikası**: En az 6 karakter, harf ve rakam içermeli
 - **Parola Sıfırlama**: E-posta ile güvenli parola sıfırlama
 - **Kişisel Veri**: Her kullanıcının verisi tamamen ayrı ve gizlidir
+- **App Check**: reCAPTCHA Enterprise ile Firebase istekleri doğrulanır; botlar ve uygulama dışı istemciler engellenir
+- **Güvenlik Başlıkları**: CSP, HSTS, `X-Frame-Options` ve `Permissions-Policy` ile sıkılaştırılmıştır
+- **Hesap Silme**: Şifre doğrulaması sonrası kitaplık, kapaklar, not fotoğrafları ve kullanıcı belgesi kalıcı olarak silinir
+
+### 👤 Hesabım ve Güvenlik (Profil)
+Profil sayfasındaki **Hesabım ve güvenlik** bölümünde:
+- **Kullanıcı adı değiştirme** - şifre doğrulaması ister; şifre bilinmiyorsa "Şifremi unuttum" ile sıfırlama bağlantısı gönderilir
+- **Şifre değiştirme** - mevcut şifre + yeni şifre (iki kez) doğrulaması
+- **Çıkış yap** - "Evet / Vazgeç" onayı ile
+- **Hesabımı sil** - şifre doğrulaması sonrası kitaplık, notlar, kapaklar ve hesap kalıcı olarak silinir
+
+Ayrıca aynı sayfada **Veriler**, **Hakkımızda ve iletişim** (geri bildirim) ve **Gizlilik politikası / kullanım şartları / uygulama izinleri** bölümleri bulunur.
 
 ## 🚀 Kurulum
 
@@ -68,7 +84,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
    - **Android**: Chrome → ⋮ → "Ana ekrana ekle"
    - **iOS**: Safari → Paylaş → "Ana Ekrana Ekle"
 3. **Hesap Oluştur**: Ad, e-posta ve güçlü bir parola ile kayıt olun
-4. **E-posta Doğrula**: Gelen kutunuza gelen doğrulama linkine tıklayın
+4. **E-posta Doğrula**: Gelen kutunuza gelen doğrulama linkine tıklayın; bağlantı sayfasındaki **Devam et**'e bastığınızda uygulamaya dönün — uygulama açıkken doğrulama kendiliğinden algılanır ve ana ekrana geçilir
 5. **Kitap Eklemeye Başlayın**: İlk kitabınızı ekleyin!
 
 ### Geliştirici Olarak Kurulum
@@ -131,8 +147,10 @@ Tarayıcınızda `http://localhost:5000` adresine gidin.
 
 ```bash
 # Firestore kuralları ve hosting'i yayınlayın
-firebase deploy --only firestore:rules,hosting
+firebase deploy --only firestore:rules,hosting:kitapligim
 ```
+
+Canlı adres **https://kitapligim.web.app**'tir. `.firebaserc` içindeki `kitapligim` hedefi, `kitapligim55` projesine bağlı `kitapligim` Hosting sitesine işaret eder; `firebase.json` da bu hedefi kullanır. Eski `https://kitapligim55.web.app` adresi aynı Firestore/Auth verileriyle açık kalır ancak yeni sürümler yalnızca `kitapligim` sitesine gider.
 
 ## 📂 Proje Yapısı
 
@@ -155,27 +173,13 @@ kitaplik-pwa/
 
 ### Firestore Kuralları (`firestore.rules`)
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
-      
-      match /library/{doc} {
-        allow read, write: if request.auth != null 
-                          && request.auth.uid == uid 
-                          && request.auth.token.email_verified == true;
-      }
-      
-      match /covers/{bookId} {
-        allow read, write: if request.auth != null 
-                          && request.auth.uid == uid;
-      }
-    }
-  }
-}
-```
+Kuralların tamamı `firestore.rules` dosyasındadır. Özet:
+
+- **Erişim**: yalnızca giriş yapmış ve e-posta adresi doğrulanmış kullanıcı kendi `users/{uid}` ağacına erişebilir; `list` kapalıdır.
+- **Doğrulama**: `library/main` yalnızca `{books, set}` alanlarını kabul eder; en fazla 500 kitap; `set` yalnızca `th, fs, sh, sa, lh, un` anahtarlarını taşıyabilir.
+- **Boyut**: kapak ve not fotoğrafları en fazla 900.000 karakter (base64) olabilir.
+- **Silme**: yalnızca sahibi ve e-posta doğrulaması yapılmış kullanıcı silebilir (hesap silme akışı).
+- **Varsayılan**: eşleşmeyen tüm yollar reddedilir (`allow read, write: if false`).
 
 ### Veri Modeli
 
@@ -248,8 +252,9 @@ service cloud.firestore {
 - Samsung Internet 14+
 
 ### API Entegrasyonları
-- **Google Books API**: Kitap bilgisi ve kapak arama
-- **BarcodeDetector API**: ISBN tarama (Chrome/Edge)
+- **Google Books API**: Kitap bilgisi ve kapak arama (birincil kaynak)
+- **Open Library API**: ISBN ve başlık araması (Google Books sonuç vermezse yedek kaynak)
+- **ZXing (@zxing/library)**: ISBN barkod çözümleme (kamera)
 
 ## 📖 Kullanım Kılavuzu
 
@@ -264,8 +269,8 @@ service cloud.firestore {
 2. **Yöntem 2: Manuel Giriş**
    - Ana sayfada "+" butonuna tıklayın
    - Başlık ve yazar girin
-   - İsterseniz ISBN girin (otomatik arama yapılır)
-   - "Kaydet" deyin
+   - İsterseniz ISBN girin, ardından "Bilgi getir" ile başlık/yazar/yayınevi/kapağı otomatik doldurun
+   - Arama sonuç vermezse bilgileri elle doldurun; "Kaydet" deyin
 
 ### Kitap Düzenleme
 - Kitaba tıklayın
@@ -277,15 +282,17 @@ service cloud.firestore {
 - "Kitabı sil" butonuna basın
 - Onaylayın (silinen kitaplar "Çöp Kutusu"na gider)
 
-### Veri Yedekleme
-1. Profil sayfasına gidin
-2. "Yedekle (JSON indir)" seçeneğine tıklayın
-3. Dosya indirilecek, güvenli bir yerde saklayın
+### Veri Yedekleme / Dışa Aktarma
+1. Profil → "Veriler" → **Dışa aktar**
+2. Biçim seçin:
+   - **JSON yedeği (.json)** → tam veri yedeği (kitaplar + ayarlar), güvenli bir yerde saklayın
+   - **CSV tablosu (.csv)** → Excel veya Google Sheets ile açın; sütunlar: Başlık, Yazar, Okundu, Not, ISBN
 
-### CSV Dışa Aktarma
-1. Profil → "CSV olarak dışa aktar"
-2. Excel veya Google Sheets ile açın
-3. Sütunlar: Başlık, Yazar, Okundu, Not, ISBN
+### Veri Geri Yükleme / İçe Aktarma
+1. Profil → "Veriler" → **İçe aktar**
+2. Biçim seçin:
+   - **JSON yedeğinden geri yükle** → daha önce indirdiğiniz `.json` dosyasını seçin
+   - **CSV dosyasından aktar** → `.csv` dosyasını seçin (yinelenen kayıtlar atlanır)
 
 ## 🐛 Sorun Giderme
 
