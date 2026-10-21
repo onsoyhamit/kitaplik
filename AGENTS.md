@@ -47,7 +47,8 @@ Tek dosyalı (`index.html`), framework'süz (saf JavaScript), Firebase (Auth + F
 | `manifest.webmanifest` | PWA meta | Ad/ikon değişirse güncelle. |
 | `firestore.rules` | Veri erişimi + şema doğrulama | Alan eklersen kuralı güncelle + deploy. |
 | `firebase.json` | Hosting (iki site) + header/cache | Genelde dokunma. İki hosting girdisinin `ignore`/`headers` blokları birebir aynı kalmalı. |
-| `README.md` | Kullanıcı dokümanı | Özellik/veri değişince güncelle. |
+| `README.md` | Kullanıcı dokümanı | Yalnızca kullanıcı dili; geliştirici detayı yazma. Özellik/veri değişince güncelle. |
+| `DEVELOPER.md` | Yerel geliştirici notları (kurulum, bakım, şema) | `.gitignore` içinde; commit etme. Yeni dev detayları buraya yaz. |
 | `index1.html` | Eski/alternatif tasarım | **Kullanılmıyor.** Dokunma. |
 | `vendor/zxing.min.js` | Barkod okuyucu (üçüncü taraf, yerel) | Sürüm yükseltirken dosyayı değiştir; CSP'de ek alan gerekmez. |
 | `vendor/tabler-icons.css` | Simge fontu CSS'i (üretilmiş **alt küme**) | Elle düzenleme. Yeni simge için `node tools/icons.mjs`. |
