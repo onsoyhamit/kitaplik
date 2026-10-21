@@ -17,6 +17,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Bilgi Getir**: ISBN veya başlık+yazar yazıp bilgileri elle de aratabilirsiniz
 - **Çoklu Kaynak Arama**: Önce Google Books, bulunamazsa Open Library (ISBN ve başlık araması) denenir; sonuç yoksa uygulama sizi elle girmeye yönlendirir (uydurma bilgi göstermez)
 - **Kapak Görselleri**: Katalogdan otomatik kapak bulma veya kendi fotoğrafınızı yükleyin
+- **Eksik ISBN'leri Bul**: Profil → Veriler bölümünden ISBN'i eksik kitapları toplu aratın; bulunan ISBN farklı bir baskıya ait olabileceği için barkodla doğrulayın
 - **Okuma Takibi**: "Okundu", "Okunmadı" veya "Şu an okuyorum" durumlarını tek parça durum kontrolüyle işaretleyin; kapak çevresindeki neon çerçeve ve kapak altındaki durum satırı anında güncellenir, kapak fotoğrafına dokununca animasyonlu büyütülür
 - **Ödünç Takibi**: Kitabı kime, ne zaman verdiğinizi kaydedin
 - **Notlar**: Kitaplarınız hakkında düşüncelerinizi yazın; yanına **Fotoğraf çek** (kamera) veya **Galeriden seç** ile fotoğraf ekleyin. Eklenen sayfa fotoğrafları film rulosu şeridinde saklanır, dokununca tam ekranda açılır; **iki parmakla yakınlaştırma (pinch)**, çift dokunuşla zoom, sürükleyerek gezinme desteklenir. Silme yalnızca tam ekranda ve onay sorularak yapılır
@@ -62,7 +63,7 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 ### 🔐 Güvenlik
 - **E-posta Doğrulama**: Hesap güvenliği için e-posta doğrulaması zorunludur
 - **Kullanıcı Adı**: Kayıtta zorunludur ve kütüphane başlıklarında gösterilir
-- **Şifre Politikası**: En az 10 karakter; harf ve rakam içermeli; yaygın/zayıf şifreler reddedilir
+- **Şifre Politikası**: En az 8 karakter; harf ve rakam içermeli; yaygın/zayıf şifreler reddedilir
 - **Parola Sıfırlama**: E-posta ile güvenli parola sıfırlama
 - **Deneme Sınırı**: Art arda hatalı girişlerde artan bekleme; sıfırlama/doğrulama e-postalarında 60 sn bekleme
 - **Kişisel Veri**: Her kullanıcının verisi tamamen ayrı ve gizlidir
@@ -386,7 +387,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit  
-**Versiyon**: 1.4.6  
+**Versiyon**: 1.4.7  
 **Son Güncelleme**: Ekim 2026
 
 ---

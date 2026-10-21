@@ -1,4 +1,4 @@
-const C = 'kitaplik-v48';
+const C = 'kitaplik-v49';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'vendor/zxing.min.js', 'vendor/tabler-icons.css', 'vendor/fonts/tabler-icons.woff2'];
 
 const cacheable = res => res && (res.ok || res.type === 'opaque');
