@@ -3,5 +3,7 @@ node_modules/
 .DS_Store
 Thumbs.db
 
-# Yerel geliştirici notları (GitHub'a gönderilmez)
+# Yerel geliştirici/ajan dosyaları (GitHub'a gönderilmez)
 DEVELOPER.md
+AGENTS.md
+.opencode/

@@ -129,7 +129,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit
-**Sürüm**: 1.4.8
+**Sürüm**: 1.4.9
 **Son güncelleme**: Ekim 2026
 
 📚 **Mutlu okumalar!**

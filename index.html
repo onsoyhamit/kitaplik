@@ -444,7 +444,7 @@ const DPM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos'
 const dFmt=v=>fmt(new Date(v+'T12:00:00').getTime());
 const dfld=(id,l,isoVal)=>{const v=isoVal||iso(Date.now());return `<label>${l}<span class="dtf" data-a="dpick" data-v="${id}" aria-haspopup="dialog"><input id="${id}" type="text" readonly value="${esc(dFmt(v))}" aria-label="${esc(l)}" inputmode="none"><i class="ti ti-calendar dtfi" aria-hidden="true"></i></span><input id="${id}v" type="hidden" value="${v}"></label>`};
 /* TODO (yayın öncesi): sürüm ve iletişim adresini güncelle */
-const VERS='1.4.8',APPMAIL='onsoyhamit@gmail.com';
+const VERS='1.4.9',APPMAIL='onsoyhamit@gmail.com';
 const SITE=(location.protocol==='https:'&&!/^(localhost|127\.0\.0\.1)$/.test(location.hostname))?'https://kitapligim55.web.app/':(location.protocol.startsWith('http')?location.origin+'/':'https://kitapligim55.web.app/'); /* doğrulama bağlantısı her zaman uygulamanın kullanıldığı adrese dönsün */
 const ACS=()=>({url:SITE,handleCodeInApp:false});
 const sendVerify=async u=>{try{await sendEmailVerification(u,ACS())}catch(e){await sendEmailVerification(u)}};
