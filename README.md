@@ -23,12 +23,13 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 
 ### 🎨 Tema ve Kişiselleştirme
 - **Uygulama Görünümü** (Profil'de açılır bölüm):
-  - 🌙 **Koyu** - Sıcak koyu tema (varsayılan koyu)
+  - 🌙 **Koyu** - Sıcak koyu tema
   - 📄 **Açık** - Sıcak kağıt tonlu açık tema
-  - ❄️ **Buz** - Serin, mavi-gri açık tema
+  - ❄️ **Buz** - Serin, mavi-gri açık tema (varsayılan)
   - 🌲 **Orman** - Yeşil tonlu koyu tema
   - 🔄 **Sistem (cihaz)** - Telefonunuzun tema ayarını otomatik izler
-- **Kişiselleştirilmiş Başlık**: Kullanıcı adına Türkçe iyelik eki otomatik uygulanır (örn. "Hamit'in Kütüphanesi", "Ayşe'nin Kütüphanesi", "Oğuz'un Kütüphanesi") — vitrin ve kütüphane başlıklarında görünür
+- **Tanıtım Ekranı**: Uygulama tanıtımı (onboarding) her temada açık renk paletiyle gösterilir
+- **Kişiselleştirilmiş Başlık**: Kullanıcı adına Türkçe iyelik eki otomatik uygulanır (örn. "Hamit'in Kütüphanesi", "Ayşe'nin Kütüphanesi", "Oğuz'un Kütüphanesi") — vitrin ve kütüphane başlıklarında görünür. Ödünç bölümünde de isimler kesme işaretiyle ayrılıp hâl ekleri ünlü uyumuna göre yazılır ("Sümeyye'de", "Onur'dan", "Hamit'te", "Ayşe'ye")
 
 ### 🔍 Arama ve Filtreleme
 - **Akıllı Arama**: Kitap adı veya yazar ile hızlı arama
@@ -328,9 +329,10 @@ Kuralların tamamı `firestore.rules` dosyasındadır. Özet:
 - Değişiklikleri yapın ve kaydedin
 
 ### Kitap Silme
-- Kitaba tıklayın
+- Kitaba tıklayın, sağ üstteki kalemle düzenlemeye geçin
 - "Kitabı sil" butonuna basın
-- Onaylayın (silinen kitaplar "Çöp Kutusu"na gider)
+- Açılan onay penceresinde "Kitabı sil" ile doğrulayın (yanlışlıkla silmeye karşı "Vazgeç" odaklıdır)
+- Kitap silindikten sonra uygulama sizi geldiğiniz yere (kütüphane listesi veya vitrin) döndürür; kaybolan kitap 7 gün "Silinen kitaplar" bölümünde kalır ve bildirimdeki "Geri al" ile hemen geri getirilebilir
 
 ### Veri Yedekleme / Dışa Aktarma
 1. Profil → "Veriler" → **Dışa aktar**
@@ -382,7 +384,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit  
-**Versiyon**: 1.4.2  
+**Versiyon**: 1.4.5  
 **Son Güncelleme**: Ekim 2026
 
 ---
