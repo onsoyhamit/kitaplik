@@ -46,9 +46,11 @@ Modern, kullanıcı dostu ve tamamen mobil uyumlu kişisel kitaplık uygulaması
 - **Akıllı Geri Tuşu**:
   - Ara ve Profil sayfalarından Ana Sayfa'ya döner
   - Ana Sayfa'da çıkmak için 2 kez geri tuşuna basın (uyarı verir)
+- **Sekmeler Arası Kaydırma**: Vitrin ↔ Kütüphanem ↔ Profil arasında parmağı sağa/sola kaydırarak geçiş yapılabilir; alttaki navigasyon tuşları aynı şekilde çalışmaya devam eder. Filtre/arama çipleri, raflar ve form alanları üzerindeki kaydırmalar sayfa geçişini tetiklemez.
 - **URL Yönetimi**: Sayfa yenilediğinizde kaldığınız yerde kalırsınız
   - Kitap detay sayfaları: `#kitap/ID`
   - Diğer sayfalar: `#home`, `#ara`, `#profil`
+- **Boş Durum Mesajları**: Kütüphane tamamen boşsa "Kendi kütüphaneni kur" karşılaması ve "İlk kitabını ekle" butonu görünür; "Sonuç bulunamadı" uyarısı yalnızca arama kutusuna yazılan metinle eşleşen kitap yoksa gösterilir, filtre boşsa filtreye özel mesaj çıkar
 - **Touch Optimizasyonu**: Mobil cihazlar için optimize edilmiş dokunmatik kontroller
 
 ### 💾 Veri Yönetimi
@@ -384,7 +386,7 @@ Bu proje kişisel kullanım için geliştirilmiştir.
 ---
 
 **Geliştirici**: Hamit  
-**Versiyon**: 1.4.5  
+**Versiyon**: 1.4.6  
 **Son Güncelleme**: Ekim 2026
 
 ---
